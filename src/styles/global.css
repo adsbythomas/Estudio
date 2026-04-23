@@ -273,7 +273,14 @@
   /* Nav */
   .nav-link {
     @apply relative text-[0.72rem] uppercase tracking-tick font-medium transition-colors;
+    color: var(--fg);
   }
+  .nav-link-alt { color: var(--brand-400); }
+  .brand-mark { color: var(--fg); }
+  .brand-mark-b { color: var(--brand-500); }
+  .brand-rule { background: var(--brand-500); }
+  .brand-tick { color: var(--fg-subtle); }
+  #mob-open { color: var(--fg); }
   .nav-link::after {
     content: ''; position: absolute; left: 0; right: 0; bottom: -6px;
     height: 1px; background: currentColor;
@@ -359,6 +366,16 @@
     transition: border-color .35s;
   }
   .letter-field textarea { resize: vertical; min-height: 100px; }
+  /* Los <option> del dropdown nativo se renderizan sobre fondo blanco
+     del sistema; heredar el color casi-blanco del tema los volvía
+     invisibles. Forzamos tono oscuro para que sean legibles. */
+  .letter-field select option {
+    color: #1a160d;
+    background: #ffffff;
+  }
+  .letter-field select option:disabled {
+    color: #737373;
+  }
   .letter-field input:focus,
   .letter-field textarea:focus,
   .letter-field select:focus { border-color: var(--brand-600); }
@@ -390,19 +407,21 @@
 }
 
 /* Nav solid — cuando se scrollea el header adopta fondo paper (crema).
-   Los textos blancos del tema (inline color: var(--fg)) quedan ilegibles,
-   así que los teñimos con el color de marca usando !important para vencer
-   la especificidad de los estilos inline. */
+   Los textos del tema (que son casi blancos) quedan ilegibles sobre
+   ese fondo claro, así que los teñimos con el color de marca. */
 nav[data-nav].solid .nav-link,
 nav[data-nav].solid .brand-mark,
 nav[data-nav].solid #mob-open {
-  color: var(--brand-700) !important;
+  color: var(--brand-700);
+}
+nav[data-nav].solid .nav-link-alt {
+  color: var(--brand-600);
 }
 nav[data-nav].solid .brand-tick {
-  color: var(--brand-600) !important;
+  color: var(--brand-600);
 }
 nav[data-nav].solid .nav-link:hover {
-  color: var(--brand-500) !important;
+  color: var(--brand-500);
 }
 
 /* Animaciones reducidas para prefers-reduced-motion */
