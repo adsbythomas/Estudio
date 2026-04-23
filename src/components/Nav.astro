@@ -1,6 +1,7 @@
 ---
 import { site } from '@lib/site';
 import type { Practice } from '@lib/site';
+import LangToggle from '@components/LangToggle.astro';
 
 export interface Props { practice: Practice }
 const { practice } = Astro.props;
@@ -22,6 +23,8 @@ const altLabel = isLegal ? '→ Contable' : '→ Legal';
 
 <nav id="mainNav" class="fixed inset-x-0 top-0 z-50 transition-all duration-500" data-nav>
   <div class="shell h-16 md:h-20 flex items-center justify-between">
+    <div class="flex items-center gap-4 md:gap-6">
+      <LangToggle />
     <a href={withBase('/')} class="flex items-baseline gap-3 group" aria-label="Inicio">
       <span class="brand-mark font-sans text-[1.45rem] md:text-[1.6rem] font-semibold leading-none tracking-tight">
         {site.abbr.a}<span class="brand-mark-b">{site.abbr.b}</span>
@@ -29,13 +32,14 @@ const altLabel = isLegal ? '→ Contable' : '→ Legal';
       <span class="brand-rule hidden md:inline w-8 h-px group-hover:w-12 transition-all duration-500"></span>
       <span class="brand-tick hidden md:inline font-mono text-tick uppercase tracking-tick">Desde 2004</span>
     </a>
+    </div>
 
     <ul class="hidden md:flex items-center gap-9">
       {navLinks.map((l) => (
         <li><a href={l.href} class="nav-link">{l.label}</a></li>
       ))}
       <li>
-        <a href={altHref} class="nav-link nav-link-alt font-mono">{altLabel}</a>
+        <a href={altHref} class={`nav-link font-mono ${isLegal ? 'link-accounting' : 'nav-link-alt'}`}>{altLabel}</a>
       </li>
     </ul>
 
@@ -56,7 +60,7 @@ const altLabel = isLegal ? '→ Contable' : '→ Legal';
         <span class="font-mono text-tick tracking-tick mr-5" style="color: var(--brand-600)">0{i + 1}</span>{l.label}
       </a>
     ))}
-    <a href={altHref} class="mt-8 font-mono text-tick tracking-tick uppercase border-b w-fit pb-1" style="color: var(--brand-600); border-color: var(--border);">{altLabel}</a>
+    <a href={altHref} class={`mt-8 font-mono text-tick tracking-tick uppercase border-b w-fit pb-1 ${isLegal ? 'link-accounting' : ''}`} style={`border-color: var(--border);${isLegal ? '' : ' color: var(--brand-600);'}`}>{altLabel}</a>
   </nav>
 </div>
 

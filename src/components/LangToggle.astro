@@ -1,0 +1,47 @@
+---
+// Toggle ES/EN. Persiste el idioma en localStorage y lo aplica vía el
+// script global definido en BaseLayout.astro (window.__applyLang).
+---
+<button
+  id="lang-toggle"
+  type="button"
+  class="lang-toggle font-mono uppercase tracking-tick transition"
+  aria-label="Cambiar idioma / Change language"
+  data-lang-toggle
+  data-no-translate
+>
+  <span data-lang-es>ES</span>
+  <span class="lang-sep" aria-hidden="true">·</span>
+  <span data-lang-en>EN</span>
+</button>
+
+<style>
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.68rem;
+    line-height: 1;
+    padding: 0.4rem 0.55rem;
+    border: 1px solid color-mix(in oklab, theme('colors.ink.300') 35%, transparent);
+    color: var(--fg-muted);
+    background: transparent;
+    cursor: pointer;
+    letter-spacing: 0.22em;
+    user-select: none;
+  }
+  .lang-toggle:hover { border-color: var(--brand-500); color: var(--fg); }
+  .lang-toggle .lang-sep { opacity: 0.4; }
+  .lang-toggle [data-lang-es],
+  .lang-toggle [data-lang-en] { transition: color .25s, opacity .25s; }
+  html[data-lang="es"] .lang-toggle [data-lang-es] { color: var(--brand-500); font-weight: 700; }
+  html[data-lang="es"] .lang-toggle [data-lang-en] { opacity: 0.55; }
+  html[data-lang="en"] .lang-toggle [data-lang-en] { color: var(--brand-500); font-weight: 700; }
+  html[data-lang="en"] .lang-toggle [data-lang-es] { opacity: 0.55; }
+
+  nav[data-nav].solid .lang-toggle {
+    color: var(--brand-700);
+    border-color: color-mix(in oklab, theme('colors.ink.300') 50%, transparent);
+  }
+  nav[data-nav].solid .lang-toggle:hover { border-color: var(--brand-500); }
+</style>

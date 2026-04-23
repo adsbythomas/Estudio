@@ -76,8 +76,8 @@ const kicker = practice === 'legal' ? 'Abogados · Buenos Aires' : 'Contadores P
 
     <!-- Link secundario a la otra área -->
     <div class="reveal mt-10">
-      <a href={altHref} class="font-mono text-tick uppercase tracking-tick transition inline-flex items-center gap-2"
-         style="color: var(--fg-subtle);">
+      <a href={altHref} class={`font-mono text-tick uppercase tracking-tick transition inline-flex items-center gap-2 ${practice === 'legal' ? 'link-accounting' : ''}`}
+         style={practice === 'legal' ? '' : 'color: var(--fg-subtle);'}>
         {altLabel}
       </a>
     </div>

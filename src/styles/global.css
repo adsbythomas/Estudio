@@ -281,6 +281,14 @@
   .brand-rule { background: var(--brand-500); }
   .brand-tick { color: var(--fg-subtle); }
   #mob-open { color: var(--fg); }
+
+  /* Todos los botones/links que apuntan al Área Contable usan el mismo
+     tono de naranja (ledger-500) para unificar la identidad visual
+     sin importar desde qué tema se muestren. */
+  .link-accounting { color: #f97316; transition: color .3s; }
+  .link-accounting:hover { color: #ea580c; }
+  nav[data-nav].solid .link-accounting { color: #ea580c; }
+  nav[data-nav].solid .link-accounting:hover { color: #c2410c; }
   .nav-link::after {
     content: ''; position: absolute; left: 0; right: 0; bottom: -6px;
     height: 1px; background: currentColor;
