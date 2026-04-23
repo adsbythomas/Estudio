@@ -93,29 +93,50 @@ const faviconHref = (base.endsWith('/') ? base.slice(0, -1) : base) + '/brand/is
 
     <script is:inline>
       // ═══════════════════════════════════════════════
-      // Preloader — desaparece cuando el DOM carga
+      // Preloader — desaparece apenas carga el DOM
       // ═══════════════════════════════════════════════
       window.addEventListener('load', () => {
-        setTimeout(() => document.getElementById('preloader')?.classList.add('done'), 900);
+        setTimeout(() => document.getElementById('preloader')?.classList.add('done'), 350);
       });
 
       // ═══════════════════════════════════════════════
-      // Scroll progress bar
+      // Scroll progress bar + nav solid + parallax
+      // Cacheamos selectores, throttleamos con requestAnimationFrame
+      // y saltamos el parallax si el usuario prefiere menos motion o
+      // el dispositivo es táctil chico (menos ancho que 768px).
       // ═══════════════════════════════════════════════
       const progressBar = document.getElementById('scrollProgress');
       const nav = document.querySelector('[data-nav]');
-      const onScroll = () => {
-        const h = document.documentElement;
-        const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
-        if (progressBar) progressBar.style.setProperty('--progress', String(scrolled));
-        if (nav) nav.classList.toggle('solid', h.scrollTop > 40);
+      const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]')).map((el) => ({
+        el,
+        speed: parseFloat(el.getAttribute('data-parallax-speed') || '0.2'),
+      }));
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isSmallViewport = window.innerWidth < 768;
+      const skipParallax = prefersReducedMotion || isSmallViewport;
 
-        // Parallax
-        document.querySelectorAll('[data-parallax]').forEach((el) => {
-          const speed = parseFloat(el.getAttribute('data-parallax-speed') || '0.2');
-          const rect = el.getBoundingClientRect();
-          const off = (rect.top + rect.height / 2 - window.innerHeight / 2) * speed * -1;
-          el.style.setProperty('--p-offset', off + 'px');
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const h = document.documentElement;
+          const scrolled = h.scrollHeight > h.clientHeight
+            ? h.scrollTop / (h.scrollHeight - h.clientHeight)
+            : 0;
+          if (progressBar) progressBar.style.setProperty('--progress', String(scrolled));
+          if (nav) nav.classList.toggle('solid', h.scrollTop > 40);
+
+          if (!skipParallax) {
+            const vhHalf = window.innerHeight / 2;
+            for (let i = 0; i < parallaxEls.length; i++) {
+              const p = parallaxEls[i];
+              const rect = p.el.getBoundingClientRect();
+              const off = (rect.top + rect.height / 2 - vhHalf) * p.speed * -1;
+              p.el.style.setProperty('--p-offset', off + 'px');
+            }
+          }
+          ticking = false;
         });
       };
       window.addEventListener('scroll', onScroll, { passive: true });
