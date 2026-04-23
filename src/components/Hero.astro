@@ -1,0 +1,91 @@
+---
+import { site } from '@lib/site';
+import type { Practice } from '@lib/site';
+
+export interface Props {
+  practice: Practice;
+  eyebrow: string;
+  kicker: string;
+  title: string;
+  titleAccent: string;
+  titleSuffix: string;
+  lead: string;
+  ctaPrimary: string;
+  ctaSecondary: string;
+  switchHref: string;
+  switchLabel: string;
+}
+const {
+  practice, eyebrow, kicker, title, titleAccent, titleSuffix, lead,
+  ctaPrimary, ctaSecondary, switchHref, switchLabel,
+} = Astro.props;
+const isLegal = practice === 'legal';
+---
+<section class="relative overflow-hidden pt-20 pb-24 md:pt-28 md:pb-32 border-b border-ink-200">
+  <!-- Pattern decorativo de fondo -->
+  <div class="pointer-events-none absolute inset-0 opacity-[0.05] z-0" aria-hidden="true">
+    <svg class="absolute -top-10 -right-20 w-[820px] h-[820px]" viewBox="0 0 800 800" fill="none">
+      <defs>
+        <pattern id="hero-lines" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M0 20h40" stroke="currentColor" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="800" height="800" fill="url(#hero-lines)" style={`color: var(--brand-700)`}/>
+    </svg>
+  </div>
+
+  <div class="shell relative z-10 grid gap-12 md:grid-cols-[1fr_auto] md:items-end">
+    <div class="max-w-3xl">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="inline-block w-8 h-px" style="background: var(--brand-700)"></span>
+        <span class="eyebrow">{eyebrow}</span>
+      </div>
+
+      <p class="font-serif italic text-ink-600 text-lg mb-4">{kicker}</p>
+
+      <h1 class="font-serif font-semibold text-display text-ink-900">
+        {title}<br/>
+        <span style="color: var(--brand-700)">{titleAccent}</span> {titleSuffix}
+      </h1>
+
+      <p class="mt-8 max-w-prose-lg text-ink-700 leading-relaxed text-[1.05rem]">
+        {lead}
+      </p>
+
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a href="#contacto" class="btn btn-solid">
+          {ctaPrimary}
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M1 5h12M9 1l4 4-4 4"/></svg>
+        </a>
+        <a href="#areas" class="btn btn-ghost">{ctaSecondary}</a>
+      </div>
+    </div>
+
+    <aside class="relative w-full md:w-[280px] md:self-end">
+      <!-- Cartela tipo placa editorial -->
+      <div class="bg-white border border-ink-200 p-7 shadow-[0_30px_60px_-50px_rgba(14,31,61,0.35)]">
+        <div class="flex items-center justify-between">
+          <span class="eyebrow">Desde</span>
+          <span class="font-serif text-2xl font-semibold text-ink-900">{site.foundingYear}</span>
+        </div>
+        <hr class="my-5 border-ink-200"/>
+        <div class="space-y-4">
+          <div>
+            <div class="text-[0.68rem] uppercase tracking-[0.18em] text-ink-500">Sede principal</div>
+            <div class="mt-1 font-serif text-lg font-semibold text-ink-900">Buenos Aires</div>
+            <div class="text-sm text-ink-600 leading-tight mt-1">{site.address.line1}<br/>{site.address.line2}</div>
+          </div>
+          <div>
+            <div class="text-[0.68rem] uppercase tracking-[0.18em] text-ink-500">Corresponsalías</div>
+            <div class="mt-1 text-sm text-ink-700">Estados Unidos · Uruguay</div>
+          </div>
+        </div>
+
+        <a href={switchHref} class={`mt-6 w-full inline-flex items-center justify-between gap-2 px-4 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.14em] ${isLegal ? 'bg-ledger-50 border border-ledger-200 text-ledger-800 hover:bg-ledger-100' : 'bg-legal-50 border border-legal-200 text-legal-800 hover:bg-legal-100'}`}>
+          <span>{switchLabel}</span>
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 5h12M9 1l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-paper text-ink-900 font-sans;
+    font-feature-settings: "ss01", "cv11";
+  }
+  ::selection {
+    background: var(--brand-700, theme('colors.legal.700'));
+    color: #fff;
+  }
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  /* Variables de tema — se sobreescriben según la paleta activa */
+  .theme-legal {
+    --brand-50:  theme('colors.legal.50');
+    --brand-100: theme('colors.legal.100');
+    --brand-200: theme('colors.legal.200');
+    --brand-300: theme('colors.legal.300');
+    --brand-500: theme('colors.legal.500');
+    --brand-600: theme('colors.legal.600');
+    --brand-700: theme('colors.legal.700');
+    --brand-800: theme('colors.legal.800');
+    --brand-900: theme('colors.legal.900');
+  }
+  .theme-accounting {
+    --brand-50:  theme('colors.ledger.50');
+    --brand-100: theme('colors.ledger.100');
+    --brand-200: theme('colors.ledger.200');
+    --brand-300: theme('colors.ledger.300');
+    --brand-500: theme('colors.ledger.500');
+    --brand-600: theme('colors.ledger.600');
+    --brand-700: theme('colors.ledger.700');
+    --brand-800: theme('colors.ledger.800');
+    --brand-900: theme('colors.ledger.900');
+  }
+
+  .shell { @apply mx-auto w-full max-w-shell px-6 md:px-10; }
+
+  .eyebrow {
+    @apply text-[0.72rem] font-semibold uppercase tracking-eyebrow;
+    color: var(--brand-700);
+  }
+  .eyebrow-line::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    width: 36px;
+    height: 1px;
+    margin-right: 0.9rem;
+    background: var(--brand-700);
+  }
+  .section-title {
+    @apply font-serif font-semibold text-h2 text-ink-900;
+  }
+  .lede {
+    @apply font-serif text-[1.25rem] md:text-[1.4rem] leading-[1.55] text-ink-700 italic;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 text-[0.78rem] font-semibold uppercase tracking-[0.14em] transition;
+  }
+  .btn-solid {
+    color: #fff;
+    background: var(--brand-700);
+  }
+  .btn-solid:hover { background: var(--brand-800); }
+  .btn-ghost {
+    @apply border border-ink-300 text-ink-900;
+    background: transparent;
+  }
+  .btn-ghost:hover {
+    color: var(--brand-700);
+    border-color: var(--brand-700);
+  }
+
+  .hairline {
+    @apply border-t border-ink-200;
+  }
+
+  .paper-card {
+    @apply bg-parchment border border-ink-200/70;
+  }
+
+  /* Lista de áreas con borde fino estilo editorial */
+  .area-card {
+    @apply relative p-8 bg-white border border-ink-200 transition duration-300;
+  }
+  .area-card::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 2px;
+    background: var(--brand-700);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .35s ease;
+  }
+  .area-card:hover::before { transform: scaleX(1); }
+  .area-card:hover { @apply -translate-y-0.5 shadow-[0_20px_40px_-30px_rgba(14,31,61,0.25)]; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fondo editorial con grilla muy sutil, solo en desktop */
+@media (min-width: 1024px) {
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(24,22,18,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(24,22,18,0.035) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+/* Timeline rail */
+.timeline-rail {
+  position: relative;
+}
+.timeline-rail::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; left: 50%;
+  width: 1px;
+  background: theme('colors.ink.200');
+  transform: translateX(-0.5px);
+}
+@media (max-width: 768px) {
+  .timeline-rail::before { left: 16px; }
+}
