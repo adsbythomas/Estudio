@@ -73,13 +73,11 @@ const isoSrc = withBase(isLegal ? '/brand/isotipo-white.svg' : '/brand/isotipo.s
 
 <style>
   #mob.open { display: flex; }
-  /* El nav solid adopta el fondo del tema actual:
-     - Legal → navy (Midnight Slate)
-     - Contable → ice grey
-     De esta forma el header mantiene coherencia con la página. */
+  /* El nav solid adopta el fondo del tema actual (sin blur, que era
+     el principal culpable de jank en mobile/Safari). Fondo opaco del
+     tema y borde inferior sutil. */
   nav[data-nav].solid {
-    background: color-mix(in oklab, var(--bg) 92%, transparent);
-    backdrop-filter: blur(10px);
+    background: var(--bg);
     border-bottom: 1px solid var(--border);
   }
 </style>
