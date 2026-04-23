@@ -1,49 +1,42 @@
 ---
-import { site } from '@lib/site';
 import Skyline from './Skyline.astro';
 import Blueprint from './Blueprint.astro';
 import type { Practice } from '@lib/site';
 
 export interface Props {
   practice: Practice;
-  // Título horizontal en 2 líneas — cada una con su color
-  titleLine1: string;      // ej: "Derecho empresarial"
-  titleLine2: string;      // ej: "20 años de oficio"
+  titleLine1: string;
+  titleLine2: string;
   lead: string;
   ctaPrimary: string;
   altLabel: string;
   altHref: string;
 }
-const {
-  practice, titleLine1, titleLine2, lead, ctaPrimary,
-  altLabel, altHref,
-} = Astro.props;
+const { practice, titleLine1, titleLine2, lead, ctaPrimary, altLabel, altHref } = Astro.props;
 ---
 <section class="relative overflow-hidden border-b border-ink-200" data-hero>
-  <!-- Blueprint en fondo con parallax -->
   <div class="absolute inset-0 z-0" data-parallax data-parallax-speed="0.12">
     <Blueprint />
   </div>
 
-  <!-- Contenido principal -->
   <div class="shell relative z-10 pt-32 md:pt-40 pb-14 md:pb-16">
     <div class="max-w-[1400px]">
-      <h1 class="font-serif font-semibold leading-[1.04] tracking-tight text-ink-900 mb-10" data-hero-title>
+      <h1 class="font-sans font-bold leading-[1.04] tracking-tight text-ink-900 mb-10">
         <span class="stack-line block" data-stack-line>
-          <span class="inline-block text-[clamp(2.2rem,6vw,5rem)]">{titleLine1}</span>
+          <span class="inline-block text-monument">{titleLine1}</span>
         </span>
         <span class="stack-line block mt-1" style="--delay: 180" data-stack-line>
-          <span class="inline-block italic text-[clamp(2.2rem,6vw,5rem)]" style="color: var(--brand-700)">{titleLine2}</span>
+          <span class="inline-block text-monument" style="color: var(--brand-700)">{titleLine2}</span>
         </span>
       </h1>
 
       <div class="grid md:grid-cols-[1.2fr_auto] gap-10 items-end reveal">
-        <p class="font-serif text-ink-700 text-[1.15rem] md:text-[1.35rem] leading-relaxed max-w-[620px]">
+        <p class="text-ink-700 text-[1.05rem] md:text-[1.15rem] leading-relaxed max-w-[620px]">
           {lead}
         </p>
 
         <div class="flex flex-col gap-4 md:items-end">
-          <a href="#contacto" class="btn-editorial magnet" data-magnet>
+          <a href="#contacto" class="btn-editorial">
             <span>{ctaPrimary}</span>
             <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 5h14M11 1l4 4-4 4"/></svg>
           </a>
@@ -55,7 +48,6 @@ const {
     </div>
   </div>
 
-  <!-- Skyline al pie del hero (decorativo, sin texto encima) -->
   <div class="relative h-[220px] md:h-[300px] pointer-events-none z-0" data-parallax data-parallax-speed="-0.06">
     <Skyline class="w-full h-full" />
   </div>

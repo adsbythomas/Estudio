@@ -49,15 +49,18 @@ export default {
         },
       },
       fontFamily: {
-        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        sans: ['"Inter Tight"', 'Inter', 'system-ui', 'sans-serif'],
+        // Sans-serif corporativo, tipo Arial pero más limpio (Inter).
+        // Fallback a Arial/Helvetica para sistemas sin Inter.
+        sans: ['Inter', 'Arial', 'Helvetica', 'sans-serif'],
+        // Mismo stack — usamos display = sans pero con más weight.
+        serif: ['Inter', 'Arial', 'Helvetica', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       fontSize: {
-        'tick': ['0.68rem', { lineHeight: '1', letterSpacing: '0.2em' }],
-        'monument': ['clamp(3rem, 10vw, 9rem)', { lineHeight: '0.95', letterSpacing: '-0.035em' }],
-        'cover':    ['clamp(2.4rem, 6vw, 5.2rem)', { lineHeight: '1.02', letterSpacing: '-0.025em' }],
-        'editorial':['clamp(1.8rem, 3vw, 2.8rem)', { lineHeight: '1.12', letterSpacing: '-0.018em' }],
+        'tick': ['0.72rem', { lineHeight: '1', letterSpacing: '0.18em' }],
+        'monument': ['clamp(2.6rem, 8vw, 6.5rem)', { lineHeight: '1.02', letterSpacing: '-0.03em' }],
+        'cover':    ['clamp(2rem, 5vw, 4rem)',    { lineHeight: '1.08', letterSpacing: '-0.02em' }],
+        'editorial':['clamp(1.6rem, 2.6vw, 2.4rem)', { lineHeight: '1.2', letterSpacing: '-0.015em' }],
       },
       letterSpacing: {
         tick: '0.22em',

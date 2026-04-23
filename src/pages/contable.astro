@@ -2,10 +2,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
 import Counters from '@components/Counters.astro';
-import Manifesto from '@components/Manifesto.astro';
 import Practice from '@components/Practice.astro';
-import Marquee from '@components/Marquee.astro';
-import Approach from '@components/Approach.astro';
 import Team from '@components/Team.astro';
 import Timeline from '@components/Timeline.astro';
 import CrossLink from '@components/CrossLink.astro';
@@ -37,13 +34,6 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     items={accounting.counters.items}
   />
 
-  <Manifesto
-    label={accounting.manifesto.label}
-    headline={accounting.manifesto.headline}
-    intro={accounting.manifesto.intro}
-    movimientos={accounting.manifesto.movimientos}
-  />
-
   <Practice
     label={accounting.practice.label}
     title={accounting.practice.title}
@@ -51,13 +41,7 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     items={accounting.practice.items}
   />
 
-  <Marquee items={accounting.marquee} />
-
-  <Approach
-    label={accounting.approach.label}
-    title={accounting.approach.title}
-    steps={accounting.approach.steps}
-  />
+  <CrossLink practice="accounting" />
 
   <Team
     label={accounting.team.label}
@@ -72,8 +56,6 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     title={accounting.timeline.title}
     items={accounting.timeline.items}
   />
-
-  <CrossLink practice="accounting" />
 
   <Contact
     label={accounting.contact.label}

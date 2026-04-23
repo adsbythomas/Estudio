@@ -12,35 +12,32 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
 const href  = isLegal ? withBase('/contable') : withBase('/');
 const title = isLegal ? 'Área contable' : 'Área legal';
 const body  = isLegal
-  ? 'El estudio suma un equipo propio de contadores públicos matriculados: impuestos, auditoría, estados contables y planificación fiscal — siempre en coordinación con el área jurídica.'
-  : 'El estudio integra seis áreas de derecho empresarial: tributario, aduanero, societario, laboral, aerocomercial y penal económico — siempre en coordinación con el área contable.';
-const kicker = isLegal ? 'Coordinación jurídico-contable' : 'Coordinación contable-jurídica';
-// Paleta opuesta para la transición
+  ? 'El estudio integra un equipo propio de contadores públicos matriculados: liquidación de impuestos, estados contables, auditoría y planificación fiscal. Coordinación permanente con el área jurídica.'
+  : 'El estudio integra seis áreas de derecho empresarial: tributario, aduanero, societario, laboral, aerocomercial y penal económico. Coordinación permanente con el área contable.';
+const kicker = isLegal ? 'También ofrecemos' : 'También ofrecemos';
 const oppTheme = isLegal ? 'theme-accounting' : 'theme-legal';
 ---
-<section class={`page-break ${oppTheme} relative py-32 md:py-chapter reveal`}>
-  <!-- Skyline de fondo en la paleta opuesta -->
+<section class={`page-break ${oppTheme} relative py-28 md:py-32 reveal`}>
   <div class="absolute inset-x-0 bottom-0 h-[60%] opacity-60 pointer-events-none">
     <Skyline class="w-full h-full" />
   </div>
 
   <div class="shell relative">
-    <div class="font-mono text-tick uppercase tracking-tick mb-8" style="color: var(--brand-300)">
-      — {kicker}
+    <div class="font-mono text-tick uppercase tracking-tick mb-6" style="color: var(--brand-300)">
+      {kicker}
     </div>
 
     <div class="grid md:grid-cols-[1.2fr_auto] gap-10 items-end">
       <div>
-        <h2 class="font-serif font-semibold text-monument leading-[0.95] mb-8" style="color: var(--brand-50)">
-          <span class="italic" style="color: var(--brand-300)">El otro lado</span> del estudio:<br/>
-          <span>{title}</span>
+        <h2 class="font-sans font-bold text-cover leading-[1.05] mb-6" style="color: var(--brand-50)">
+          {title}
         </h2>
-        <p class="font-serif italic text-[1.3rem] md:text-[1.55rem] max-w-[640px]" style="color: color-mix(in oklab, var(--brand-50) 80%, transparent)">
+        <p class="text-[1.05rem] md:text-[1.15rem] max-w-[640px] leading-relaxed" style="color: color-mix(in oklab, var(--brand-50) 85%, transparent)">
           {body}
         </p>
       </div>
 
-      <a href={href} class="btn-editorial magnet group" data-magnet style="background: var(--brand-300); color: var(--brand-950)">
+      <a href={href} class="btn-editorial" style="background: var(--brand-300); color: var(--brand-950)">
         <span>Visitar área</span>
         <svg width="20" height="12" viewBox="0 0 20 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 6h18M13 1l6 5-6 5"/></svg>
       </a>

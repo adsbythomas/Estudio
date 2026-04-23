@@ -2,10 +2,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
 import Counters from '@components/Counters.astro';
-import Manifesto from '@components/Manifesto.astro';
 import Practice from '@components/Practice.astro';
-import Marquee from '@components/Marquee.astro';
-import Approach from '@components/Approach.astro';
 import Team from '@components/Team.astro';
 import Timeline from '@components/Timeline.astro';
 import CrossLink from '@components/CrossLink.astro';
@@ -37,13 +34,6 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     items={legal.counters.items}
   />
 
-  <Manifesto
-    label={legal.manifesto.label}
-    headline={legal.manifesto.headline}
-    intro={legal.manifesto.intro}
-    movimientos={legal.manifesto.movimientos}
-  />
-
   <Practice
     label={legal.practice.label}
     title={legal.practice.title}
@@ -51,13 +41,7 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     items={legal.practice.items}
   />
 
-  <Marquee items={legal.marquee} />
-
-  <Approach
-    label={legal.approach.label}
-    title={legal.approach.title}
-    steps={legal.approach.steps}
-  />
+  <CrossLink practice="legal" />
 
   <Team
     label={legal.team.label}
@@ -72,8 +56,6 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     title={legal.timeline.title}
     items={legal.timeline.items}
   />
-
-  <CrossLink practice="legal" />
 
   <Contact
     label={legal.contact.label}
