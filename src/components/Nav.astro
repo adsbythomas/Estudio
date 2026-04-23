@@ -18,6 +18,8 @@ const navLinks = [
 ];
 const altHref = isLegal ? withBase('/contable') : withBase('/');
 const altLabel = isLegal ? '→ Contable' : '→ Legal';
+// Isotipo invertido según tema: legal (fondo navy) → blanco; contable (fondo ice) → navy.
+const isoSrc = withBase(isLegal ? '/brand/isotipo-white.svg' : '/brand/isotipo.svg');
 ---
 <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -26,7 +28,7 @@ const altLabel = isLegal ? '→ Contable' : '→ Legal';
     <div class="flex items-center gap-4 md:gap-6">
       <LangToggle />
     <a href={withBase('/')} class="flex items-center gap-3 group" aria-label="Inicio">
-      <img src={withBase('/brand/isotipo.svg')} alt="" width="28" height="28" class="brand-iso" />
+      <img src={isoSrc} alt="" width="28" height="28" class="brand-iso" />
       <span class="flex flex-col leading-none">
         <span class="brand-mark font-sans text-[0.95rem] md:text-[1.05rem] font-semibold tracking-tight">
           Pantarotto Lértora Bardagí
@@ -54,7 +56,7 @@ const altLabel = isLegal ? '→ Contable' : '→ Legal';
 <div id="mob" class="fixed inset-0 z-[60] hidden flex-col" style="background: var(--bg); color: var(--fg);">
   <div class="shell h-16 flex justify-between items-center">
     <div class="flex items-center gap-2">
-      <img src={withBase('/brand/isotipo.svg')} alt="" width="24" height="24" />
+      <img src={isoSrc} alt="" width="24" height="24" />
       <span class="font-sans text-[1rem] font-semibold">Pantarotto Lértora Bardagí</span>
     </div>
     <button id="mob-close" aria-label="Cerrar" class="text-3xl leading-none" style="color: var(--fg-muted);">×</button>
@@ -71,9 +73,13 @@ const altLabel = isLegal ? '→ Contable' : '→ Legal';
 
 <style>
   #mob.open { display: flex; }
+  /* El nav solid adopta el fondo del tema actual:
+     - Legal → navy (Midnight Slate)
+     - Contable → ice grey
+     De esta forma el header mantiene coherencia con la página. */
   nav[data-nav].solid {
-    background: color-mix(in oklab, theme('colors.paper') 95%, transparent);
+    background: color-mix(in oklab, var(--bg) 92%, transparent);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid color-mix(in oklab, theme('colors.ink.300') 50%, transparent);
+    border-bottom: 1px solid var(--border);
   }
 </style>

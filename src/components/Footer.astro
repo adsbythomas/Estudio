@@ -7,6 +7,7 @@ const { practice } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
 const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
+const isoSrc = withBase(practice === 'legal' ? '/brand/isotipo-white.svg' : '/brand/isotipo.svg');
 const year = new Date().getFullYear();
 ---
 <footer class="relative border-t overflow-hidden" style="border-color: var(--border)">
@@ -24,7 +25,7 @@ const year = new Date().getFullYear();
     <div class="grid md:grid-cols-4 gap-10 pt-14 border-t" style="border-color: var(--border)">
       <div>
         <div class="flex items-center gap-3 mb-3">
-          <img src={withBase('/brand/isotipo.svg')} alt="" width="36" height="36" />
+          <img src={isoSrc} alt="" width="36" height="36" />
           <div class="flex flex-col leading-none">
             <span class="font-sans text-lg font-semibold" style="color: var(--fg)">Pantarotto Lértora Bardagí</span>
             <span class="font-serif italic text-xs mt-1" style="color: var(--fg-muted)">Legal | Tax Accountants</span>

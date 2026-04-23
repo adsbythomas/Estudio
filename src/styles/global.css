@@ -25,15 +25,12 @@
 
 @layer components {
   /* ═══════════════════════════════════════════════════════════
-     Paleta oficial del brandbook — aplicada a ambas páginas.
-     Los .theme-legal / .theme-accounting se conservan como hooks
-     por si más adelante queremos diferenciar elementos puntuales,
-     pero las variables de color son iguales en ambos.
+     Paleta oficial del brandbook con dos variantes:
+     - .theme-legal (Derecho): principal Midnight Slate, secundario Ice Grey
+     - .theme-accounting (Contable): principal Ice Grey, secundario Midnight Slate
+     El Muted Bronze queda como acento en ambos.
      ═══════════════════════════════════════════════════════════ */
-  :root,
-  .theme-legal,
-  .theme-accounting {
-    /* Fondo ice grey — base cool con pigmento azul sutil */
+  :root {
     --bg: #e9e9f2;
     --surface: #f3f3fa;
     --surface-2: #d8d9e5;
@@ -41,6 +38,34 @@
     --fg-muted: #3d4863;
     --fg-subtle: #5f6a82;
     --border: #bfc1d1;
+  }
+
+  /* Derecho — principal azul sobre secundario ice */
+  .theme-legal {
+    --bg: #242c42;
+    --surface: #2e3750;
+    --surface-2: #3d4863;
+    --fg: #e9e9f2;
+    --fg-muted: #bfc1d1;
+    --fg-subtle: #8b94a7;
+    --border: #3d4863;
+  }
+
+  /* Contable — principal ice sobre secundario azul */
+  .theme-accounting {
+    --bg: #e9e9f2;
+    --surface: #f3f3fa;
+    --surface-2: #d8d9e5;
+    --fg: #242c42;
+    --fg-muted: #3d4863;
+    --fg-subtle: #5f6a82;
+    --border: #bfc1d1;
+  }
+
+  /* Tokens compartidos por ambos temas */
+  :root,
+  .theme-legal,
+  .theme-accounting {
 
     /* Midnight Slate — primario (navy profundo con undertone violeta) */
     --slate-50:  theme('colors.slate.50');
@@ -84,10 +109,13 @@
     --brand-400: var(--bronze-400);
     --brand-500: var(--bronze-500);
     --brand-600: var(--bronze-600);
-    --brand-700: var(--slate-700);
-    --brand-800: var(--slate-800);
-    --brand-900: var(--slate-900);
-    --brand-950: var(--slate-950);
+    /* --brand-700/800/900 se alinean con --fg para que los elementos que
+       los usan (textos fuertes, SVG decorativos, borders) tomen el color
+       correcto en cada tema automáticamente. */
+    --brand-700: var(--fg);
+    --brand-800: var(--fg);
+    --brand-900: var(--fg);
+    --brand-950: var(--fg);
   }
 
   /* Cuando se usa `page-break` con tema opuesto (CrossLink),
@@ -169,12 +197,14 @@
     color: var(--fg-muted);
   }
 
-  /* Botón primario — Midnight Slate con hover en Muted Bronze (ambas
-     páginas comparten el mismo estilo bajo la paleta unificada). */
+  /* Botón primario — invierte fondo/texto del tema actual:
+     - Legal (fondo navy): botón ice grey con texto navy
+     - Contable (fondo ice): botón navy con texto ice grey
+     Hover reveal en Muted Bronze para ambos. */
   .btn-editorial {
     @apply inline-flex items-center gap-3 px-7 py-4 text-[0.78rem] font-semibold uppercase tracking-tick transition relative overflow-hidden;
-    color: #e9e9f2;
-    background: var(--slate-700);
+    color: var(--bg);
+    background: var(--fg);
   }
   .btn-editorial::before {
     content: '';
@@ -184,6 +214,7 @@
     transition: transform .5s cubic-bezier(0.2, 0.6, 0.2, 1);
   }
   .btn-editorial:hover::before { transform: translateY(0); }
+  .btn-editorial:hover { color: #e9e9f2; }
   .btn-editorial > * { position: relative; z-index: 1; }
 
   /* Stack-line reveal */
@@ -270,9 +301,9 @@
     background: transparent;
   }
   .timeline-nav-btn:hover {
-    color: #e9e9f2;
-    background: var(--slate-700);
-    border-color: var(--slate-700);
+    color: var(--bg);
+    background: var(--fg);
+    border-color: var(--fg);
   }
   .timeline-nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
@@ -344,7 +375,7 @@
     font-size: clamp(2.4rem, 5vw, 3.5rem);
     line-height: 1;
     letter-spacing: -0.03em;
-    color: var(--slate-700);
+    color: var(--fg);
     font-variant-numeric: tabular-nums;
   }
 
@@ -416,22 +447,22 @@
   .border-ink-200, .border-ink-300 { border-color: var(--border) !important; }
 }
 
-/* Nav solid — cuando se scrollea el header adopta fondo paper (crema).
-   Los textos del tema (que son casi blancos) quedan ilegibles sobre
-   ese fondo claro, así que los teñimos con el color de marca. */
+/* Nav solid — el fondo y los textos se adaptan al tema actual:
+   en legal el header se oscurece (navy), en contable se aclara (ice).
+   El hover usa Muted Bronze en ambos. */
 nav[data-nav].solid .nav-link,
 nav[data-nav].solid .brand-mark,
 nav[data-nav].solid #mob-open {
-  color: var(--brand-700);
+  color: var(--fg);
 }
 nav[data-nav].solid .nav-link-alt {
-  color: var(--brand-600);
+  color: var(--bronze-500);
 }
 nav[data-nav].solid .brand-tick {
-  color: var(--brand-600);
+  color: var(--fg-muted);
 }
 nav[data-nav].solid .nav-link:hover {
-  color: var(--brand-500);
+  color: var(--bronze-500);
 }
 
 /* Animaciones reducidas para prefers-reduced-motion */
