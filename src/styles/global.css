@@ -229,8 +229,10 @@
 
   [data-parallax] {
     will-change: transform;
-    transform: translateY(var(--p-offset, 0));
-    transition: transform 0.1s linear;
+    /* Sin transition: el scroll ya provoca el cambio frame-a-frame;
+       una transición adicional de 0.1s encima producía jank en desktop.
+       El transform se setea directamente desde JS con translate3d para
+       forzar la promoción a layer GPU. */
   }
 
   /* Blueprint grid */
