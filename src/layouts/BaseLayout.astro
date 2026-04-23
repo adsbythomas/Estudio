@@ -133,7 +133,8 @@ const faviconHref = (base.endsWith('/') ? base.slice(0, -1) : base) + '/brand/is
               const p = parallaxEls[i];
               const rect = p.el.getBoundingClientRect();
               const off = (rect.top + rect.height / 2 - vhHalf) * p.speed * -1;
-              p.el.style.setProperty('--p-offset', off + 'px');
+              // translate3d fuerza compositing en GPU; no usamos transition.
+              p.el.style.transform = 'translate3d(0,' + off + 'px,0)';
             }
           }
           ticking = false;
