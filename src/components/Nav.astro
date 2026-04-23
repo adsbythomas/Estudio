@@ -23,11 +23,11 @@ const altLabel = isLegal ? '→ Contable' : '→ Legal';
 <nav id="mainNav" class="fixed inset-x-0 top-0 z-50 transition-all duration-500" data-nav>
   <div class="shell h-16 md:h-20 flex items-center justify-between">
     <a href={withBase('/')} class="flex items-baseline gap-3 group" aria-label="Inicio">
-      <span class="font-sans text-[1.45rem] md:text-[1.6rem] font-semibold leading-none tracking-tight" style="color: var(--fg);">
+      <span class="brand-mark font-sans text-[1.45rem] md:text-[1.6rem] font-semibold leading-none tracking-tight" style="color: var(--fg);">
         {site.abbr.a}<span style="color: var(--brand-500)">{site.abbr.b}</span>
       </span>
       <span class="hidden md:inline w-8 h-px group-hover:w-12 transition-all duration-500" style="background: var(--brand-500)"></span>
-      <span class="hidden md:inline font-mono text-tick uppercase tracking-tick" style="color: var(--fg-subtle);">Desde 2004</span>
+      <span class="brand-tick hidden md:inline font-mono text-tick uppercase tracking-tick" style="color: var(--fg-subtle);">Desde 2004</span>
     </a>
 
     <ul class="hidden md:flex items-center gap-9">
@@ -67,4 +67,11 @@ const altLabel = isLegal ? '→ Contable' : '→ Legal';
     backdrop-filter: blur(10px);
     border-bottom: 1px solid color-mix(in oklab, theme('colors.ink.300') 50%, transparent);
   }
+  /* Sobre fondo paper (solid), los textos blancos del tema se pierden:
+     los teñimos con el color de marca para mantener legibilidad. */
+  nav[data-nav].solid .nav-link { color: var(--brand-700) !important; }
+  nav[data-nav].solid .nav-link:hover { color: var(--brand-500) !important; }
+  nav[data-nav].solid .brand-mark { color: var(--brand-700) !important; }
+  nav[data-nav].solid .brand-tick { color: var(--brand-600) !important; }
+  nav[data-nav].solid #mob-open { color: var(--brand-700) !important; }
 </style>
