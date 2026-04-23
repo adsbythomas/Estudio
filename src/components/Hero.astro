@@ -1,5 +1,4 @@
 ---
-import Blueprint from './Blueprint.astro';
 import Obelisco from './Obelisco.astro';
 import type { Practice } from '@lib/site';
 
@@ -20,11 +19,6 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
 const isoSrc = withBase(practice === 'legal' ? '/brand/isotipo-white.svg' : '/brand/isotipo.svg');
 ---
 <section class="relative overflow-hidden min-h-[90svh] flex items-center" data-hero>
-  <!-- Blueprint grid sutil como fondo -->
-  <div class="absolute inset-0 z-0" data-parallax data-parallax-speed="0.08">
-    <Blueprint />
-  </div>
-
   <!-- Obelisco decorativo único, a la derecha -->
   <div class="hidden lg:block absolute right-6 xl:right-16 top-1/2 -translate-y-1/2 z-0 w-[140px] xl:w-[170px] pointer-events-none opacity-[0.45]"
        style="color: var(--brand-500);" data-parallax data-parallax-speed="0.15">

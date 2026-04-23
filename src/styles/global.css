@@ -327,13 +327,29 @@
   .brand-tick { color: var(--fg-subtle); }
   #mob-open { color: var(--fg); }
 
-  /* Links cross-practice (ir a la otra área del estudio): usan el
-     Muted Bronze (#8C7853) del brandbook como acento refinado.
-     Reemplaza el naranja que teníamos antes. */
-  .link-accounting { color: var(--bronze-500); transition: color .3s; }
-  .link-accounting:hover { color: var(--bronze-600); }
-  nav[data-nav].solid .link-accounting { color: var(--bronze-600); }
-  nav[data-nav].solid .link-accounting:hover { color: var(--bronze-700); }
+  /* Link / pill al área Contable: siempre destacado con Muted Bronze
+     sólido y texto ice grey, para que funcione sobre fondo navy (legal)
+     e ice grey (contable) con contraste claro. */
+  .link-accounting {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.8rem;
+    background: var(--bronze-500);
+    color: #e9e9f2 !important;
+    border-radius: 999px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    transition: background .3s, color .3s, transform .25s;
+  }
+  .link-accounting:hover {
+    background: var(--bronze-600);
+    transform: translateY(-1px);
+  }
+  /* En nav solid mantenemos la pill igual — su contraste no depende
+     del fondo del nav porque usa un background propio. */
+  nav[data-nav].solid .link-accounting { background: var(--bronze-500); color: #e9e9f2 !important; }
+  nav[data-nav].solid .link-accounting:hover { background: var(--bronze-600); }
   .nav-link::after {
     content: ''; position: absolute; left: 0; right: 0; bottom: -6px;
     height: 1px; background: currentColor;
@@ -341,6 +357,8 @@
     transition: transform .5s cubic-bezier(0.2, 0.6, 0.2, 1);
   }
   .nav-link:hover::after { transform-origin: left; transform: scaleX(1); }
+  /* La pill link-accounting tiene su propio fondo, no queremos underline */
+  .nav-link.link-accounting::after { display: none; }
 
   /* Preloader — isotipo oficial del brandbook con fade-in */
   .preloader {
