@@ -1,30 +1,27 @@
 // Contenido del área legal (abogados).
 export const legal = {
   slug: '',
-  eyebrow: 'I · Área Legal',
+  eyebrow: 'Área Legal',
   hero: {
-    kicker: '§ Desde MMIV — Estudio integral',
-    // Cada string es una línea del título monumental (stack-line reveal)
-    words: [
-      'Derecho',
-      'empresarial,',
-      'veinte',
-      'años',
-      'de oficio.',
-    ],
-    italicWord: 'empresarial,',
+    titleLine1: 'Derecho empresarial,',
+    titleLine2: '20 años de oficio.',
     lead:
       'Estudio integral de abogados y contadores públicos con sede en Buenos Aires y corresponsales en Estados Unidos y Uruguay. Tributario, aduanero, societario, laboral, aerocomercial y penal económico.',
     ctaPrimary: 'Solicitar consulta',
   },
-  counters: [
-    { num: '20', suffix: '+',  label: 'Años de trayectoria',  desc: 'Dos décadas asesorando a empresas en operaciones tributarias, societarias y penales económicas complejas.' },
-    { num: '6',  suffix: '',   label: 'Áreas especializadas', desc: 'Tributario, aduanero, laboral, societario, aerocomercial y penal económico — con profundidad sectorial.' },
-    { num: '3',  suffix: '',   label: 'Jurisdicciones',       desc: 'Argentina, Estados Unidos y Uruguay, con corresponsales activos en cada mercado.' },
-    { num: '100',suffix: '%',  label: 'Confidencialidad',     desc: 'Secreto profesional y reserva estricta sobre toda la información del cliente, sin excepciones.' },
-  ],
+  counters: {
+    label: 'En cifras',
+    title: 'El estudio en números',
+    sub: 'Dos décadas de trabajo continuo, con foco y método.',
+    items: [
+      { num: '20', suffix: '+',  label: 'Años de trayectoria',  desc: 'Dos décadas asesorando a empresas en operaciones tributarias, societarias y penales económicas complejas.', icon: 'clock' },
+      { num: '6',  suffix: '',   label: 'Áreas especializadas', desc: 'Tributario, aduanero, laboral, societario, aerocomercial y penal económico — con profundidad sectorial.', icon: 'layers' },
+      { num: '3',  suffix: '',   label: 'Jurisdicciones',       desc: 'Argentina, Estados Unidos y Uruguay, con corresponsales activos en cada mercado.', icon: 'globe' },
+      { num: '100',suffix: '%',  label: 'Confidencialidad',     desc: 'Secreto profesional y reserva estricta sobre toda la información del cliente, sin excepciones.', icon: 'shield' },
+    ],
+  },
   manifesto: {
-    label: '§ II · El estudio',
+    label: 'El estudio',
     headline: [
       'Un estudio pensado',
       'para la empresa —',
@@ -34,24 +31,24 @@ export const legal = {
       'Pantarotto Lértora Bardagí & Asocs. no trabaja con molde. Cada mandato se escribe desde cero, sobre la base de veinte años entendiendo cómo se mueven las empresas argentinas y sus contrapartes en el exterior. Somos un equipo chico por decisión, integrado, y profundamente técnico.',
     movimientos: [
       {
-        num: 'I · Independencia',
+        num: 'Independencia',
         title: 'Sin conflictos ocultos',
         body: 'Estudio propio, sin casa matriz ni red global que condicione decisiones. La representación que toma un socio la firma un socio — no un pool anónimo.',
       },
       {
-        num: 'II · Integración',
+        num: 'Integración',
         title: 'Legal + contable en un solo equipo',
         body: 'Abogados y contadores públicos matriculados trabajan en la misma oficina, en el mismo expediente. Due diligence, reestructuraciones o conflictos fiscales se abordan sin fricciones.',
       },
       {
-        num: 'III · Profundidad',
+        num: 'Profundidad',
         title: 'Sectores antes que áreas',
         body: 'Conocimiento específico de aviación, seguros, fintech, inmobiliaria y comercio exterior. El problema se entiende desde el negocio — después se lleva al código.',
       },
     ],
   },
   practice: {
-    label: '§ III · Práctica profesional',
+    label: 'Práctica profesional',
     title: 'Áreas',
     sub: 'Seis prácticas complementarias, ejercidas con autonomía e integración entre sí. Cada área tiene un socio responsable y un equipo dedicado.',
     items: [
@@ -65,16 +62,16 @@ export const legal = {
   },
   marquee: ['Tributario', 'Aduanero', 'Societario', 'Laboral', 'Aerocomercial', 'Penal Económico', 'Compliance', 'M&A'],
   approach: {
-    label: '§ IV · Manera de trabajar',
+    label: 'Manera de trabajar',
     title: 'Tres movimientos — de la consulta al cierre.',
     steps: [
-      { num: 'Acto I · Lectura', title: 'Diagnóstico',   body: 'Entender el caso en su contexto empresarial. Analizamos documentación, mapeamos riesgos y definimos el objetivo real del cliente — no solo el formal.' },
-      { num: 'Acto II · Plan',   title: 'Estrategia',    body: 'Proponemos un plan con opciones, costos y horizonte temporal. El cliente decide con información; nosotros ejecutamos con responsabilidad asumida.' },
-      { num: 'Acto III · Obra',  title: 'Representación',body: 'Intervención directa del socio a cargo. Negociamos, litigamos o asesoramos transaccionalmente, con reporte continuo y decisiones documentadas.' },
+      { num: 'Lectura',  title: 'Diagnóstico',    body: 'Entender el caso en su contexto empresarial. Analizamos documentación, mapeamos riesgos y definimos el objetivo real del cliente — no solo el formal.' },
+      { num: 'Plan',     title: 'Estrategia',     body: 'Proponemos un plan con opciones, costos y horizonte temporal. El cliente decide con información; nosotros ejecutamos con responsabilidad asumida.' },
+      { num: 'Obra',     title: 'Representación', body: 'Intervención directa del socio a cargo. Negociamos, litigamos o asesoramos transaccionalmente, con reporte continuo y decisiones documentadas.' },
     ],
   },
   team: {
-    label: '§ V · Equipo',
+    label: 'Equipo',
     title: 'Los tres socios y un equipo de asociados.',
     sub: 'Un equipo chico, senior, con formación de posgrado en las mejores universidades del país y del exterior. Cada socio lidera una o dos áreas y coordina con el resto del equipo.',
     members: [
@@ -85,18 +82,18 @@ export const legal = {
     ctaText: 'Equipo completo de asociados y contadores públicos especializados por sector.',
   },
   timeline: {
-    label: '§ VI · Nuestra historia',
+    label: 'Nuestra historia',
     title: 'Cuatro momentos en veinte años.',
     items: [
-      { year: '2004', title: 'Fundación',             desc: 'Se constituye Pantarotto Lértora Bardagí & Asocs. en Buenos Aires, con foco en derecho tributario y aduanero.' },
-      { year: '2010', title: 'Red internacional',     desc: 'Apertura de corresponsales en Estados Unidos y Uruguay. Primera operación cross-border asistida.' },
-      { year: '2015', title: 'Aerocomercial',         desc: 'La práctica aerocomercial se consolida como pilar del estudio, con representación de aerolíneas y proveedores.' },
-      { year: '2020', title: 'División contable',     desc: 'Incorporación del área contable integrada al servicio jurídico, pensada para empresas con operación internacional.' },
-      { year: '2024', title: 'MMXXIV',                desc: 'Veinte años de trayectoria. Más de dos décadas asesorando a empresas nacionales e internacionales.' },
+      { year: '2004', title: 'Fundación',         desc: 'Se constituye Pantarotto Lértora Bardagí & Asocs. en Buenos Aires, con foco en derecho tributario y aduanero.' },
+      { year: '2010', title: 'Red internacional', desc: 'Apertura de corresponsales en Estados Unidos y Uruguay. Primera operación cross-border asistida.' },
+      { year: '2015', title: 'Aerocomercial',     desc: 'La práctica aerocomercial se consolida como pilar del estudio, con representación de aerolíneas y proveedores.' },
+      { year: '2020', title: 'División contable', desc: 'Incorporación del área contable integrada al servicio jurídico, pensada para empresas con operación internacional.' },
+      { year: '2024', title: '20 años',           desc: 'Dos décadas de trayectoria asesorando a empresas nacionales e internacionales.' },
     ],
   },
   contact: {
-    label: '§ VII · Contacto',
+    label: 'Contacto',
     title: 'Hablemos de',
     titleAccent: 'su caso',
     desc: 'Le ofrecemos una consulta inicial para evaluar su situación. Nuestro equipo le responderá dentro de las 24 horas hábiles.',

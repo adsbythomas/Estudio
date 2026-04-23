@@ -22,17 +22,20 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
 
   <Hero
     practice="accounting"
-    kicker={accounting.hero.kicker}
-    words={accounting.hero.words}
-    italicWord={accounting.hero.italicWord}
+    titleLine1={accounting.hero.titleLine1}
+    titleLine2={accounting.hero.titleLine2}
     lead={accounting.hero.lead}
     ctaPrimary={accounting.hero.ctaPrimary}
     altLabel="→ Ir al área legal"
     altHref={withBase('/')}
-    index={accounting.eyebrow}
   />
 
-  <Counters items={accounting.counters} />
+  <Counters
+    label={accounting.counters.label}
+    title={accounting.counters.title}
+    sub={accounting.counters.sub}
+    items={accounting.counters.items}
+  />
 
   <Manifesto
     label={accounting.manifesto.label}

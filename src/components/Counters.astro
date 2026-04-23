@@ -1,23 +1,101 @@
 ---
-export interface Counter { num: string; suffix?: string; label: string; desc: string; }
-export interface Props { items: Counter[]; }
-const { items } = Astro.props;
+export interface Counter {
+  num: string;
+  suffix?: string;
+  label: string;
+  desc: string;
+  icon?: string;
+}
+export interface Props {
+  items: Counter[];
+  label?: string;
+  title?: string;
+  sub?: string;
+}
+const { items, label = 'En cifras', title = 'El estudio en números', sub } = Astro.props;
 ---
-<section class="reveal py-20 md:py-28 border-y border-ink-200">
-  <div class="shell grid gap-0">
-    {items.map((c, i) => (
-      <div class="counter-block">
-        <div class="flex items-end gap-6">
-          <span class="font-mono text-tick uppercase tracking-tick text-ink-400 pb-6">{String(i + 1).padStart(2, '0')}</span>
-          <span class="counter-num" data-counter data-target={c.num.replace(/\D/g, '')}>
-            <span data-counter-val>0</span>{c.suffix || ''}
-          </span>
-        </div>
-        <div class="text-right max-w-sm">
-          <div class="font-mono text-tick uppercase tracking-tick mb-2" style="color: var(--brand-700)">{c.label}</div>
-          <p class="text-ink-600 leading-relaxed text-[0.98rem]">{c.desc}</p>
-        </div>
-      </div>
-    ))}
+<section class="reveal py-20 md:py-28 border-y border-ink-200 bg-paperDark/30">
+  <div class="shell">
+    <!-- Header -->
+    <header class="mb-16 max-w-2xl">
+      <div class="section-kicker"><span>{label}</span></div>
+      <h2 class="font-serif font-semibold text-editorial text-ink-900 leading-tight">
+        <span class="under-ruler">{title}</span>
+      </h2>
+      {sub && <p class="mt-4 text-ink-600 leading-relaxed">{sub}</p>}
+    </header>
+
+    <!-- Grid de 2x2 con íconos -->
+    <div class="grid gap-px bg-ink-200 border border-ink-200 md:grid-cols-2">
+      {items.map((c, i) => (
+        <article class="bg-paper p-8 md:p-10 flex items-start gap-6 md:gap-8">
+          <!-- Ícono -->
+          <div class="shrink-0 w-14 h-14 md:w-16 md:h-16 grid place-items-center border border-ink-200 bg-parchment" style="color: var(--brand-700)">
+            {c.icon === 'clock' && (
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+                <circle cx="16" cy="16" r="12"/>
+                <path d="M16 8v8l5 3"/>
+                <circle cx="16" cy="16" r="0.8" fill="currentColor"/>
+              </svg>
+            )}
+            {c.icon === 'layers' && (
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M16 4 3 11l13 7 13-7z"/>
+                <path d="M3 17l13 7 13-7"/>
+                <path d="M3 23l13 7 13-7"/>
+              </svg>
+            )}
+            {c.icon === 'globe' && (
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+                <circle cx="16" cy="16" r="12"/>
+                <path d="M4 16h24"/>
+                <path d="M16 4c4 4 4 20 0 24M16 4c-4 4-4 20 0 24"/>
+                <circle cx="22" cy="10" r="0.8" fill="currentColor"/>
+                <circle cx="10" cy="22" r="0.8" fill="currentColor"/>
+              </svg>
+            )}
+            {c.icon === 'shield' && (
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M16 3 5 7v10c0 7 5 11 11 12 6-1 11-5 11-12V7z"/>
+                <path d="M12 16l3 3 5-6"/>
+              </svg>
+            )}
+            {c.icon === 'balance' && (
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M16 5v22M7 27h18"/>
+                <path d="M16 8l-7 10h14zM16 8l7 10"/>
+                <path d="M4 18c1 2 3 3 5 3s4-1 5-3"/>
+                <path d="M18 18c1 2 3 3 5 3s4-1 5-3"/>
+              </svg>
+            )}
+            {c.icon === 'book' && (
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M5 6h10a4 4 0 014 4v16a4 4 0 00-4-4H5z"/>
+                <path d="M27 6H17a4 4 0 00-4 4v16a4 4 0 014-4h10z"/>
+                <path d="M9 11h6M9 15h6M9 19h4M19 11h4M19 15h4M19 19h4"/>
+              </svg>
+            )}
+            {c.icon === 'link' && (
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+                <path d="M12 20l8-8"/>
+                <path d="M14 10h-4a5 5 0 000 10h4"/>
+                <path d="M18 22h4a5 5 0 000-10h-4"/>
+              </svg>
+            )}
+          </div>
+
+          <!-- Texto -->
+          <div class="flex-1 min-w-0">
+            <div class="flex items-baseline gap-3 mb-2">
+              <span class="counter-num" style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1" data-counter data-target={c.num.replace(/\D/g, '')}>
+                <span data-counter-val>0</span>{c.suffix || ''}
+              </span>
+            </div>
+            <div class="font-mono text-tick uppercase tracking-tick mb-2" style="color: var(--brand-700)">{c.label}</div>
+            <p class="text-ink-600 leading-relaxed text-[0.95rem] max-w-sm">{c.desc}</p>
+          </div>
+        </article>
+      ))}
+    </div>
   </div>
 </section>

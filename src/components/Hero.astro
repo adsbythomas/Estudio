@@ -6,74 +6,48 @@ import type { Practice } from '@lib/site';
 
 export interface Props {
   practice: Practice;
-  kicker: string;
-  words: string[];        // palabras del título grande, cada una revela por separado
-  italicWord?: string;    // palabra a italicizar/destacar
+  // Título horizontal en 2 líneas — cada una con su color
+  titleLine1: string;      // ej: "Derecho empresarial"
+  titleLine2: string;      // ej: "20 años de oficio"
   lead: string;
   ctaPrimary: string;
   altLabel: string;
   altHref: string;
-  index: string;          // ej "I. Legal"
 }
 const {
-  practice, kicker, words, italicWord, lead, ctaPrimary,
-  altLabel, altHref, index,
+  practice, titleLine1, titleLine2, lead, ctaPrimary,
+  altLabel, altHref,
 } = Astro.props;
-const isLegal = practice === 'legal';
 ---
-<section class="relative min-h-[100svh] overflow-hidden border-b border-ink-200" data-hero>
+<section class="relative overflow-hidden border-b border-ink-200" data-hero>
   <!-- Blueprint en fondo con parallax -->
-  <div class="absolute inset-0 z-0" data-parallax data-parallax-speed="0.15">
+  <div class="absolute inset-0 z-0" data-parallax data-parallax-speed="0.12">
     <Blueprint />
   </div>
 
-  <!-- Ribbon superior (location + coordenadas) -->
-  <div class="absolute top-24 md:top-28 inset-x-0 z-10 pointer-events-none">
-    <div class="shell flex items-center justify-between text-tick uppercase tracking-tick font-mono text-ink-400">
-      <span class="flex items-center gap-3">
-        <span class="w-3 h-px bg-current inline-block"></span>
-        {index}
-      </span>
-      <span class="hidden md:flex items-center gap-8">
-        <span>34°36′S · 58°23′W</span>
-        <span>Buenos Aires</span>
-        <span>MMIV — MMXXIV</span>
-      </span>
-    </div>
-  </div>
-
   <!-- Contenido principal -->
-  <div class="shell relative z-10 pt-44 md:pt-56 pb-40 md:pb-64">
-    <div class="max-w-[1200px]">
-      <div class="section-kicker" style="color: var(--brand-700)">
-        <span>{kicker}</span>
-      </div>
-
-      <h1 class="monument-stack font-serif font-semibold text-monument text-ink-900 leading-[0.95] tracking-tight mb-12">
-        {words.map((w, i) => (
-          <span class="stack-line" style={`--delay: ${i * 130}`} data-stack-line>
-            <span>
-              {w === italicWord
-                ? <em>{w}</em>
-                : w === '—'
-                  ? <span class="muted">—</span>
-                  : w}
-            </span>
-          </span>
-        ))}
+  <div class="shell relative z-10 pt-32 md:pt-40 pb-14 md:pb-16">
+    <div class="max-w-[1400px]">
+      <h1 class="font-serif font-semibold leading-[1.04] tracking-tight text-ink-900 mb-10" data-hero-title>
+        <span class="stack-line block" data-stack-line>
+          <span class="inline-block text-[clamp(2.2rem,6vw,5rem)]">{titleLine1}</span>
+        </span>
+        <span class="stack-line block mt-1" style="--delay: 180" data-stack-line>
+          <span class="inline-block italic text-[clamp(2.2rem,6vw,5rem)]" style="color: var(--brand-700)">{titleLine2}</span>
+        </span>
       </h1>
 
-      <div class="grid md:grid-cols-[1.2fr_auto] gap-10 items-end">
-        <p class="reveal font-serif italic text-ink-600 text-[1.3rem] md:text-[1.55rem] leading-relaxed max-w-[640px]">
+      <div class="grid md:grid-cols-[1.2fr_auto] gap-10 items-end reveal">
+        <p class="font-serif text-ink-700 text-[1.15rem] md:text-[1.35rem] leading-relaxed max-w-[620px]">
           {lead}
         </p>
 
-        <div class="reveal flex flex-col gap-4 md:items-end">
+        <div class="flex flex-col gap-4 md:items-end">
           <a href="#contacto" class="btn-editorial magnet" data-magnet>
             <span>{ctaPrimary}</span>
             <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 5h14M11 1l4 4-4 4"/></svg>
           </a>
-          <a href={altHref} class="font-mono text-tick uppercase tracking-tick text-ink-500 hover:text-ink-900 transition inline-flex items-center gap-2">
+          <a href={altHref} class="font-mono text-tick uppercase tracking-tick text-ink-500 hover:text-ink-900 transition">
             {altLabel}
           </a>
         </div>
@@ -81,23 +55,8 @@ const isLegal = practice === 'legal';
     </div>
   </div>
 
-  <!-- Skyline al pie del hero, con parallax inverso -->
-  <div class="absolute bottom-0 inset-x-0 h-[36%] md:h-[44%] pointer-events-none z-0" data-parallax data-parallax-speed="-0.08">
+  <!-- Skyline al pie del hero (decorativo, sin texto encima) -->
+  <div class="relative h-[220px] md:h-[300px] pointer-events-none z-0" data-parallax data-parallax-speed="-0.06">
     <Skyline class="w-full h-full" />
-  </div>
-
-  <!-- Scroll hint -->
-  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10">
-    <span class="scroll-hint">
-      <span>Scroll</span>
-      <span class="scroll-hint-arrow">↓</span>
-    </span>
-  </div>
-
-  <!-- Marca de agua en esquina -->
-  <div class="absolute top-1/2 right-6 md:right-10 z-0 -translate-y-1/2 pointer-events-none opacity-40 hidden lg:block">
-    <div class="writing-vertical font-mono text-tick uppercase tracking-ribbon text-ink-400" style="writing-mode: vertical-rl; transform: rotate(180deg)">
-      Pantarotto · Lértora · Bardagí — Asociados · {site.foundingYear}
-    </div>
   </div>
 </section>

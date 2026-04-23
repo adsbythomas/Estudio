@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import Nav from '@components/Nav.astro';
-import Ribbon from '@components/Ribbon.astro';
 import Footer from '@components/Footer.astro';
 import type { Practice } from '@lib/site';
 
@@ -69,7 +68,6 @@ const themeColor = practice === 'legal' ? '#142a46' : '#63300f';
     <!-- Skip -->
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:bg-white focus:px-4 focus:py-2 focus:z-50 focus:text-ink-900">Saltar al contenido</a>
 
-    <Ribbon practice={practice} />
     <Nav practice={practice} />
 
     <main id="main"><slot /></main>
