@@ -389,18 +389,20 @@
   .border-ink-200, .border-ink-300 { border-color: var(--border) !important; }
 }
 
-/* Nav solid — fondo sólido del tema (sin transparencia para evitar
-   problemas de legibilidad cuando se scrollea sobre secciones de otro color) */
-nav[data-nav].solid {
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 8px 24px -20px rgba(0,0,0,0.3);
+/* Nav solid — cuando se scrollea el header adopta fondo paper (crema).
+   Los textos blancos del tema (inline color: var(--fg)) quedan ilegibles,
+   así que los teñimos con el color de marca usando !important para vencer
+   la especificidad de los estilos inline. */
+nav[data-nav].solid .nav-link,
+nav[data-nav].solid .brand-mark,
+nav[data-nav].solid #mob-open {
+  color: var(--brand-700) !important;
 }
-nav[data-nav].solid .nav-link {
-  color: var(--fg);
+nav[data-nav].solid .brand-tick {
+  color: var(--brand-600) !important;
 }
 nav[data-nav].solid .nav-link:hover {
-  color: var(--brand-500);
+  color: var(--brand-500) !important;
 }
 
 /* Animaciones reducidas para prefers-reduced-motion */

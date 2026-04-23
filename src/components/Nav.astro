@@ -67,11 +67,4 @@ const altLabel = isLegal ? '→ Contable' : '→ Legal';
     backdrop-filter: blur(10px);
     border-bottom: 1px solid color-mix(in oklab, theme('colors.ink.300') 50%, transparent);
   }
-  /* Sobre fondo paper (solid), los textos blancos del tema se pierden:
-     los teñimos con el color de marca para mantener legibilidad. */
-  nav[data-nav].solid .nav-link { color: var(--brand-700) !important; }
-  nav[data-nav].solid .nav-link:hover { color: var(--brand-500) !important; }
-  nav[data-nav].solid .brand-mark { color: var(--brand-700) !important; }
-  nav[data-nav].solid .brand-tick { color: var(--brand-600) !important; }
-  nav[data-nav].solid #mob-open { color: var(--brand-700) !important; }
 </style>
