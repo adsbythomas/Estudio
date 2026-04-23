@@ -2,7 +2,6 @@
 import Blueprint from './Blueprint.astro';
 import Obelisco from './Obelisco.astro';
 import type { Practice } from '@lib/site';
-import { site } from '@lib/site';
 
 export interface Props {
   practice: Practice;
@@ -15,6 +14,9 @@ export interface Props {
 }
 const { practice, titleLine1, titleLine2, lead, ctaPrimary, altLabel, altHref } = Astro.props;
 const kicker = practice === 'legal' ? 'Abogados · Buenos Aires' : 'Contadores Públicos · Buenos Aires';
+
+const base = import.meta.env.BASE_URL;
+const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
 ---
 <section class="relative overflow-hidden min-h-[90svh] flex items-center" data-hero>
   <!-- Blueprint grid sutil como fondo -->
@@ -30,21 +32,25 @@ const kicker = practice === 'legal' ? 'Abogados · Buenos Aires' : 'Contadores P
 
   <!-- Contenido centrado -->
   <div class="shell relative z-10 py-32 md:py-40 w-full text-center">
-    <!-- Monograma PLB -->
-    <div class="mb-3">
-      <h2 class="font-sans font-bold leading-none tracking-tight"
-          style="font-size: clamp(3rem, 7vw, 5rem); color: var(--fg);">
-        {site.abbr.a}<span style="color: var(--brand-500)">{site.abbr.b}</span>
+    <!-- Isotipo + wordmark oficial -->
+    <div class="mb-6 flex flex-col items-center">
+      <img src={withBase('/brand/isotipo.svg')} alt="Pantarotto Lértora" width="92" height="92" class="mb-5" />
+      <h2 class="font-sans font-bold tracking-tight"
+          style="font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--slate-700); line-height: 1;">
+        Pantarotto Lértora
       </h2>
+      <span class="font-serif italic mt-3" style="color: var(--fg-muted); font-size: clamp(0.95rem, 1.3vw, 1.1rem);">
+        Legal | Tax Accountants
+      </span>
     </div>
 
     <!-- Tagline con underline -->
     <div class="mb-14 md:mb-20 inline-flex flex-col items-center">
       <span class="font-mono text-[0.8rem] md:text-[0.9rem] uppercase tracking-[0.3em] font-medium"
-            style="color: var(--brand-500)">
+            style="color: var(--bronze-500)">
         {kicker}
       </span>
-      <span class="mt-4 block w-12 h-px" style="background: var(--brand-500)"></span>
+      <span class="mt-4 block w-12 h-px" style="background: var(--bronze-500)"></span>
     </div>
 
     <!-- Título grande en 2 líneas, centrado -->

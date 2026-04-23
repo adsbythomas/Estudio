@@ -4,58 +4,79 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Área legal — azul corporativo intermedio (entre navy y royal)
-        // Referencia: el azul que se ve bien contra fondo navy oscuro.
-        legal: {
-          50:  '#eef2fb',
-          100: '#d9e1f3',
-          200: '#b4c2e6',
-          300: '#8aa0d3',
-          400: '#6480bf',
-          500: '#4a6bb3',    // accent principal
-          600: '#3a57a0',
-          700: '#2e4688',
-          800: '#263973',
-          900: '#1c2a56',
-          950: '#0e1628',    // fondo dark navy
+        // ═══════════════════════════════════════════════════════════
+        // Paleta oficial del brandbook (Pantarotto Lértora).
+        // Sólo 3 tonos maestros + escalas derivadas para estados.
+        // ═══════════════════════════════════════════════════════════
+
+        // Midnight Slate — primario. Navy con undertone violeta,
+        // representa gravitas, profundidad intelectual y legado.
+        slate: {
+          50:  '#eef0f4',
+          100: '#d8dce4',
+          200: '#b5bcca',
+          300: '#8b94a7',
+          400: '#5f6a82',
+          500: '#3d4863',
+          600: '#2e3750',
+          700: '#242c42',    // color primario oficial
+          800: '#1a2033',
+          900: '#121624',
+          950: '#0a0d17',
         },
-        // Área contable — naranja pimentón, no marrón
-        ledger: {
-          50:  '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c',
-          500: '#f97316',
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
-          950: '#431407',
+
+        // Ice Grey — base. Fondo frío de alta gama que reemplaza al
+        // blanco puro, con pigmento azul sutil.
+        ice: {
+          50:  '#ffffff',
+          100: '#fafafe',
+          200: '#f3f3fa',
+          300: '#e9e9f2',    // base oficial
+          400: '#d8d9e5',
+          500: '#bfc1d1',
+          600: '#a0a2b6',
         },
-        // Papel editorial — crema tibia, con textura cálida
-        paper:     '#f4efe5',
-        paperDark: '#e6dfd0',
+
+        // Muted Bronze — acento. Calidez artesanal sin ostentación.
+        // Se usa con moderación para CTAs y marcas refinadas.
+        bronze: {
+          50:  '#f7f2ea',
+          100: '#ede3d2',
+          200: '#dac6a8',
+          300: '#c5a77f',
+          400: '#a99064',
+          500: '#8c7853',    // acento oficial
+          600: '#6f5f42',
+          700: '#554834',
+          800: '#3a3124',
+          900: '#201b13',
+        },
+
+        // Aliases legacy para no romper clases Tailwind aún presentes
+        // en el markup (se pueden ir migrando gradualmente).
+        legal:  { 50: '#eef0f4', 100: '#d8dce4', 200: '#b5bcca', 300: '#8b94a7', 400: '#5f6a82', 500: '#3d4863', 600: '#2e3750', 700: '#242c42', 800: '#1a2033', 900: '#121624', 950: '#0a0d17' },
+        ledger: { 50: '#f7f2ea', 100: '#ede3d2', 200: '#dac6a8', 300: '#c5a77f', 400: '#a99064', 500: '#8c7853', 600: '#6f5f42', 700: '#554834', 800: '#3a3124', 900: '#201b13', 950: '#15100a' },
+        paper:     '#e9e9f2',
+        paperDark: '#d8d9e5',
         ink: {
-          50:  '#f7f5f0',
-          100: '#ede9df',
-          200: '#d6cfbe',
-          300: '#aea490',
-          400: '#867c68',
-          500: '#5d5545',
-          600: '#3f3929',
-          700: '#2b2619',
-          800: '#1a160d',
-          900: '#0d0a04',
+          50:  '#fafafe',
+          100: '#f3f3fa',
+          200: '#e9e9f2',
+          300: '#bfc1d1',
+          400: '#8b94a7',
+          500: '#5f6a82',
+          600: '#3d4863',
+          700: '#242c42',
+          800: '#1a2033',
+          900: '#0a0d17',
         },
       },
       fontFamily: {
-        // Sans-serif corporativo, tipo Arial pero más limpio (Inter).
-        // Fallback a Arial/Helvetica para sistemas sin Inter.
-        sans: ['Inter', 'Arial', 'Helvetica', 'sans-serif'],
-        // Mismo stack — usamos display = sans pero con más weight.
-        serif: ['Inter', 'Arial', 'Helvetica', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        // Tipografía oficial del brandbook.
+        // Montserrat (primary) · Lora (secondary) — ambas OFL desde Google Fonts.
+        sans:  ['Montserrat', 'Arial', 'Helvetica', 'sans-serif'],
+        serif: ['Lora', 'Georgia', 'serif'],
+        mono:  ['"PT Sans"', 'ui-monospace', 'monospace'],
       },
       fontSize: {
         'tick': ['0.72rem', { lineHeight: '1', letterSpacing: '0.18em' }],
