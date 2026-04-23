@@ -1,45 +1,43 @@
 {
-  "updated": "2026-04-22T14:40:05.687935",
+  "updated": "2026-04-23T23:31:15.512960",
   "items": [
     {
       "date": "Reciente",
-      "title": "Resolución 516/ANAC/2024 – Aumento edad límite pilotos",
-      "desc": "Modificación del Art. 61.3(h) de las RAAC sobre límites de edad para pilotos comerciales.",
+      "title": "Actualizaciones regulatorias ANAC",
+      "desc": "Seguimiento de resoluciones y disposiciones en materia aerocomercial.",
       "source": "ANAC · Boletín Oficial",
-      "url": "https://www.boletinoficial.gob.ar/detalleAviso/primera/318291/20241125",
-      "categories": [
-        "aerocomercial"
-      ]
-    },
-    {
-      "date": "Esta semana",
-      "title": "Decreto 809/2024 – Transporte Aéreo de Pasajeros",
-      "desc": "Nuevo reglamento del contrato aéreo de pasajeros y equipaje, deroga Resolución 1532/98.",
-      "source": "Decreto PEN · BO",
-      "url": "https://www.boletinoficial.gob.ar/detalleAviso/primera/314896/20240910",
-      "categories": [
-        "aerocomercial"
-      ]
-    },
-    {
-      "date": "Este mes",
-      "title": "Decreto 816/2024 – Infracciones Aeronáuticas",
-      "desc": "Nuevo reglamento de infracciones aeronáuticas en marco del Convenio de Chicago.",
-      "source": "Decreto PEN",
-      "url": "https://www.boletinoficial.gob.ar/detalleAviso/primera/315188/20240912",
+      "url": "https://www.argentina.gob.ar/anac",
       "categories": [
         "aerocomercial"
       ]
     },
     {
       "date": "Reciente",
-      "title": "Ley 27.743 – Medidas Fiscales Paliativas",
-      "desc": "Régimen de regularización excepcional de obligaciones tributarias y aduaneras.",
-      "source": "Congreso · BO",
-      "url": "https://www.boletinoficial.gob.ar/detalleAviso/primera/312827/20240731",
+      "title": "Modificaciones al régimen laboral",
+      "desc": "Últimas novedades en legislación del trabajo y convenios colectivos.",
+      "source": "Ministerio de Trabajo",
+      "url": "https://www.argentina.gob.ar/trabajo",
       "categories": [
-        "tributario",
-        "aduanero",
+        "laboral"
+      ]
+    },
+    {
+      "date": "Reciente",
+      "title": "Novedades societarias IGJ",
+      "desc": "Resoluciones y disposiciones de la Inspección General de Justicia.",
+      "source": "IGJ · Boletín Oficial",
+      "url": "https://www.argentina.gob.ar/justicia/igj",
+      "categories": [
+        "societario"
+      ]
+    },
+    {
+      "date": "Reciente",
+      "title": "Régimen penal económico",
+      "desc": "Actualizaciones en materia penal tributaria y económica.",
+      "source": "Boletín Oficial",
+      "url": "https://www.boletinoficial.gob.ar",
+      "categories": [
         "penal_economico"
       ]
     }
