@@ -13,7 +13,11 @@ export interface Props {
 }
 const { title, description, practice, canonical } = Astro.props;
 const themeClass = practice === 'legal' ? 'theme-legal' : 'theme-accounting';
-const themeColor = practice === 'legal' ? '#142a46' : '#63300f';
+// Color oficial del brandbook (Midnight Slate) — igual para ambas páginas.
+const themeColor = '#242c42';
+
+const base = import.meta.env.BASE_URL;
+const faviconHref = (base.endsWith('/') ? base.slice(0, -1) : base) + '/brand/isotipo.svg';
 ---
 <!doctype html>
 <html lang="es" class={themeClass}>
@@ -44,11 +48,13 @@ const themeColor = practice === 'legal' ? '#142a46' : '#63300f';
       })();
     </script>
 
-    <link rel="icon" type="image/svg+xml" href={`data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='${encodeURIComponent(themeColor)}'/><text x='50%25' y='56%25' font-family='Georgia,serif' font-size='26' font-weight='700' text-anchor='middle' dominant-baseline='middle' fill='%23f4efe5'>PLB</text></svg>`} />
+    <link rel="icon" type="image/svg+xml" href={faviconHref} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <!-- Tipografías oficiales del brandbook: Montserrat (primaria) + Lora (secundaria).
+         PT Sans se usa como mono/técnica para detalles de tipo tick. -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=PT+Sans:wght@400;700&display=swap" />
 
     <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',
@@ -66,12 +72,14 @@ const themeColor = practice === 'legal' ? '#142a46' : '#63300f';
     })} />
   </head>
   <body class="grain">
-    <!-- Preloader -->
+    <!-- Preloader con isotipo oficial del brandbook -->
     <div class="preloader" id="preloader" aria-hidden="true">
-      <svg viewBox="0 0 130 100">
-        <path class="pre-stroke" d="M 10 80 L 10 20 L 28 20 Q 42 20 42 35 Q 42 50 28 50 L 10 50 M 52 20 L 52 80 L 78 80 M 85 80 L 85 20 L 103 20 Q 115 20 115 32 Q 115 44 103 44 L 85 44 Q 118 44 118 62 Q 118 80 85 80"/>
+      <svg viewBox="0 0 1080 1080">
+        <path class="pre-stroke" d="M935.67,0H144.23v1080h791.55l-.1-1080ZM885.48,1029.05H195.16V51.05h690.32v978.01Z"/>
+        <path class="pre-stroke" d="M245.46,956.45l.62-56.23c0-144.32,89.97-237.19,225.4-287.07l363.05-148.71v487.39l-589.08,4.61Z"/>
+        <path class="pre-stroke" d="M834.54,122.38l-1.87,56.23c0,144.32-89.97,237.19-225.4,287.07l-361.8,148.71V126.99l589.08-4.61Z"/>
       </svg>
-      <div class="pre-label">Pantarotto · Lértora · Bardagí</div>
+      <div class="pre-label">Pantarotto Lértora — Legal | Tax Accountants</div>
     </div>
 
     <!-- Skip -->

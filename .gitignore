@@ -21,3 +21,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# brand assets extraídos localmente para referencia (no se publican)
+brand-assets/

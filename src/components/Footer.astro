@@ -23,11 +23,15 @@ const year = new Date().getFullYear();
 
     <div class="grid md:grid-cols-4 gap-10 pt-14 border-t" style="border-color: var(--border)">
       <div>
-        <div class="font-sans text-2xl font-semibold mb-3" style="color: var(--fg)">
-          {site.abbr.a}<span style="color: var(--brand-600)">{site.abbr.b}</span> & Asocs.
+        <div class="flex items-center gap-3 mb-3">
+          <img src={withBase('/brand/isotipo.svg')} alt="" width="36" height="36" />
+          <div class="flex flex-col leading-none">
+            <span class="font-sans text-lg font-semibold" style="color: var(--fg)">Pantarotto Lértora</span>
+            <span class="font-serif italic text-xs mt-1" style="color: var(--fg-muted)">Legal | Tax Accountants</span>
+          </div>
         </div>
         <p class="text-sm leading-relaxed max-w-xs" style="color: var(--fg-muted)">
-          Pantarotto · Lértora · Bardagí<br/>
+          Pantarotto · Lértora · Bardagí & Asocs.<br/>
           Abogados & Contadores Públicos
         </p>
       </div>

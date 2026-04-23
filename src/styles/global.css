@@ -17,61 +17,77 @@
     transition: background 0.4s ease, color 0.4s ease;
   }
   ::selection {
-    background: var(--brand-700);
-    color: #fff;
+    background: var(--slate-700);
+    color: #e9e9f2;
   }
   h1, h2, h3, h4, h5 { font-weight: 700; letter-spacing: -0.02em; }
 }
 
 @layer components {
   /* ═══════════════════════════════════════════════════════════
-     Variables contextuales por tema
+     Paleta oficial del brandbook — aplicada a ambas páginas.
+     Los .theme-legal / .theme-accounting se conservan como hooks
+     por si más adelante queremos diferenciar elementos puntuales,
+     pero las variables de color son iguales en ambos.
      ═══════════════════════════════════════════════════════════ */
-  .theme-legal {
-    /* Fondo navy oscuro — corporativo, serio, con acento azul medio */
-    --bg: #0e1628;
-    --surface: #131c32;
-    --surface-2: #1a253f;
-    --fg: #f5f7fa;
-    --fg-muted: #a3b1c2;
-    --fg-subtle: #6c7a92;
-    --border: #1e2a44;
-
-    /* Marca azul corporativo medio */
-    --brand-50:  theme('colors.legal.50');
-    --brand-100: theme('colors.legal.100');
-    --brand-200: theme('colors.legal.200');
-    --brand-300: theme('colors.legal.300');
-    --brand-400: theme('colors.legal.400');
-    --brand-500: theme('colors.legal.500');
-    --brand-600: theme('colors.legal.600');
-    --brand-700: theme('colors.legal.700');
-    --brand-800: theme('colors.legal.800');
-    --brand-900: theme('colors.legal.900');
-    --brand-950: theme('colors.legal.950');
-  }
+  :root,
+  .theme-legal,
   .theme-accounting {
-    /* Fondo negro, texto blanco — dramático, contraste alto */
-    --bg: #0a0a0a;
-    --surface: #171717;
-    --surface-2: #1f1f1f;
-    --fg: #fafafa;
-    --fg-muted: #d4d4d4;
-    --fg-subtle: #737373;
-    --border: #262626;
+    /* Fondo ice grey — base cool con pigmento azul sutil */
+    --bg: #e9e9f2;
+    --surface: #f3f3fa;
+    --surface-2: #d8d9e5;
+    --fg: #242c42;
+    --fg-muted: #3d4863;
+    --fg-subtle: #5f6a82;
+    --border: #bfc1d1;
 
-    /* Marca naranja pimentón */
-    --brand-50:  theme('colors.ledger.50');
-    --brand-100: theme('colors.ledger.100');
-    --brand-200: theme('colors.ledger.200');
-    --brand-300: theme('colors.ledger.300');
-    --brand-400: theme('colors.ledger.400');
-    --brand-500: theme('colors.ledger.500');
-    --brand-600: theme('colors.ledger.600');
-    --brand-700: theme('colors.ledger.700');
-    --brand-800: theme('colors.ledger.800');
-    --brand-900: theme('colors.ledger.900');
-    --brand-950: theme('colors.ledger.950');
+    /* Midnight Slate — primario (navy profundo con undertone violeta) */
+    --slate-50:  theme('colors.slate.50');
+    --slate-100: theme('colors.slate.100');
+    --slate-200: theme('colors.slate.200');
+    --slate-300: theme('colors.slate.300');
+    --slate-400: theme('colors.slate.400');
+    --slate-500: theme('colors.slate.500');
+    --slate-600: theme('colors.slate.600');
+    --slate-700: theme('colors.slate.700');
+    --slate-800: theme('colors.slate.800');
+    --slate-900: theme('colors.slate.900');
+    --slate-950: theme('colors.slate.950');
+
+    /* Muted Bronze — acento (reemplaza naranja y dorado) */
+    --bronze-50:  theme('colors.bronze.50');
+    --bronze-100: theme('colors.bronze.100');
+    --bronze-200: theme('colors.bronze.200');
+    --bronze-300: theme('colors.bronze.300');
+    --bronze-400: theme('colors.bronze.400');
+    --bronze-500: theme('colors.bronze.500');
+    --bronze-600: theme('colors.bronze.600');
+    --bronze-700: theme('colors.bronze.700');
+
+    /* Ice grey — escala del fondo, útil para surfaces */
+    --ice-50:  theme('colors.ice.50');
+    --ice-100: theme('colors.ice.100');
+    --ice-200: theme('colors.ice.200');
+    --ice-300: theme('colors.ice.300');
+    --ice-400: theme('colors.ice.400');
+    --ice-500: theme('colors.ice.500');
+    --ice-600: theme('colors.ice.600');
+
+    /* Aliases --brand-*: en la paleta unificada el "brand" es el
+       acento Muted Bronze. Se mantienen para no romper el CSS
+       existente que usa var(--brand-*). */
+    --brand-50:  var(--bronze-50);
+    --brand-100: var(--bronze-100);
+    --brand-200: var(--bronze-200);
+    --brand-300: var(--bronze-300);
+    --brand-400: var(--bronze-400);
+    --brand-500: var(--bronze-500);
+    --brand-600: var(--bronze-600);
+    --brand-700: var(--slate-700);
+    --brand-800: var(--slate-800);
+    --brand-900: var(--slate-900);
+    --brand-950: var(--slate-950);
   }
 
   /* Cuando se usa `page-break` con tema opuesto (CrossLink),
@@ -153,21 +169,20 @@
     color: var(--fg-muted);
   }
 
-  /* Botón primario */
+  /* Botón primario — Midnight Slate con hover en Muted Bronze (ambas
+     páginas comparten el mismo estilo bajo la paleta unificada). */
   .btn-editorial {
     @apply inline-flex items-center gap-3 px-7 py-4 text-[0.78rem] font-semibold uppercase tracking-tick transition relative overflow-hidden;
-    color: #fff;
-    background: var(--brand-700);
+    color: #e9e9f2;
+    background: var(--slate-700);
   }
-  .theme-accounting .btn-editorial { color: #0a0a0a; background: var(--brand-400); }
   .btn-editorial::before {
     content: '';
     position: absolute; inset: 0;
-    background: var(--brand-800);
+    background: var(--bronze-500);
     transform: translateY(100%);
     transition: transform .5s cubic-bezier(0.2, 0.6, 0.2, 1);
   }
-  .theme-accounting .btn-editorial::before { background: var(--brand-500); }
   .btn-editorial:hover::before { transform: translateY(0); }
   .btn-editorial > * { position: relative; z-index: 1; }
 
@@ -255,11 +270,10 @@
     background: transparent;
   }
   .timeline-nav-btn:hover {
-    color: #fff;
-    background: var(--brand-700);
-    border-color: var(--brand-700);
+    color: #e9e9f2;
+    background: var(--slate-700);
+    border-color: var(--slate-700);
   }
-  .theme-accounting .timeline-nav-btn:hover { color: #0a0a0a; background: var(--brand-400); border-color: var(--brand-400); }
   .timeline-nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
   /* CrossLink page-break — usa el tema opuesto directamente */
@@ -282,13 +296,13 @@
   .brand-tick { color: var(--fg-subtle); }
   #mob-open { color: var(--fg); }
 
-  /* Todos los botones/links que apuntan al Área Contable usan el mismo
-     tono de naranja (ledger-500) para unificar la identidad visual
-     sin importar desde qué tema se muestren. */
-  .link-accounting { color: #f97316; transition: color .3s; }
-  .link-accounting:hover { color: #ea580c; }
-  nav[data-nav].solid .link-accounting { color: #ea580c; }
-  nav[data-nav].solid .link-accounting:hover { color: #c2410c; }
+  /* Links cross-practice (ir a la otra área del estudio): usan el
+     Muted Bronze (#8C7853) del brandbook como acento refinado.
+     Reemplaza el naranja que teníamos antes. */
+  .link-accounting { color: var(--bronze-500); transition: color .3s; }
+  .link-accounting:hover { color: var(--bronze-600); }
+  nav[data-nav].solid .link-accounting { color: var(--bronze-600); }
+  nav[data-nav].solid .link-accounting:hover { color: var(--bronze-700); }
   .nav-link::after {
     content: ''; position: absolute; left: 0; right: 0; bottom: -6px;
     height: 1px; background: currentColor;
@@ -297,34 +311,30 @@
   }
   .nav-link:hover::after { transform-origin: left; transform: scaleX(1); }
 
-  /* Preloader */
+  /* Preloader — isotipo oficial del brandbook con fade-in */
   .preloader {
     position: fixed; inset: 0;
-    background: #0a0a0a;
+    background: #242c42;
     z-index: 100;
     display: grid; place-items: center;
     transition: opacity .7s ease, visibility .7s;
   }
   .preloader.done { opacity: 0; visibility: hidden; }
-  .preloader svg { width: 84px; height: 84px; }
+  .preloader svg { width: 96px; height: 96px; opacity: 0; animation: fadeIn .8s ease .15s forwards; }
   .preloader .pre-stroke {
-    stroke: var(--brand-400);
-    fill: none;
-    stroke-width: 2;
-    stroke-dasharray: 700;
-    stroke-dashoffset: 700;
-    animation: preDraw 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    fill: #e9e9f2;
+    stroke: none;
   }
-  @keyframes preDraw { to { stroke-dashoffset: 0; } }
   .preloader .pre-label {
     position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-    font-family: theme('fontFamily.mono');
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    color: #737373;
-    text-transform: uppercase;
+    font-family: theme('fontFamily.serif');
+    font-size: 0.75rem;
+    font-style: italic;
+    letter-spacing: 0.08em;
+    color: #8c7853;
     opacity: 0;
     animation: fadeIn .6s ease .9s forwards;
+    white-space: nowrap;
   }
   @keyframes fadeIn { to { opacity: 1; } }
 
@@ -334,17 +344,15 @@
     font-size: clamp(2.4rem, 5vw, 3.5rem);
     line-height: 1;
     letter-spacing: -0.03em;
-    color: var(--brand-700);
+    color: var(--slate-700);
     font-variant-numeric: tabular-nums;
   }
-  .theme-accounting .counter-num { color: var(--brand-400); }
 
   /* Section kicker */
   .section-kicker {
     @apply flex items-center gap-4 text-tick uppercase tracking-tick font-mono mb-6;
-    color: var(--brand-600);
+    color: var(--bronze-500);
   }
-  .theme-accounting .section-kicker { color: var(--brand-400); }
   .section-kicker::before {
     content: ''; width: 48px; height: 1px; background: currentColor;
   }
@@ -399,12 +407,6 @@
     color: var(--brand-600);
     font-family: theme('fontFamily.mono');
   }
-  .theme-accounting .letter-field input:focus + label,
-  .theme-accounting .letter-field input:not(:placeholder-shown) + label,
-  .theme-accounting .letter-field textarea:focus + label,
-  .theme-accounting .letter-field textarea:not(:placeholder-shown) + label,
-  .theme-accounting .letter-field.has-value label { color: var(--brand-400); }
-
   /* ── Overrides para que clases tailwind legacy respeten las variables */
   .bg-paper     { background: var(--bg) !important; }
   .bg-paperDark { background: var(--surface) !important; }
