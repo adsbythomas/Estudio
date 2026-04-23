@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Nav from '@components/Nav.astro';
 import Footer from '@components/Footer.astro';
 import type { Practice } from '@lib/site';
+import { ES_TO_EN, ES_TO_EN_PREFIXES } from '@lib/i18n';
 
 export interface Props {
   title: string;
@@ -30,6 +31,18 @@ const themeColor = practice === 'legal' ? '#142a46' : '#63300f';
     <meta property="og:description" content={description} />
     <meta property="og:locale" content="es_AR" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Setear data-lang en <html> ASAP para evitar flicker del toggle -->
+    <script is:inline>
+      (function () {
+        try {
+          var l = localStorage.getItem('plb-lang') || 'es';
+          document.documentElement.setAttribute('data-lang', l);
+        } catch (e) {
+          document.documentElement.setAttribute('data-lang', 'es');
+        }
+      })();
+    </script>
 
     <link rel="icon" type="image/svg+xml" href={`data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='${encodeURIComponent(themeColor)}'/><text x='50%25' y='56%25' font-family='Georgia,serif' font-size='26' font-weight='700' text-anchor='middle' dominant-baseline='middle' fill='%23f4efe5'>PLB</text></svg>`} />
 
@@ -185,6 +198,108 @@ const themeColor = practice === 'legal' ? '#142a46' : '#63300f';
           if (indexCount) indexCount.textContent = String(i + 1).padStart(2, '0');
         });
       });
+    </script>
+
+    <!-- ═══════════════════════════════════════════════
+         i18n — toggle ES/EN con persistencia en localStorage
+         ═══════════════════════════════════════════════ -->
+    <script is:inline define:vars={{ ES_TO_EN, ES_TO_EN_PREFIXES }}>
+      (function () {
+        var STORAGE_KEY = 'plb-lang';
+        var EN_TO_ES = {};
+        for (var k in ES_TO_EN) {
+          if (Object.prototype.hasOwnProperty.call(ES_TO_EN, k)) {
+            EN_TO_ES[ES_TO_EN[k]] = k;
+          }
+        }
+        var EN_TO_ES_PREFIXES = ES_TO_EN_PREFIXES.map(function (p) { return [p[1], p[0]]; });
+
+        function walkTextNodes(root) {
+          var nodes = [];
+          var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+            acceptNode: function (n) {
+              var p = n.parentElement;
+              if (!p) return NodeFilter.FILTER_REJECT;
+              var tag = p.tagName;
+              if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT') return NodeFilter.FILTER_REJECT;
+              if (p.closest('[data-no-translate]')) return NodeFilter.FILTER_REJECT;
+              if (!n.textContent || !n.textContent.trim()) return NodeFilter.FILTER_REJECT;
+              return NodeFilter.FILTER_ACCEPT;
+            }
+          });
+          var node;
+          while ((node = walker.nextNode())) nodes.push(node);
+          return nodes;
+        }
+
+        function translateString(text, dict, prefixes) {
+          var trimmed = text.trim();
+          if (!trimmed) return null;
+          if (dict[trimmed]) return text.replace(trimmed, dict[trimmed]);
+          for (var i = 0; i < prefixes.length; i++) {
+            var pa = prefixes[i][0];
+            var pb = prefixes[i][1];
+            if (trimmed.indexOf(pa) === 0) {
+              return text.replace(pa, pb);
+            }
+          }
+          return null;
+        }
+
+        var ATTRS = ['aria-label', 'placeholder', 'alt', 'title'];
+
+        function applyLang(lang) {
+          var dict = lang === 'en' ? ES_TO_EN : EN_TO_ES;
+          var prefixes = lang === 'en' ? ES_TO_EN_PREFIXES : EN_TO_ES_PREFIXES;
+
+          // 1) Text nodes
+          var nodes = walkTextNodes(document.body);
+          for (var i = 0; i < nodes.length; i++) {
+            var n = nodes[i];
+            var updated = translateString(n.textContent, dict, prefixes);
+            if (updated !== null) n.textContent = updated;
+          }
+
+          // 2) Atributos comunes
+          for (var a = 0; a < ATTRS.length; a++) {
+            var attr = ATTRS[a];
+            var els = document.querySelectorAll('[' + attr + ']');
+            els.forEach(function (el) {
+              var v = el.getAttribute(attr);
+              if (!v) return;
+              var trimmed = v.trim();
+              if (dict[trimmed]) el.setAttribute(attr, v.replace(trimmed, dict[trimmed]));
+            });
+          }
+
+          // 3) <title>
+          var tt = document.title.trim();
+          if (dict[tt]) document.title = dict[tt];
+
+          // 4) lang attr
+          document.documentElement.setAttribute('lang', lang);
+          document.documentElement.setAttribute('data-lang', lang);
+
+          try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+        }
+
+        // Exponer para el botón toggle
+        window.__applyLang = applyLang;
+
+        // Aplicar el idioma guardado al cargar la página
+        var stored = 'es';
+        try { stored = localStorage.getItem(STORAGE_KEY) || 'es'; } catch (e) {}
+        if (stored === 'en') applyLang('en');
+        else document.documentElement.setAttribute('data-lang', 'es');
+
+        // Wire del botón de toggle
+        document.querySelectorAll('[data-lang-toggle]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var current = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'es';
+            applyLang(current === 'en' ? 'es' : 'en');
+          });
+        });
+      })();
     </script>
   </body>
 </html>
