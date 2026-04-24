@@ -307,4 +307,91 @@ export const responseRoutes: Record<string, ResultRoute> = {
     documents: ['accounting_statements'],
     advice: 'Asesoramos en contabilidad internacional y consolidación NIIF. Traiga información de operaciones en otros países.',
   },
+
+  // Rutas del sub-paso de estados contables
+  'accounting-annual': {
+    contactKey: 'accounting',
+    documents: ['accounting_statements'],
+    advice: 'Preparamos estados contables anuales completos. Traiga sus registros contables del año cerrado y la última DDJJ.',
+  },
+  'accounting-interim': {
+    contactKey: 'accounting',
+    documents: ['accounting_statements'],
+    advice: 'Elaboramos estados contables intermedios — trimestrales o semestrales. Traiga sus registros contables del período.',
+  },
+  'accounting-audit-states': {
+    contactKey: 'accounting',
+    documents: ['accounting_audit'],
+    advice: 'Auditamos estados financieros bajo normas profesionales. Prepare sus estados contables y la documentación de respaldo.',
+  },
+
+  // Rutas del sub-paso societario
+  'legal-corp-ma': {
+    contactKey: 'bardagi',
+    documents: ['legal_corporate'],
+    advice: 'Asesoramos fusiones, adquisiciones y due diligence. Traiga el estatuto y documentación de la transacción propuesta.',
+  },
+  'legal-corp-governance': {
+    contactKey: 'bardagi',
+    documents: ['legal_corporate'],
+    advice: 'Atendemos gobierno corporativo y estructura de órganos sociales. Prepare estatuto, actas y estructura actual.',
+  },
+  'legal-corp-agreements': {
+    contactKey: 'bardagi',
+    documents: ['legal_corporate'],
+    advice: 'Redactamos y revisamos acuerdos de accionistas. Traiga el estatuto y el acuerdo propuesto o existente.',
+  },
+  'legal-corp-other': {
+    contactKey: 'bardagi',
+    documents: ['legal_corporate'],
+    advice: 'Atendemos toda cuestión societaria. Traiga el estatuto y documentación relevante de su caso.',
+  },
+
+  // Rutas del sub-paso laboral
+  'legal-labor-individual': {
+    contactKey: 'lertora',
+    documents: ['legal_labor'],
+    advice: 'Manejamos conflictos laborales individuales. Traiga el contrato del empleado, recibos de sueldo y comunicaciones.',
+  },
+  'legal-labor-collective': {
+    contactKey: 'lertora',
+    documents: ['legal_labor'],
+    advice: 'Asesoramos en negociación sindical y conflictos colectivos. Traiga el convenio aplicable y documentación gremial.',
+  },
+  'legal-labor-restructuring': {
+    contactKey: 'lertora',
+    documents: ['legal_labor'],
+    advice: 'Estructuramos reducciones o reorganizaciones de personal. Traiga nómina, contratos y situación económica de la empresa.',
+  },
+
+  // Rutas del sub-paso aduanero
+  'legal-trade-customs': {
+    contactKey: 'pantarotto',
+    documents: ['legal_trade'],
+    advice: 'Defendemos en penal aduanero e infracciones. Traiga toda notificación de la DGA y documentación de las operaciones.',
+  },
+  'legal-trade-imex': {
+    contactKey: 'pantarotto',
+    documents: ['legal_trade'],
+    advice: 'Asesoramos en importación y exportación. Traiga documentos aduaneros y licencias de operación.',
+  },
+  'legal-trade-afip': {
+    contactKey: 'pantarotto',
+    documents: ['legal_trade'],
+    advice: 'Representamos ante AFIP-DGA. Traiga toda correspondencia y notificaciones de la autoridad aduanera.',
+  },
+
+  // Rutas del sub-paso tributario "otra"
+  'legal-tax-other': {
+    contactKey: 'pantarotto',
+    documents: ['legal_tax'],
+    advice: 'Atendemos toda consulta tributaria. Traiga sus últimas DDJJ y documentación contable para analizar su situación.',
+  },
+
+  // Ruta para casos no específicos
+  'legal-unspecified': {
+    contactKey: 'pantarotto',
+    documents: ['legal_tax'],
+    advice: 'En la primera reunión evaluamos su situación y lo derivamos al especialista correcto. Traiga toda documentación que considere relevante.',
+  },
 };
