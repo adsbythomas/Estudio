@@ -17,6 +17,8 @@ const kicker = practice === 'legal' ? 'Abogados · Buenos Aires' : 'Contadores P
 const base = import.meta.env.BASE_URL;
 const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
 const isoSrc = withBase(practice === 'legal' ? '/brand/isotipo-white.svg' : '/brand/isotipo.svg');
+const questionnairePath = practice === 'legal' ? withBase('/automatizacion') : withBase('/automatizacion-contable');
+const questionnaireLabel = practice === 'legal' ? 'Responda nuestro cuestionario' : 'Responda nuestro cuestionario';
 ---
 <section class="relative overflow-hidden min-h-[90svh] flex items-center" data-hero>
   <!-- Obelisco decorativo único, a la derecha -->
@@ -70,8 +72,8 @@ const isoSrc = withBase(practice === 'legal' ? '/brand/isotipo-white.svg' : '/br
       <a href="#contacto" class="btn-editorial">
         <span>{ctaPrimary}</span>
       </a>
-      <a href="#practica" class="btn-outline">
-        <span>Ver áreas de práctica</span>
+      <a href={questionnairePath} class="btn-outline">
+        <span>{questionnaireLabel}</span>
       </a>
     </div>
 
