@@ -10,94 +10,400 @@ export interface Props {
 }
 const { label, title, titleAccent, desc, formAreas, formAreaLabel } = Astro.props;
 ---
-<section id="contacto" class="relative py-28 md:py-32 reveal border-t border-ink-200">
-  <div class="shell grid md:grid-cols-[1fr_1.2fr] gap-16 md:gap-24">
-    <!-- Lado izquierdo — datos de contacto -->
-    <div>
+<section id="contacto" class="relative py-28 md:py-32 reveal" style="border-top: 1px solid var(--border);">
+  <div class="shell">
+    <!-- Encabezado -->
+    <div class="max-w-3xl mb-16 md:mb-20">
       <div class="section-kicker"><span>{label}</span></div>
 
-      <h2 class="font-sans font-bold text-cover text-ink-900 leading-[1.05] mb-8">
-        <span class="stack-line inline-block" data-stack-line><span>{title} <span style="color: var(--brand-700)">{titleAccent}</span>.</span></span>
+      <h2 class="font-sans font-bold leading-[1.05] mb-8 tracking-tight"
+          style="font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--fg);">
+        <span class="stack-line inline-block" data-stack-line>
+          <span>{title} <span style="color: var(--bronze-500)">{titleAccent}</span>.</span>
+        </span>
       </h2>
 
-      <p class="text-[1.05rem] md:text-[1.15rem] text-ink-600 leading-relaxed max-w-md mb-10">
+      <p class="text-[1.05rem] md:text-[1.2rem] leading-relaxed max-w-2xl" style="color: var(--fg-muted);">
         {desc}
       </p>
-
-      <dl class="grid gap-6 text-[0.95rem]">
-        <div>
-          <dt class="font-mono text-tick uppercase tracking-tick text-ink-400 mb-2">Dirección</dt>
-          <dd class="text-ink-800 leading-snug">
-            {site.address.line1}<br/>
-            {site.address.line2}<br/>
-            <span class="text-ink-500">{site.address.postalCode} · {site.address.city}</span>
-          </dd>
-        </div>
-        <div>
-          <dt class="font-mono text-tick uppercase tracking-tick text-ink-400 mb-2">Horario</dt>
-          <dd class="text-ink-800">{site.hours}</dd>
-        </div>
-        <div>
-          <dt class="font-mono text-tick uppercase tracking-tick text-ink-400 mb-2">Sedes</dt>
-          <dd class="text-ink-800">{site.offices.join(' · ')}</dd>
-        </div>
-        <div>
-          <dt class="font-mono text-tick uppercase tracking-tick text-ink-400 mb-2">Canales</dt>
-          <dd class="text-ink-800">
-            <a href={site.linkedin} class="ink-link" target="_blank" rel="noopener">LinkedIn</a> · <span>Email vía formulario</span>
-          </dd>
-        </div>
-      </dl>
     </div>
 
-    <!-- Lado derecho — formulario -->
-    <form data-contact class="letter-form self-start" novalidate>
-      <p class="text-sm uppercase tracking-tick font-mono text-ink-500 mb-2">
-        Formulario de consulta
-      </p>
+    <!-- Grid principal: info + formulario -->
+    <div class="grid md:grid-cols-[1fr_1.35fr] gap-10 md:gap-16 mb-16 md:mb-20">
+      <!-- Columna izquierda: Info cards -->
+      <div class="flex flex-col gap-4">
+        <!-- Card Dirección -->
+        <a href="https://www.google.com/maps/search/?api=1&query=Av.+Corrientes+1464,+CABA"
+           target="_blank" rel="noopener" class="contact-card group">
+          <div class="contact-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div class="contact-card-body">
+            <span class="contact-card-label">Oficina</span>
+            <strong>{site.address.line1}</strong>
+            <span>{site.address.line2}</span>
+            <span class="text-sm opacity-70">{site.address.postalCode} · {site.address.city}</span>
+          </div>
+          <div class="contact-card-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17L17 7M7 7h10v10"/>
+            </svg>
+          </div>
+        </a>
 
-      <div class="letter-field">
-        <input id="f-name" name="name" type="text" required placeholder=" " autocomplete="name"/>
-        <label for="f-name">Nombre completo</label>
-      </div>
-
-      <div class="letter-field">
-        <input id="f-company" name="company" type="text" placeholder=" " autocomplete="organization"/>
-        <label for="f-company">Empresa u organización</label>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-8">
-        <div class="letter-field">
-          <input id="f-email" name="email" type="email" required placeholder=" " autocomplete="email"/>
-          <label for="f-email">Email</label>
+        <!-- Card Horario -->
+        <div class="contact-card">
+          <div class="contact-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="contact-card-body">
+            <span class="contact-card-label">Horario</span>
+            <strong>Lunes a viernes</strong>
+            <span>9:00 a 18:00 hs.</span>
+          </div>
         </div>
-        <div class="letter-field">
-          <input id="f-phone" name="phone" type="tel" placeholder=" " autocomplete="tel"/>
-          <label for="f-phone">Teléfono</label>
+
+        <!-- Card Sedes -->
+        <div class="contact-card">
+          <div class="contact-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <div class="contact-card-body">
+            <span class="contact-card-label">Sedes</span>
+            <strong>{site.offices.join(' · ')}</strong>
+            <span class="text-sm opacity-70">Corresponsales internacionales</span>
+          </div>
         </div>
+
+        <!-- Card LinkedIn -->
+        <a href={site.linkedin} target="_blank" rel="noopener" class="contact-card group">
+          <div class="contact-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </div>
+          <div class="contact-card-body">
+            <span class="contact-card-label">LinkedIn</span>
+            <strong>Seguinos</strong>
+            <span class="text-sm opacity-70">Actualizaciones y novedades</span>
+          </div>
+          <div class="contact-card-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17L17 7M7 7h10v10"/>
+            </svg>
+          </div>
+        </a>
       </div>
 
-      <div class="letter-field has-value">
-        <select id="f-area" name="area" required>
-          <option value="" disabled selected>Seleccione una opción</option>
-          {formAreas.map((a) => <option>{a}</option>)}
-        </select>
-        <label for="f-area">{formAreaLabel}</label>
+      <!-- Columna derecha: Formulario -->
+      <form data-contact class="contact-form" novalidate>
+        <div class="contact-form-header">
+          <span class="font-mono text-[0.72rem] uppercase tracking-[0.3em]" style="color: var(--bronze-500);">Formulario seguro</span>
+          <h3 class="font-sans font-semibold mt-2" style="font-size: 1.35rem; color: var(--fg);">Cuéntenos su caso</h3>
+        </div>
+
+        <div class="letter-field">
+          <input id="f-name" name="name" type="text" required placeholder=" " autocomplete="name"/>
+          <label for="f-name">Nombre completo</label>
+        </div>
+
+        <div class="letter-field">
+          <input id="f-company" name="company" type="text" placeholder=" " autocomplete="organization"/>
+          <label for="f-company">Empresa u organización</label>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+          <div class="letter-field">
+            <input id="f-email" name="email" type="email" required placeholder=" " autocomplete="email"/>
+            <label for="f-email">Email</label>
+          </div>
+          <div class="letter-field">
+            <input id="f-phone" name="phone" type="tel" placeholder=" " autocomplete="tel"/>
+            <label for="f-phone">Teléfono</label>
+          </div>
+        </div>
+
+        <div class="letter-field has-value">
+          <select id="f-area" name="area" required>
+            <option value="" disabled selected>Seleccione una opción</option>
+            {formAreas.map((a) => <option>{a}</option>)}
+          </select>
+          <label for="f-area">{formAreaLabel}</label>
+        </div>
+
+        <div class="letter-field">
+          <textarea id="f-message" name="message" required rows="4" placeholder=" "></textarea>
+          <label for="f-message">Mensaje</label>
+        </div>
+
+        <div class="contact-form-footer">
+          <button type="submit" class="btn-editorial">
+            <span>Enviar consulta</span>
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M1 5h14M11 1l4 4-4 4"/>
+            </svg>
+          </button>
+
+          <div class="flex items-center gap-2 text-sm" style="color: var(--fg-muted);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <span>Confidencial · 24h hábiles</span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Mapa de Google embebido -->
+    <div class="contact-map-wrapper">
+      <div class="contact-map-header">
+        <div>
+          <span class="font-mono text-[0.72rem] uppercase tracking-[0.3em]" style="color: var(--bronze-500);">Ubicación</span>
+          <h3 class="font-sans font-semibold mt-2" style="font-size: 1.35rem; color: var(--fg);">
+            {site.address.line1}, {site.address.line2}
+          </h3>
+        </div>
+        <a href="https://www.google.com/maps/search/?api=1&query=Pantarotto+Lertora+Bardagi+Av+Corrientes+1464"
+           target="_blank" rel="noopener" class="contact-map-cta">
+          <span>Cómo llegar</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
       </div>
-
-      <div class="letter-field">
-        <textarea id="f-message" name="message" required rows="4" placeholder=" "></textarea>
-        <label for="f-message">Mensaje</label>
+      <div class="contact-map-iframe">
+        <iframe
+          src={site.mapsEmbed}
+          width="100%"
+          height="100%"
+          style="border:0;"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Ubicación del estudio en Google Maps"
+        ></iframe>
       </div>
-
-      <button type="submit" class="btn-editorial self-start mt-4">
-        <span>Enviar consulta</span>
-        <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 5h14M11 1l4 4-4 4"/></svg>
-      </button>
-
-      <p class="text-ink-500 text-sm leading-relaxed mt-2">
-        Respondemos dentro de las 24 horas hábiles. Toda consulta es confidencial.
-      </p>
-    </form>
+    </div>
   </div>
 </section>
+
+<style>
+  /* ═══════════════════════════════════════════════
+     Cards de información de contacto
+     ═══════════════════════════════════════════════ */
+  .contact-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--fg);
+    text-decoration: none;
+    transition: all 0.35s cubic-bezier(0.2, 0.6, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--bronze-500);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.35s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+
+  a.contact-card:hover,
+  a.contact-card:focus-visible {
+    border-color: var(--bronze-500);
+    transform: translateX(4px);
+  }
+
+  a.contact-card:hover::before,
+  a.contact-card:focus-visible::before {
+    transform: scaleY(1);
+  }
+
+  .contact-card-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(128, 128, 128, 0.08);
+    color: var(--bronze-500);
+    flex-shrink: 0;
+    transition: all 0.35s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+
+  a.contact-card:hover .contact-card-icon {
+    background: var(--bronze-500);
+    color: var(--bg);
+  }
+
+  .contact-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .contact-card-label {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bronze-500);
+    margin-bottom: 0.4rem;
+  }
+
+  .contact-card-body strong {
+    font-weight: 600;
+    color: var(--fg);
+    font-size: 0.95rem;
+  }
+
+  .contact-card-body span {
+    font-size: 0.88rem;
+    color: var(--fg-muted);
+    line-height: 1.45;
+  }
+
+  .contact-card-arrow {
+    color: var(--fg-muted);
+    opacity: 0.5;
+    transition: all 0.35s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+
+  a.contact-card:hover .contact-card-arrow {
+    opacity: 1;
+    color: var(--bronze-500);
+    transform: translate(2px, -2px);
+  }
+
+  /* ═══════════════════════════════════════════════
+     Formulario mejorado
+     ═══════════════════════════════════════════════ */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 2rem 2rem 2.25rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: rgba(128, 128, 128, 0.025);
+    backdrop-filter: blur(2px);
+  }
+
+  .contact-form-header {
+    margin-bottom: 0.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .contact-form-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 1.75rem;
+    margin-top: 0.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ═══════════════════════════════════════════════
+     Mapa de Google
+     ═══════════════════════════════════════════════ */
+  .contact-map-wrapper {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(128, 128, 128, 0.025);
+  }
+
+  .contact-map-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .contact-map-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1.2rem;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bronze-500);
+    border: 1px solid var(--bronze-500);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+
+  .contact-map-cta:hover {
+    background: var(--bronze-500);
+    color: var(--bg);
+  }
+
+  .contact-map-cta:hover svg {
+    transform: translateX(2px);
+  }
+
+  .contact-map-cta svg {
+    transition: transform 0.3s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+
+  .contact-map-iframe {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    background: var(--bg);
+  }
+
+  /* El iframe de Google Maps tiene fondo blanco por defecto — cuando el tema
+     es oscuro, aplicamos un filter sutil para que combine mejor sin romper
+     la usabilidad del mapa. */
+  :global(.theme-legal) .contact-map-iframe iframe {
+    filter: invert(0.88) hue-rotate(180deg) saturate(0.85);
+  }
+
+  @media (max-width: 768px) {
+    .contact-form {
+      padding: 1.5rem 1.25rem 1.75rem;
+    }
+    .contact-map-header {
+      padding: 1.25rem 1.5rem;
+    }
+    .contact-map-iframe {
+      height: 320px;
+    }
+  }
+</style>
