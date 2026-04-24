@@ -203,8 +203,20 @@ const firstQuestion = questions.find(q => q.id.endsWith('-start'));
       }
     }
 
+    function resolveRoute(answerId) {
+      if (responseRoutes[answerId]) return responseRoutes[answerId];
+      // Fallback: buscar por prefijo más largo que matchee
+      const parts = answerId.split('-');
+      while (parts.length > 1) {
+        parts.pop();
+        const candidate = parts.join('-');
+        if (responseRoutes[candidate]) return responseRoutes[candidate];
+      }
+      return null;
+    }
+
     function showResults(finalAnswerId) {
-      const route = responseRoutes[finalAnswerId];
+      const route = resolveRoute(finalAnswerId);
 
       if (!route) {
         resultsContainer.innerHTML =
