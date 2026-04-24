@@ -8,6 +8,7 @@ import Timeline from '@components/Timeline.astro';
 import News from '@components/News.astro';
 import CrossLink from '@components/CrossLink.astro';
 import Contact from '@components/Contact.astro';
+import Scheduler from '@components/Scheduler.astro';
 import { legal } from '@lib/legal';
 
 const base = import.meta.env.BASE_URL;
@@ -59,6 +60,13 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
   />
 
   <News practice="legal" label="Novedades" title="Radar normativo" />
+
+  <Scheduler
+    practice="legal"
+    calUsername="pantarotto-lertora-bardagi"
+    calEvent="consulta-inicial"
+    duration="30 minutos"
+  />
 
   <Contact
     label={legal.contact.label}

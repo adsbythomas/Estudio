@@ -1,0 +1,335 @@
+---
+import type { Practice } from '@lib/site';
+
+export interface Props {
+  practice: Practice;
+  /** Username/equipo en Cal.com — reemplazar con el real */
+  calUsername?: string;
+  /** Slug del tipo de reunión (ej: '30min', 'consulta-inicial') */
+  calEvent?: string;
+  /** Duración visible (solo informativo) */
+  duration?: string;
+}
+
+const {
+  practice,
+  calUsername = 'pantarotto-lertora-bardagi',
+  calEvent = 'consulta-inicial',
+  duration = '30 minutos',
+} = Astro.props;
+
+const calLink = `${calUsername}/${calEvent}`;
+const namespace = calEvent.replace(/[^a-zA-Z0-9]/g, '');
+const themeKey = practice === 'legal' ? 'dark' : 'light';
+---
+
+<section id="agenda" class="relative py-16 md:py-20 reveal" style="border-top: 1px solid var(--border);">
+  <div class="shell">
+    <!-- Encabezado -->
+    <div class="max-w-3xl mb-10 md:mb-14">
+      <div class="section-kicker"><span>Agenda</span></div>
+
+      <h2 class="font-sans font-bold leading-[1.05] mb-6 tracking-tight"
+          style="font-size: clamp(1.7rem, 3.8vw, 2.6rem); color: var(--fg);">
+        <span class="stack-line inline-block" data-stack-line>
+          <span>Reserve una <span style="color: var(--bronze-500)">reunión</span>.</span>
+        </span>
+      </h2>
+
+      <p class="text-[0.95rem] md:text-[1.05rem] leading-relaxed max-w-2xl" style="color: var(--fg-muted);">
+        Seleccione el día y horario que mejor se ajuste. Recibirá confirmación por email
+        con el enlace de videollamada o la dirección presencial.
+      </p>
+    </div>
+
+    <!-- Grid: info + scheduler -->
+    <div class="grid md:grid-cols-[0.75fr_1.5fr] gap-8 md:gap-12">
+      <!-- Columna info: qué esperar de la reunión -->
+      <aside class="flex flex-col gap-4">
+        <div class="scheduler-info-card">
+          <div class="scheduler-info-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div>
+            <span class="scheduler-info-label">Duración</span>
+            <strong>{duration}</strong>
+            <span>Tiempo destinado exclusivamente a su caso</span>
+          </div>
+        </div>
+
+        <div class="scheduler-info-card">
+          <div class="scheduler-info-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <div>
+            <span class="scheduler-info-label">Confirmación</span>
+            <strong>Inmediata por email</strong>
+            <span>Con invitación al calendario</span>
+          </div>
+        </div>
+
+        <div class="scheduler-info-card">
+          <div class="scheduler-info-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 7l-7 5 7 5V7z"/>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+            </svg>
+          </div>
+          <div>
+            <span class="scheduler-info-label">Modalidad</span>
+            <strong>Videollamada o presencial</strong>
+            <span>Usted elige al reservar</span>
+          </div>
+        </div>
+
+        <div class="scheduler-info-card">
+          <div class="scheduler-info-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <div>
+            <span class="scheduler-info-label">Confidencialidad</span>
+            <strong>Secreto profesional</strong>
+            <span>Toda conversación es reservada</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Columna scheduler: widget Cal.com embebido -->
+      <div class="scheduler-widget">
+        <div class="scheduler-widget-loading" data-cal-loading>
+          <div class="scheduler-spinner"></div>
+          <span>Cargando disponibilidad…</span>
+        </div>
+        <div id={`cal-inline-${namespace}`} class="cal-inline-root"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .scheduler-info-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: 1rem;
+    padding: 1.1rem 1.25rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: all 0.35s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+
+  .scheduler-info-card:hover {
+    border-color: var(--bronze-500);
+  }
+
+  .scheduler-info-icon {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(128, 128, 128, 0.08);
+    color: var(--bronze-500);
+    flex-shrink: 0;
+  }
+
+  .scheduler-info-label {
+    display: block;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bronze-500);
+    margin-bottom: 0.35rem;
+  }
+
+  .scheduler-info-card strong {
+    display: block;
+    font-weight: 600;
+    color: var(--fg);
+    font-size: 0.92rem;
+    line-height: 1.3;
+    margin-bottom: 0.15rem;
+  }
+
+  .scheduler-info-card span:not(.scheduler-info-label) {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--fg-muted);
+    line-height: 1.4;
+  }
+
+  /* ═══════════════════════════════════════════════
+     Widget Cal.com — integración visual con el tema
+     ═══════════════════════════════════════════════ */
+  .scheduler-widget {
+    position: relative;
+    min-height: 620px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: rgba(128, 128, 128, 0.025);
+    overflow: hidden;
+  }
+
+  .scheduler-widget-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--fg-muted);
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .scheduler-widget-loading.hidden {
+    opacity: 0;
+  }
+
+  .scheduler-spinner {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--border);
+    border-top-color: var(--bronze-500);
+    border-radius: 50%;
+    animation: spin 0.85s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .cal-inline-root {
+    width: 100%;
+    min-height: 620px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Overrides del iframe de Cal para que no rompa el layout */
+  .cal-inline-root iframe {
+    border: 0;
+    width: 100% !important;
+    min-height: 620px;
+  }
+
+  @media (max-width: 768px) {
+    .scheduler-widget,
+    .cal-inline-root,
+    .cal-inline-root iframe {
+      min-height: 560px;
+    }
+  }
+</style>
+
+<script define:vars={{ calLink, namespace, themeKey }}>
+  (function () {
+    const rootId = 'cal-inline-' + namespace;
+    const loading = document.querySelector('[data-cal-loading]');
+
+    // Bootstrap oficial de Cal.com
+    (function (C, A, L) {
+      let p = function (a, ar) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let cal = C.Cal;
+        let ar = arguments;
+        if (!cal.loaded) {
+          cal.ns = {};
+          cal.q = cal.q || [];
+          d.head.appendChild(d.createElement('script')).src = A;
+          cal.loaded = true;
+        }
+        if (ar[0] === L) {
+          const api = function () { p(api, arguments); };
+          const nsName = ar[1];
+          api.q = api.q || [];
+          if (typeof nsName === 'string') {
+            cal.ns[nsName] = cal.ns[nsName] || api;
+            p(cal.ns[nsName], ar);
+            p(cal, ['initNamespace', nsName]);
+          } else {
+            p(cal, ar);
+          }
+          return;
+        }
+        p(cal, ar);
+      };
+    })(window, 'https://app.cal.com/embed/embed.js', 'init');
+
+    window.Cal('init', namespace, { origin: 'https://cal.com' });
+
+    window.Cal.ns[namespace]('inline', {
+      elementOrSelector: '#' + rootId,
+      config: {
+        layout: 'month_view',
+        theme: themeKey,
+      },
+      calLink: calLink,
+    });
+
+    // Theming custom — paleta brand del estudio
+    window.Cal.ns[namespace]('ui', {
+      theme: themeKey,
+      hideEventTypeDetails: false,
+      layout: 'month_view',
+      cssVarsPerTheme: {
+        light: {
+          'cal-brand': '#8c7853',
+          'cal-text': '#242c42',
+          'cal-text-emphasis': '#0a0d17',
+          'cal-border': '#d8d9e5',
+          'cal-border-subtle': '#e9e9f2',
+          'cal-bg': '#e9e9f2',
+          'cal-bg-emphasis': '#ffffff',
+        },
+        dark: {
+          'cal-brand': '#c5a77f',
+          'cal-text': '#e9e9f2',
+          'cal-text-emphasis': '#ffffff',
+          'cal-border': '#3d4863',
+          'cal-border-subtle': '#2e3750',
+          'cal-bg': '#242c42',
+          'cal-bg-emphasis': '#1a2033',
+        },
+      },
+      styles: {
+        branding: { brandColor: '#8c7853' },
+      },
+    });
+
+    // Esconder loader cuando el iframe arranque
+    const observer = new MutationObserver(function (mutations) {
+      for (const m of mutations) {
+        for (const node of m.addedNodes) {
+          if (node.nodeName === 'IFRAME' && loading) {
+            setTimeout(function () { loading.classList.add('hidden'); }, 400);
+            observer.disconnect();
+            return;
+          }
+        }
+      }
+    });
+    const target = document.getElementById(rootId);
+    if (target) observer.observe(target, { childList: true, subtree: true });
+  })();
+</script>
