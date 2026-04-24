@@ -202,7 +202,7 @@
      - Contable (fondo ice): botón navy con texto ice grey
      Hover reveal en Muted Bronze para ambos. */
   .btn-editorial {
-    @apply inline-flex items-center gap-3 px-7 py-4 text-[0.78rem] font-semibold uppercase tracking-tick transition relative overflow-hidden;
+    @apply inline-flex items-center gap-2 px-5 py-3 text-[0.72rem] font-semibold uppercase tracking-tick transition relative overflow-hidden;
     color: var(--bg);
     background: var(--fg);
   }

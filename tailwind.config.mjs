@@ -80,9 +80,9 @@ export default {
       },
       fontSize: {
         'tick': ['0.72rem', { lineHeight: '1', letterSpacing: '0.18em' }],
-        'monument': ['clamp(2.6rem, 8vw, 6.5rem)', { lineHeight: '1.02', letterSpacing: '-0.03em' }],
-        'cover':    ['clamp(2rem, 5vw, 4rem)',    { lineHeight: '1.08', letterSpacing: '-0.02em' }],
-        'editorial':['clamp(1.6rem, 2.6vw, 2.4rem)', { lineHeight: '1.2', letterSpacing: '-0.015em' }],
+        'monument': ['clamp(2rem, 5.5vw, 4.5rem)', { lineHeight: '1.05', letterSpacing: '-0.03em' }],
+        'cover':    ['clamp(1.5rem, 3.8vw, 2.6rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+        'editorial':['clamp(1.3rem, 2.2vw, 1.9rem)', { lineHeight: '1.2', letterSpacing: '-0.015em' }],
       },
       letterSpacing: {
         tick: '0.22em',
