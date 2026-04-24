@@ -8,7 +8,7 @@ export interface Props {
 }
 const { label, title, sub, items } = Astro.props;
 ---
-<section id="practica" class="relative py-28 md:py-32 reveal">
+<section id="practica" class="relative py-16 md:py-20 reveal">
   <div class="shell grid md:grid-cols-[1fr_1.8fr] gap-12 md:gap-20">
     <!-- Columna sticky editorial — sin caja, solo tipografía + contador gigante -->
     <aside class="md:sticky md:top-28 self-start">
@@ -19,16 +19,16 @@ const { label, title, sub, items } = Astro.props;
       <p class="leading-relaxed max-w-md mb-10" style="color: var(--fg-muted);">{sub}</p>
 
       <!-- Contador gigante + área activa -->
-      <div class="hidden md:flex items-baseline gap-6 pt-6 border-t" style="border-color: var(--border);">
+      <div class="hidden md:flex items-baseline gap-5 pt-5 border-t" style="border-color: var(--border);">
         <div class="font-sans font-bold leading-none"
-             style="font-size: clamp(4.5rem, 9vw, 7rem); color: var(--brand-500);">
+             style="font-size: clamp(3rem, 6vw, 4.5rem); color: var(--brand-500);">
           <span data-index-count>01</span>
         </div>
         <div class="flex-1 min-w-0">
           <div class="font-mono text-tick uppercase tracking-tick mb-1" style="color: var(--fg-subtle);">
             de {String(items.length).padStart(2, '0')}
           </div>
-          <div class="font-sans font-semibold text-[1.4rem] leading-tight transition-colors duration-300" data-area-name style="color: var(--fg);">
+          <div class="font-sans font-semibold text-[1.1rem] leading-tight transition-colors duration-300" data-area-name style="color: var(--fg);">
             {items[0].name}
           </div>
         </div>

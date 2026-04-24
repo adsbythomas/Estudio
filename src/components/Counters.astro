@@ -14,7 +14,7 @@ export interface Props {
 }
 const { items, label = 'En cifras', title = 'El estudio en números', sub } = Astro.props;
 ---
-<section class="reveal py-20 md:py-28 border-y" style="border-color: var(--border);">
+<section class="reveal py-14 md:py-18 border-y" style="border-color: var(--border);">
   <div class="shell">
     <!-- Header -->
     <header class="mb-16 max-w-2xl">
@@ -87,7 +87,7 @@ const { items, label = 'En cifras', title = 'El estudio en números', sub } = As
           <!-- Texto -->
           <div class="flex-1 min-w-0">
             <div class="flex items-baseline gap-3 mb-2">
-              <span class="counter-num" style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1" data-counter data-target={c.num.replace(/\D/g, '')}>
+              <span class="counter-num" style="font-size: clamp(1.9rem, 3.8vw, 3rem); line-height: 1" data-counter data-target={c.num.replace(/\D/g, '')}>
                 <span data-counter-val>0</span>{c.suffix || ''}
               </span>
             </div>

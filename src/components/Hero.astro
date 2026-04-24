@@ -20,39 +20,32 @@ const isoSrc = withBase(practice === 'legal' ? '/brand/isotipo-white.svg' : '/br
 const questionnairePath = practice === 'legal' ? withBase('/automatizacion') : withBase('/automatizacion-contable');
 const questionnaireLabel = practice === 'legal' ? 'Responda nuestro cuestionario' : 'Responda nuestro cuestionario';
 ---
-<section class="relative overflow-hidden min-h-[90svh] flex items-center" data-hero>
+<section class="relative overflow-hidden flex items-center" data-hero style="min-height: calc(100svh - 4rem);">
   <!-- Obelisco decorativo único, a la derecha -->
-  <div class="hidden lg:block absolute right-6 xl:right-16 top-1/2 -translate-y-1/2 z-0 w-[140px] xl:w-[170px] pointer-events-none opacity-[0.45]"
+  <div class="hidden lg:block absolute right-6 xl:right-16 top-1/2 -translate-y-1/2 z-0 w-[90px] xl:w-[110px] pointer-events-none opacity-[0.4]"
        style="color: var(--brand-500);" data-parallax data-parallax-speed="0.15">
     <Obelisco />
   </div>
 
   <!-- Contenido centrado -->
-  <div class="shell relative z-10 py-32 md:py-40 w-full text-center">
-    <!-- Isotipo + wordmark oficial -->
-    <div class="mb-6 flex flex-col items-center">
-      <img src={isoSrc} alt="Pantarotto Lértora Bardagí" width="92" height="92" class="mb-5" />
-      <h2 class="font-sans font-bold tracking-tight"
-          style="font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--fg); line-height: 1;">
-        Pantarotto Lértora Bardagí
-      </h2>
-      <span class="font-serif italic mt-3" style="color: var(--fg-muted); font-size: clamp(0.95rem, 1.3vw, 1.1rem);">
-        Legal | Tax Accountants
-      </span>
+  <div class="shell relative z-10 py-10 md:py-14 w-full text-center">
+    <!-- Isotipo (sin wordmark duplicado — ya está en el nav) -->
+    <div class="mb-4 flex justify-center">
+      <img src={isoSrc} alt="Pantarotto Lértora Bardagí" width="52" height="52" />
     </div>
 
     <!-- Tagline con underline -->
-    <div class="mb-14 md:mb-20 inline-flex flex-col items-center">
-      <span class="font-mono text-[0.8rem] md:text-[0.9rem] uppercase tracking-[0.3em] font-medium"
+    <div class="mb-6 md:mb-8 inline-flex flex-col items-center">
+      <span class="font-mono text-[0.68rem] md:text-[0.75rem] uppercase tracking-[0.28em] font-medium"
             style="color: var(--bronze-500)">
         {kicker}
       </span>
-      <span class="mt-4 block w-12 h-px" style="background: var(--bronze-500)"></span>
+      <span class="mt-2 block w-8 h-px" style="background: var(--bronze-500)"></span>
     </div>
 
     <!-- Título grande en 2 líneas, centrado -->
-    <h1 class="font-sans font-bold leading-[1.08] tracking-tight max-w-[1100px] mx-auto mb-10"
-        style="font-size: clamp(2.2rem, 5.5vw, 4.5rem); color: var(--fg);">
+    <h1 class="font-sans font-bold leading-[1.1] tracking-tight max-w-[820px] mx-auto mb-5"
+        style="font-size: clamp(1.5rem, 3.6vw, 2.6rem); color: var(--fg);">
       <span class="stack-line block" data-stack-line>
         <span class="inline-block">{titleLine1}</span>
       </span>
@@ -62,18 +55,18 @@ const questionnaireLabel = practice === 'legal' ? 'Responda nuestro cuestionario
     </h1>
 
     <!-- Lead -->
-    <p class="reveal mx-auto max-w-[820px] text-[1.05rem] md:text-[1.15rem] leading-relaxed mb-12"
+    <p class="reveal mx-auto max-w-[640px] text-[0.9rem] md:text-[0.98rem] leading-relaxed mb-7"
        style="color: var(--fg-muted);">
       {lead}
     </p>
 
     <!-- CTAs -->
-    <div class="reveal inline-flex flex-wrap gap-4 justify-center items-center">
+    <div class="reveal inline-flex flex-wrap gap-3 justify-center items-center">
       <a href="#contacto" class="btn-editorial">
         <span>{ctaPrimary}</span>
       </a>
       <a href={questionnairePath} class="btn-questionnaire">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"/>
           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
           <line x1="12" y1="17" x2="12.01" y2="17"/>
@@ -83,7 +76,7 @@ const questionnaireLabel = practice === 'legal' ? 'Responda nuestro cuestionario
     </div>
 
     <!-- Link secundario a la otra área -->
-    <div class="reveal mt-10">
+    <div class="reveal mt-6">
       <a href={altHref} class={`font-mono text-tick uppercase tracking-tick transition inline-flex items-center gap-2 ${practice === 'legal' ? 'link-accounting' : ''}`}
          style={practice === 'legal' ? '' : 'color: var(--fg-subtle);'}>
         {altLabel}
@@ -96,11 +89,11 @@ const questionnaireLabel = practice === 'legal' ? 'Responda nuestro cuestionario
   .btn-outline {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 1.75rem;
-    font-size: 0.78rem;
+    gap: 0.6rem;
+    padding: 0.75rem 1.35rem;
+    font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--fg);
     background: transparent;
@@ -116,11 +109,11 @@ const questionnaireLabel = practice === 'legal' ? 'Responda nuestro cuestionario
   .btn-questionnaire {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 1.75rem;
-    font-size: 0.78rem;
+    gap: 0.6rem;
+    padding: 0.75rem 1.35rem;
+    font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--bronze-500);
     background: transparent;

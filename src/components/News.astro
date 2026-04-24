@@ -15,7 +15,7 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
 const subpage = practice === 'legal' ? withBase('/novedades') : withBase('/novedades-contable');
 const itemBase = subpage; // mismo prefijo para detalle: /novedades/[slug]
 ---
-<section id="novedades" class="relative py-28 md:py-32 border-t reveal" style="border-color: var(--border);">
+<section id="novedades" class="relative py-16 md:py-20 border-t reveal" style="border-color: var(--border);">
   <div class="shell">
     <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
       <div>
