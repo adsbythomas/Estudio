@@ -22,21 +22,21 @@ const questionnaireLabel = practice === 'legal' ? 'Responda nuestro cuestionario
 ---
 <section class="relative overflow-hidden flex items-center" data-hero style="min-height: calc(100svh - 4rem);">
   <!-- Obelisco decorativo único, a la derecha -->
-  <div class="hidden lg:block absolute right-6 xl:right-16 top-1/2 -translate-y-1/2 z-0 w-[90px] xl:w-[110px] pointer-events-none opacity-[0.4]"
+  <div class="hidden lg:block absolute right-4 xl:right-12 top-1/2 -translate-y-1/2 z-0 w-[160px] xl:w-[210px] pointer-events-none opacity-[0.55]"
        style="color: var(--brand-500);" data-parallax data-parallax-speed="0.15">
     <Obelisco />
   </div>
 
   <!-- Contenido centrado -->
-  <div class="shell relative z-10 py-10 md:py-14 w-full text-center">
+  <div class="shell relative z-10 py-8 md:py-12 w-full text-center">
     <!-- Isotipo (sin wordmark duplicado — ya está en el nav) -->
     <div class="mb-5 flex justify-center">
-      <img src={isoSrc} alt="Pantarotto Lértora Bardagí" width="64" height="64" />
+      <img src={isoSrc} alt="Pantarotto Lértora Bardagí" width="72" height="72" />
     </div>
 
     <!-- Tagline con underline -->
-    <div class="mb-8 md:mb-10 inline-flex flex-col items-center">
-      <span class="font-mono text-[0.72rem] md:text-[0.82rem] uppercase tracking-[0.3em] font-medium"
+    <div class="mb-7 md:mb-9 inline-flex flex-col items-center">
+      <span class="font-mono text-[0.75rem] md:text-[0.85rem] uppercase tracking-[0.3em] font-medium"
             style="color: var(--bronze-500)">
         {kicker}
       </span>
@@ -44,8 +44,8 @@ const questionnaireLabel = practice === 'legal' ? 'Responda nuestro cuestionario
     </div>
 
     <!-- Título grande en 2 líneas, centrado -->
-    <h1 class="font-sans font-bold leading-[1.08] tracking-tight max-w-[900px] mx-auto mb-7"
-        style="font-size: clamp(1.9rem, 4.6vw, 3.4rem); color: var(--fg);">
+    <h1 class="font-sans font-bold leading-[1.06] tracking-tight max-w-[1000px] mx-auto mb-7"
+        style="font-size: clamp(2.3rem, 5.6vw, 4.3rem); color: var(--fg);">
       <span class="stack-line block" data-stack-line>
         <span class="inline-block">{titleLine1}</span>
       </span>
@@ -55,7 +55,7 @@ const questionnaireLabel = practice === 'legal' ? 'Responda nuestro cuestionario
     </h1>
 
     <!-- Lead -->
-    <p class="reveal mx-auto max-w-[680px] text-[0.95rem] md:text-[1.02rem] leading-relaxed mb-8"
+    <p class="reveal mx-auto max-w-[700px] text-[0.98rem] md:text-[1.08rem] leading-relaxed mb-8"
        style="color: var(--fg-muted);">
       {lead}
     </p>
