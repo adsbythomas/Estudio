@@ -1,0 +1,27 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Questionnaire from '@components/Questionnaire.astro';
+---
+
+<BaseLayout
+  practice="accounting"
+  title="Cuestionario contable — PLB Contadores"
+  description="Responda nuestro cuestionario automatizado para determinar qué área contable puede ayudarle y qué documentos necesitará para la consulta."
+>
+  <section class="min-h-[40vh] flex items-center py-20 md:py-32" style="background: var(--bg);">
+    <div class="shell text-center">
+      <span class="font-mono text-[0.8rem] md:text-[0.85rem] uppercase tracking-[0.3em] font-medium" style="color: var(--bronze-500);">
+        Diálogo automatizado
+      </span>
+      <h1 class="font-sans font-bold leading-[1.15] tracking-tight mt-4"
+          style="font-size: clamp(2rem, 5vw, 3.5rem); color: var(--fg);">
+        ¿Cuál es su necesidad contable?
+      </h1>
+      <p class="mt-6 max-w-2xl mx-auto text-[1rem] md:text-[1.1rem] leading-relaxed" style="color: var(--fg-muted);">
+        Responda algunas preguntas breves y le indicaremos qué servicio contable se ajusta a su caso, y qué documentación debe preparar para la primera reunión.
+      </p>
+    </div>
+  </section>
+
+  <Questionnaire practice="accounting" />
+</BaseLayout>

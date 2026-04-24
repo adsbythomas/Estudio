@@ -1,0 +1,355 @@
+---
+import type { Practice } from '@lib/site';
+import type { Question } from '@lib/questionnaire';
+import { legalQuestions, accountingQuestions } from '@lib/questionnaire';
+
+export interface Props {
+  practice: Practice;
+}
+
+const { practice } = Astro.props;
+const questions = practice === 'legal' ? legalQuestions : accountingQuestions;
+const firstQuestion = questions.find(q => q.id.endsWith('-start'));
+---
+
+<section class="relative overflow-hidden min-h-[80vh] flex items-center py-20" data-questionnaire>
+  <div class="shell relative z-10 w-full max-w-2xl mx-auto">
+    <!-- Contenedor del cuestionario -->
+    <div class="questionnaire-container" data-step="0">
+      {firstQuestion && (
+        <div class="questionnaire-step active" data-step-id={firstQuestion.id}>
+          <!-- Encabezado -->
+          <div class="mb-12 text-center">
+            <span class="font-mono text-[0.8rem] md:text-[0.85rem] uppercase tracking-[0.3em] font-medium" style="color: var(--bronze-500)">
+              Consulta automatizada
+            </span>
+            {firstQuestion.description && (
+              <p class="mt-3 text-[0.95rem] md:text-[1rem] leading-relaxed" style="color: var(--fg-muted);">
+                {firstQuestion.description}
+              </p>
+            )}
+          </div>
+
+          <!-- Pregunta -->
+          <h2 class="font-sans font-bold leading-[1.15] tracking-tight mb-10 text-center"
+              style="font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--fg);">
+            {firstQuestion.question}
+          </h2>
+
+          <!-- Respuestas -->
+          <div class="space-y-3 mb-8">
+            {firstQuestion.answers.map((answer) => (
+              <button
+                class="w-full px-6 py-4 text-left rounded-lg border transition-all duration-200"
+                style="border-color: var(--border); color: var(--fg);"
+                data-answer-id={answer.id}
+                data-next-step={answer.nextStep}
+              >
+                <span class="font-medium text-[0.95rem] md:text-[1rem]">{answer.label}</span>
+              </button>
+            ))}
+          </div>
+
+          <!-- Indicador de progreso -->
+          <div class="flex items-center gap-2 text-[0.75rem] md:text-[0.8rem]" style="color: var(--fg-muted);">
+            <span>Paso 1 de 2</span>
+            <div class="flex-1 h-1 rounded-full" style="background: var(--border);"></div>
+          </div>
+        </div>
+      )}
+
+      <!-- Placeholder para pasos posteriores (se rellenan con JS) -->
+      <div id="questionnaire-steps-container"></div>
+
+      <!-- Pantalla de resultados (se rellena con JS) -->
+      <div id="questionnaire-results" class="questionnaire-step hidden"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  [data-questionnaire] {
+    background: var(--bg);
+  }
+
+  .questionnaire-step {
+    opacity: 0;
+    display: none;
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.2, 0.6, 0.2, 1);
+    pointer-events: none;
+  }
+
+  .questionnaire-step.active {
+    opacity: 1;
+    display: block;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  button[data-answer-id] {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  button[data-answer-id]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--brand-500);
+    opacity: 0.08;
+    transition: left 0.3s cubic-bezier(0.2, 0.6, 0.2, 1);
+    z-index: -1;
+  }
+
+  button[data-answer-id]:hover::before {
+    left: 0;
+  }
+
+  button[data-answer-id]:hover {
+    border-color: var(--brand-500);
+    color: var(--brand-400);
+  }
+
+  button[data-answer-id]:active {
+    transform: scale(0.98);
+  }
+
+  .questionnaire-step button[data-answer-id] span::before {
+    content: '→ ';
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  button[data-answer-id]:hover span::before {
+    opacity: 1;
+  }
+</style>
+
+<script define:vars={{ questions: JSON.stringify(questions), practice }}>
+  // Estado global
+  const state = {
+    currentStep: 0,
+    responses: [],
+    questionMap: new Map(),
+  };
+
+  // Construir mapa de preguntas para acceso rápido
+  questions.forEach((q) => {
+    state.questionMap.set(q.id, q);
+  });
+
+  // Elementos del DOM
+  const container = document.querySelector('[data-questionnaire]');
+  const stepsContainer = document.getElementById('questionnaire-steps-container');
+  const resultsContainer = document.getElementById('questionnaire-results');
+  const firstQuestion = questions.find((q) => q.id.endsWith('-start'));
+
+  if (!container || !firstQuestion) {
+    console.error('Questionnaire: missing container or first question');
+  } else {
+    // Event listener para respuestas en el primer paso
+    setupAnswerListeners(document.querySelector('[data-step-id="' + firstQuestion.id + '"]'));
+
+    // Función recursiva para cargar siguientes preguntas
+    function loadNextQuestion(answerId) {
+      const answer = findAnswerById(answerId);
+      if (!answer) return;
+
+      state.responses.push(answerId);
+      state.currentStep++;
+
+      // Si es 'results', mostrar resultados en lugar de siguiente pregunta
+      if (answer.nextStep === 'results') {
+        showResults(answerId);
+        return;
+      }
+
+      const nextQuestion = state.questionMap.get(answer.nextStep);
+      if (!nextQuestion) {
+        console.error('Questionnaire: next question not found:', answer.nextStep);
+        return;
+      }
+
+      // Crear HTML para la siguiente pregunta
+      const stepHtml = createStepHtml(nextQuestion, state.currentStep);
+      stepsContainer.insertAdjacentHTML('beforeend', stepHtml);
+
+      // Mostrar el nuevo paso
+      const newStep = document.querySelector('[data-step-id="' + nextQuestion.id + '"]');
+      if (newStep) {
+        // Esconder paso anterior
+        const prevStep = container.querySelector('.questionnaire-step.active');
+        if (prevStep) prevStep.classList.remove('active');
+
+        // Mostrar nuevo paso
+        newStep.classList.add('active');
+
+        // Setup listeners para la nueva pregunta
+        setupAnswerListeners(newStep);
+      }
+    }
+
+    function createStepHtml(question, stepNum) {
+      const totalSteps = questions.length;
+      const progressPercent = (stepNum / totalSteps) * 100;
+
+      return `
+        <div class="questionnaire-step" data-step-id="${question.id}">
+          <div class="mb-12 text-center">
+            ${question.description ? `
+              <p class="text-[0.95rem] md:text-[1rem] leading-relaxed" style="color: var(--fg-muted);">
+                ${question.description}
+              </p>
+            ` : ''}
+          </div>
+
+          <h2 class="font-sans font-bold leading-[1.15] tracking-tight mb-10 text-center"
+              style="font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--fg);">
+            ${question.question}
+          </h2>
+
+          <div class="space-y-3 mb-8">
+            ${question.answers
+              .map(
+                (answer) => `
+              <button
+                class="w-full px-6 py-4 text-left rounded-lg border transition-all duration-200"
+                style="border-color: var(--border); color: var(--fg);"
+                data-answer-id="${answer.id}"
+                data-next-step="${answer.nextStep}"
+              >
+                <span class="font-medium text-[0.95rem] md:text-[1rem]">${answer.label}</span>
+              </button>
+            `
+              )
+              .join('')}
+          </div>
+
+          <div class="flex items-center gap-2 text-[0.75rem] md:text-[0.8rem]" style="color: var(--fg-muted);">
+            <span>Paso ${stepNum} de ${totalSteps}</span>
+            <div class="flex-1 h-1 rounded-full" style="background: var(--border);"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function setupAnswerListeners(stepEl) {
+      if (!stepEl) return;
+      const buttons = stepEl.querySelectorAll('button[data-answer-id]');
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const answerId = btn.getAttribute('data-answer-id');
+          loadNextQuestion(answerId);
+        });
+      });
+    }
+
+    function findAnswerById(answerId) {
+      for (const question of questions) {
+        const answer = question.answers.find((a) => a.id === answerId);
+        if (answer) return answer;
+      }
+      return null;
+    }
+
+    async function showResults(finalAnswerId) {
+      const { responseRoutes, contacts, documentsByRoute } = await import('@lib/questionnaire');
+
+      const route = responseRoutes[finalAnswerId];
+      if (!route) {
+        resultsContainer.innerHTML = `
+          <div class="text-center">
+            <h3 class="text-2xl font-bold mb-4" style="color: var(--fg);">Gracias por su respuesta</h3>
+            <p style="color: var(--fg-muted);">Contactenos directamente para una consulta personalizada.</p>
+          </div>
+        `;
+        resultsContainer.classList.remove('hidden');
+        resultsContainer.classList.add('active');
+        return;
+      }
+
+      const contact = contacts[route.contactKey];
+
+      // Compilar documentos
+      const allDocs = [];
+      route.documents.forEach((routeId) => {
+        if (documentsByRoute[routeId]) {
+          allDocs.push(...documentsByRoute[routeId]);
+        }
+      });
+
+      const docsHtml = allDocs
+        .map(
+          (doc) => `
+        <li class="flex gap-2">
+          <span class="text-[1.1rem]">✓</span>
+          <span>
+            <strong>${doc.name}</strong><br/>
+            <span style="font-size: 0.85rem; opacity: 0.7;">${doc.description}</span>
+          </span>
+        </li>
+      `
+        )
+        .join('');
+
+      const resultsHtml = `
+        <div class="text-center max-w-xl mx-auto">
+          <div class="mb-10">
+            <span class="font-mono text-[0.8rem] uppercase tracking-[0.3em] font-medium" style="color: var(--bronze-500);">
+              Resultado de su consulta
+            </span>
+          </div>
+
+          <h2 class="font-sans font-bold leading-[1.15] tracking-tight mb-6"
+              style="font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--fg);">
+            Hable con ${contact.name}
+          </h2>
+
+          <p class="text-[0.95rem] md:text-[1rem] leading-relaxed mb-8" style="color: var(--fg-muted);">
+            ${route.advice}
+          </p>
+
+          <div class="rounded-lg p-6 mb-10" style="background: var(--bg-muted); border: 1px solid var(--border);">
+            <h3 class="font-semibold mb-2" style="color: var(--fg);">${contact.name}</h3>
+            <p class="text-[0.9rem] mb-2" style="color: var(--fg-muted);">${contact.role}</p>
+            <p class="text-[0.85rem] font-mono" style="color: var(--brand-500);">
+              ${contact.specialties.join(' · ')}
+            </p>
+          </div>
+
+          <div class="text-left mb-10">
+            <h4 class="font-semibold mb-4" style="color: var(--fg);">📋 Documentos para la primera reunión:</h4>
+            <ul class="space-y-2 text-[0.9rem]" style="color: var(--fg-muted);">
+              ${docsHtml}
+            </ul>
+          </div>
+
+          <div class="flex flex-wrap gap-4 justify-center">
+            <a href="#contacto" class="btn-editorial">
+              <span>Solicitar consulta</span>
+            </a>
+            <button onclick="window.location.reload()" class="btn-outline" style="padding: 1rem 1.75rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg); background: transparent; border: 1px solid var(--border); border-radius: 0.375rem; cursor: pointer;">
+              <span>Reiniciar consulta</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      resultsContainer.innerHTML = resultsHtml;
+      resultsContainer.classList.remove('hidden');
+      resultsContainer.classList.add('active');
+
+      // Scroll to results
+      setTimeout(() => {
+        resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  }
+</script>
