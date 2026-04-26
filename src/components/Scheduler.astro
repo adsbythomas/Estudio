@@ -3,7 +3,7 @@ import type { Practice } from '@lib/site';
 
 export interface Props {
   practice: Practice;
-  /** Username/equipo en Cal.com — reemplazar con el real */
+  /** Username/equipo en Cal.com — dejar undefined hasta que la cuenta esté creada */
   calUsername?: string;
   /** Slug del tipo de reunión (ej: '30min', 'consulta-inicial') */
   calEvent?: string;
@@ -13,14 +13,21 @@ export interface Props {
 
 const {
   practice,
-  calUsername = 'pantarotto-lertora-bardagi',
+  calUsername,
   calEvent = 'consulta-inicial',
   duration = '30 minutos',
 } = Astro.props;
 
-const calLink = `${calUsername}/${calEvent}`;
+// Solo activamos el widget Cal.com cuando hay un username real configurado.
+// Hasta entonces mostramos un placeholder elegante con CTA al formulario.
+const isLive = !!calUsername;
+const calLink = isLive ? `${calUsername}/${calEvent}` : '';
 const namespace = calEvent.replace(/[^a-zA-Z0-9]/g, '');
 const themeKey = practice === 'legal' ? 'dark' : 'light';
+
+const base = import.meta.env.BASE_URL;
+const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
+const contactHref = '#contacto';
 ---
 
 <section id="agenda" class="relative py-16 md:py-20 reveal" style="border-top: 1px solid var(--border);">
@@ -105,14 +112,57 @@ const themeKey = practice === 'legal' ? 'dark' : 'light';
         </div>
       </aside>
 
-      <!-- Columna scheduler: widget Cal.com embebido -->
-      <div class="scheduler-widget">
-        <div class="scheduler-widget-loading" data-cal-loading>
-          <div class="scheduler-spinner"></div>
-          <span>Cargando disponibilidad…</span>
+      <!-- Columna scheduler: widget Cal.com embebido o placeholder -->
+      {isLive ? (
+        <div class="scheduler-widget">
+          <div class="scheduler-widget-loading" data-cal-loading>
+            <div class="scheduler-spinner"></div>
+            <span>Cargando disponibilidad…</span>
+          </div>
+          <div id={`cal-inline-${namespace}`} class="cal-inline-root"></div>
         </div>
-        <div id={`cal-inline-${namespace}`} class="cal-inline-root"></div>
-      </div>
+      ) : (
+        <!-- Placeholder elegante: aparece mientras Cal.com no está configurado -->
+        <div class="scheduler-cta">
+          <div class="scheduler-cta-grid">
+            {/* Pseudo-calendario decorativo */}
+            <div class="scheduler-cal-art" aria-hidden="true">
+              <div class="scheduler-cal-header">
+                <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+              </div>
+              <div class="scheduler-cal-grid">
+                {Array.from({ length: 35 }).map((_, i) => (
+                  <span class={`scheduler-cal-dot ${[10, 11, 17, 23, 24].includes(i) ? 'is-busy' : ''} ${[14, 16, 19, 22].includes(i) ? 'is-free' : ''}`}></span>
+                ))}
+              </div>
+            </div>
+
+            <div class="scheduler-cta-body">
+              <span class="scheduler-cta-label">Coordinemos su consulta</span>
+              <h3 class="scheduler-cta-title">
+                Su tiempo, agendado con cuidado.
+              </h3>
+              <p class="scheduler-cta-desc">
+                Comparta sus preferencias de día y horario en el formulario.
+                Coordinamos confirmación dentro de las 24 hs hábiles, con invitación
+                directa al calendario y enlace de videollamada.
+              </p>
+
+              <div class="scheduler-cta-actions">
+                <a href={contactHref} class="btn-editorial scheduler-cta-primary">
+                  <span>Solicitar reunión</span>
+                  <svg width="14" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <path d="M1 5h14M11 1l4 4-4 4"/>
+                  </svg>
+                </a>
+                <a href={`mailto:${'contacto'}@${'pl-abogados.com'}`} class="scheduler-cta-secondary">
+                  <span>O escribir directo por email</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   </div>
 </section>
@@ -232,6 +282,131 @@ const themeKey = practice === 'legal' ? 'dark' : 'light';
     min-height: 620px;
   }
 
+  /* ═══════════════════════════════════════════════
+     Placeholder CTA — mientras Cal.com no está activo
+     ═══════════════════════════════════════════════ */
+  .scheduler-cta {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    padding: 2rem;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+  }
+
+  .scheduler-cta-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 2.5rem;
+    align-items: center;
+    width: 100%;
+  }
+
+  .scheduler-cal-art {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+
+  .scheduler-cal-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.4rem;
+    margin-bottom: 0.6rem;
+    text-align: center;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--fg-subtle);
+    text-transform: uppercase;
+  }
+
+  .scheduler-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.4rem;
+  }
+
+  .scheduler-cal-dot {
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--fg) 8%, transparent);
+    display: block;
+    transition: all .3s ease;
+  }
+
+  .scheduler-cal-dot.is-busy {
+    background: color-mix(in oklab, var(--accent-700) 22%, transparent);
+  }
+
+  .scheduler-cal-dot.is-free {
+    background: var(--accent-700);
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent-700) 25%, transparent);
+  }
+
+  .scheduler-cta-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .scheduler-cta-label {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--bronze-500);
+  }
+
+  .scheduler-cta-title {
+    font-family: theme('fontFamily.sans');
+    font-size: clamp(1.3rem, 2.6vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--fg);
+    margin: 0;
+  }
+
+  .scheduler-cta-desc {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--fg-muted);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .scheduler-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+
+  .scheduler-cta-secondary {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bronze-500);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+    transition: opacity .25s ease;
+  }
+
+  .scheduler-cta-secondary:hover { opacity: 0.7; }
+
+  @media (max-width: 768px) {
+    .scheduler-cta { padding: 1.5rem; min-height: 0; }
+    .scheduler-cta-grid {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+    }
+    .scheduler-cal-art { max-width: 280px; }
+  }
+
   @media (max-width: 768px) {
     .scheduler-widget,
     .cal-inline-root,
@@ -243,6 +418,9 @@ const themeKey = practice === 'legal' ? 'dark' : 'light';
 
 <script define:vars={{ calLink, namespace, themeKey }}>
   (function () {
+    // Si no hay calLink configurado, no inicializamos Cal.com
+    if (!calLink) return;
+
     const rootId = 'cal-inline-' + namespace;
     const loading = document.querySelector('[data-cal-loading]');
 
