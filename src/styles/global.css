@@ -31,13 +31,13 @@
 
      Acento por tema (NUEVO brandbook):
      - Legal: Royal Blue #455A89 (azul medio del brandbook)
-     - Contable: Midnight Slate #242C42 (navy del brandbook)
+     - Contable: Midnight Slate #242B42 (navy del brandbook)
      ═══════════════════════════════════════════════════════════ */
   :root {
     --bg: #e9e9f2;
     --surface: #f3f3fa;
     --surface-2: #d8d9e5;
-    --fg: #242c42;
+    --fg: #242b42;
     --fg-muted: #3d4863;
     --fg-subtle: #5f6a82;
     --border: #bfc1d1;
@@ -48,14 +48,14 @@
     --accent-200: #b5bcca;
     --accent-300: #8b94a7;
     --accent-400: #3d4863;
-    --accent-500: #242c42;
+    --accent-500: #242b42;
     --accent-600: #1a2033;
     --accent-700: #121624;
   }
 
   /* Derecho — principal azul sobre secundario ice; acento Royal Blue */
   .theme-legal {
-    --bg: #242c42;
+    --bg: #242b42;
     --surface: #2e3750;
     --surface-2: #3d4863;
     --fg: #e9e9f2;
@@ -79,18 +79,18 @@
     --bg: #e9e9f2;
     --surface: #f3f3fa;
     --surface-2: #d8d9e5;
-    --fg: #242c42;
+    --fg: #242b42;
     --fg-muted: #3d4863;
     --fg-subtle: #5f6a82;
     --border: #bfc1d1;
 
-    /* Midnight Slate #242C42 — acento del área contable */
+    /* Midnight Slate #242B42 — acento del área contable */
     --accent-50:  #eef0f4;
     --accent-100: #d8dce4;
     --accent-200: #b5bcca;
     --accent-300: #8b94a7;
     --accent-400: #3d4863;
-    --accent-500: #242c42;
+    --accent-500: #242b42;
     --accent-600: #1a2033;
     --accent-700: #121624;
   }
@@ -400,7 +400,7 @@
   /* Preloader — isotipo oficial del brandbook con fade-in */
   .preloader {
     position: fixed; inset: 0;
-    background: #242c42;
+    background: #242b42;
     z-index: 100;
     display: grid; place-items: center;
     transition: opacity .7s ease, visibility .7s;

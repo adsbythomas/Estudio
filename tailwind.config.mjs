@@ -19,7 +19,7 @@ export default {
           400: '#5f6a82',
           500: '#3d4863',
           600: '#2e3750',
-          700: '#242c42',    // color primario oficial
+          700: '#242b42',    // color primario oficial
           800: '#1a2033',
           900: '#121624',
           950: '#0a0d17',
@@ -54,7 +54,7 @@ export default {
 
         // Aliases legacy para no romper clases Tailwind aún presentes
         // en el markup (se pueden ir migrando gradualmente).
-        legal:  { 50: '#eef0f4', 100: '#d8dce4', 200: '#b5bcca', 300: '#8b94a7', 400: '#5f6a82', 500: '#3d4863', 600: '#2e3750', 700: '#242c42', 800: '#1a2033', 900: '#121624', 950: '#0a0d17' },
+        legal:  { 50: '#eef0f4', 100: '#d8dce4', 200: '#b5bcca', 300: '#8b94a7', 400: '#5f6a82', 500: '#3d4863', 600: '#2e3750', 700: '#242b42', 800: '#1a2033', 900: '#121624', 950: '#0a0d17' },
         ledger: { 50: '#f7f2ea', 100: '#ede3d2', 200: '#dac6a8', 300: '#c5a77f', 400: '#a99064', 500: '#8c7853', 600: '#6f5f42', 700: '#554834', 800: '#3a3124', 900: '#201b13', 950: '#15100a' },
         paper:     '#e9e9f2',
         paperDark: '#d8d9e5',
@@ -66,7 +66,7 @@ export default {
           400: '#8b94a7',
           500: '#5f6a82',
           600: '#3d4863',
-          700: '#242c42',
+          700: '#242b42',
           800: '#1a2033',
           900: '#0a0d17',
         },
