@@ -28,7 +28,10 @@
      Paleta oficial del brandbook con dos variantes:
      - .theme-legal (Derecho): principal Midnight Slate, secundario Ice Grey
      - .theme-accounting (Contable): principal Ice Grey, secundario Midnight Slate
-     El Muted Bronze queda como acento en ambos.
+
+     Acento por tema (NUEVO brandbook):
+     - Legal: Royal Blue #455A89 (azul medio del brandbook)
+     - Contable: Midnight Slate #242C42 (navy del brandbook)
      ═══════════════════════════════════════════════════════════ */
   :root {
     --bg: #e9e9f2;
@@ -38,9 +41,19 @@
     --fg-muted: #3d4863;
     --fg-subtle: #5f6a82;
     --border: #bfc1d1;
+
+    /* Acento por defecto = contable: Midnight Slate */
+    --accent-50:  #eef0f4;
+    --accent-100: #d8dce4;
+    --accent-200: #b5bcca;
+    --accent-300: #8b94a7;
+    --accent-400: #3d4863;
+    --accent-500: #242c42;
+    --accent-600: #1a2033;
+    --accent-700: #121624;
   }
 
-  /* Derecho — principal azul sobre secundario ice */
+  /* Derecho — principal azul sobre secundario ice; acento Royal Blue */
   .theme-legal {
     --bg: #242c42;
     --surface: #2e3750;
@@ -49,9 +62,19 @@
     --fg-muted: #bfc1d1;
     --fg-subtle: #8b94a7;
     --border: #3d4863;
+
+    /* Royal Blue #455A89 — acento del área legal */
+    --accent-50:  #eef1f7;
+    --accent-100: #d4dcec;
+    --accent-200: #aab9d6;
+    --accent-300: #7e93bb;
+    --accent-400: #5a72a3;
+    --accent-500: #455a89;
+    --accent-600: #38497a;
+    --accent-700: #2c3a62;
   }
 
-  /* Contable — principal ice sobre secundario azul */
+  /* Contable — principal ice sobre secundario azul; acento Midnight Slate */
   .theme-accounting {
     --bg: #e9e9f2;
     --surface: #f3f3fa;
@@ -60,6 +83,16 @@
     --fg-muted: #3d4863;
     --fg-subtle: #5f6a82;
     --border: #bfc1d1;
+
+    /* Midnight Slate #242C42 — acento del área contable */
+    --accent-50:  #eef0f4;
+    --accent-100: #d8dce4;
+    --accent-200: #b5bcca;
+    --accent-300: #8b94a7;
+    --accent-400: #3d4863;
+    --accent-500: #242c42;
+    --accent-600: #1a2033;
+    --accent-700: #121624;
   }
 
   /* Tokens compartidos por ambos temas */
@@ -80,15 +113,17 @@
     --slate-900: theme('colors.slate.900');
     --slate-950: theme('colors.slate.950');
 
-    /* Muted Bronze — acento (reemplaza naranja y dorado) */
-    --bronze-50:  theme('colors.bronze.50');
-    --bronze-100: theme('colors.bronze.100');
-    --bronze-200: theme('colors.bronze.200');
-    --bronze-300: theme('colors.bronze.300');
-    --bronze-400: theme('colors.bronze.400');
-    --bronze-500: theme('colors.bronze.500');
-    --bronze-600: theme('colors.bronze.600');
-    --bronze-700: theme('colors.bronze.700');
+    /* Acento dinámico — apunta a --accent-* que cambia por tema.
+       Mantenemos los nombres --bronze-* por compatibilidad con todo
+       el CSS y componentes ya escritos. */
+    --bronze-50:  var(--accent-50);
+    --bronze-100: var(--accent-100);
+    --bronze-200: var(--accent-200);
+    --bronze-300: var(--accent-300);
+    --bronze-400: var(--accent-400);
+    --bronze-500: var(--accent-500);
+    --bronze-600: var(--accent-600);
+    --bronze-700: var(--accent-700);
 
     /* Ice grey — escala del fondo, útil para surfaces */
     --ice-50:  theme('colors.ice.50');
