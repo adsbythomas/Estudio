@@ -87,7 +87,9 @@
     --fg-subtle: #5f6a82;
     --border: #bfc1d1;
 
-    /* Midnight Slate #242B42 — acento del área contable */
+    /* Midnight Slate #242B42 — acento del área contable.
+       --accent-700 mantiene el navy del brandbook puro para el fill
+       sólido del botón Legal (espejo del Royal Blue en theme-legal). */
     --accent-50:  #eef0f4;
     --accent-100: #d8dce4;
     --accent-200: #b5bcca;
@@ -95,7 +97,7 @@
     --accent-400: #3d4863;
     --accent-500: #242b42;
     --accent-600: #1a2033;
-    --accent-700: #121624;
+    --accent-700: #242b42;
   }
 
   /* Tokens compartidos por ambos temas */

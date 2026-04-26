@@ -43,7 +43,7 @@ const isoSrc = withBase(isLegal ? '/brand/isotipo-white.svg' : '/brand/isotipo.s
         <li><a href={l.href} class="nav-link">{l.label}</a></li>
       ))}
       <li>
-        <a href={altHref} class={`nav-link font-mono ${isLegal ? 'link-accounting' : 'nav-link-alt'}`}>{altLabel}</a>
+        <a href={altHref} class="nav-link font-mono link-accounting">{altLabel}</a>
       </li>
     </ul>
 
@@ -67,7 +67,7 @@ const isoSrc = withBase(isLegal ? '/brand/isotipo-white.svg' : '/brand/isotipo.s
         <span class="font-mono text-tick tracking-tick mr-5" style="color: var(--brand-600)">0{i + 1}</span>{l.label}
       </a>
     ))}
-    <a href={altHref} class={`mt-8 font-mono text-tick tracking-tick uppercase w-fit ${isLegal ? 'link-accounting' : 'border-b pb-1'}`} style={isLegal ? '' : 'color: var(--bronze-500); border-color: var(--border);'}>{altLabel}</a>
+    <a href={altHref} class="mt-8 font-mono text-tick tracking-tick uppercase w-fit link-accounting">{altLabel}</a>
   </nav>
 </div>
 
