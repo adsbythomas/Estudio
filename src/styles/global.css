@@ -53,7 +53,10 @@
     --accent-700: #121624;
   }
 
-  /* Derecho — principal azul sobre secundario ice; acento Royal Blue */
+  /* Derecho — principal azul sobre secundario ice; acento Royal Blue.
+     En tema legal (fondo navy oscuro) la escala accent se invierte:
+     tonos más claros para el "default" para que el azul medio destaque
+     sobre el navy en lugar de fundirse con él. */
   .theme-legal {
     --bg: #242b42;
     --surface: #2e3750;
@@ -63,15 +66,15 @@
     --fg-subtle: #8b94a7;
     --border: #3d4863;
 
-    /* Royal Blue #455A89 — acento del área legal */
+    /* Royal Blue ladder con default tirando a claro para contraste */
     --accent-50:  #eef1f7;
     --accent-100: #d4dcec;
     --accent-200: #aab9d6;
-    --accent-300: #7e93bb;
-    --accent-400: #5a72a3;
-    --accent-500: #455a89;
-    --accent-600: #38497a;
-    --accent-700: #2c3a62;
+    --accent-300: #9caec9;
+    --accent-400: #8aa0c2;
+    --accent-500: #7e93bb;  /* claro, alto contraste sobre navy */
+    --accent-600: #5a72a3;
+    --accent-700: #455a89;  /* royal blue puro del brandbook, para fills */
   }
 
   /* Contable — principal ice sobre secundario azul; acento Midnight Slate */
@@ -364,29 +367,50 @@
   .brand-tick { color: var(--fg-subtle); }
   #mob-open { color: var(--fg); }
 
-  /* Link / pill al área Contable: siempre destacado con Muted Bronze
-     sólido y texto ice grey, para que funcione sobre fondo navy (legal)
-     e ice grey (contable) con contraste claro. */
+  /* Botón al área Contable — rectangular, prominente, alto contraste.
+     Usa Royal Blue puro (--accent-700 = #455a89) sólido con texto ice
+     grey y un sutil border highlight. Variante destacada para que
+     "salte" desde cualquier fondo (navy del legal o ice del contable). */
   .link-accounting {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.35rem 0.8rem;
-    background: var(--bronze-500);
-    color: #e9e9f2 !important;
-    border-radius: 999px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    transition: background .3s, color .3s, transform .25s;
+    gap: 0.5rem;
+    padding: 0.55rem 1.1rem;
+    background: var(--accent-700);
+    color: #ffffff !important;
+    border: 1px solid var(--accent-600);
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 14px -6px rgba(69, 90, 137, 0.55);
+    transition: all .3s cubic-bezier(0.2, 0.6, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .link-accounting::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0));
+    opacity: 0;
+    transition: opacity .3s ease;
   }
   .link-accounting:hover {
-    background: var(--bronze-600);
-    transform: translateY(-1px);
+    background: var(--accent-600);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px -6px rgba(69, 90, 137, 0.7);
   }
-  /* En nav solid mantenemos la pill igual — su contraste no depende
-     del fondo del nav porque usa un background propio. */
-  nav[data-nav].solid .link-accounting { background: var(--bronze-500); color: #e9e9f2 !important; }
-  nav[data-nav].solid .link-accounting:hover { background: var(--bronze-600); }
+  .link-accounting:hover::before { opacity: 1; }
+  .link-accounting > * { position: relative; z-index: 1; }
+  /* En nav solid mantenemos el botón igual — destaca por contraste interno. */
+  nav[data-nav].solid .link-accounting {
+    background: var(--accent-700);
+    color: #ffffff !important;
+  }
+  nav[data-nav].solid .link-accounting:hover {
+    background: var(--accent-600);
+  }
   .nav-link::after {
     content: ''; position: absolute; left: 0; right: 0; bottom: -6px;
     height: 1px; background: currentColor;
