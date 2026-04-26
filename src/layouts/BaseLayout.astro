@@ -14,7 +14,7 @@ export interface Props {
 const { title, description, practice, canonical } = Astro.props;
 const themeClass = practice === 'legal' ? 'theme-legal' : 'theme-accounting';
 // Color oficial del brandbook (Midnight Slate) — igual para ambas páginas.
-const themeColor = '#242c42';
+const themeColor = '#242b42';
 
 const base = import.meta.env.BASE_URL;
 const faviconHref = (base.endsWith('/') ? base.slice(0, -1) : base) + '/brand/isotipo.svg';
