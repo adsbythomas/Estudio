@@ -1,0 +1,320 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { vencimientos2026, CATEGORY_LABELS, DISCLAIMER } from '@lib/vencimientos';
+import type { TaxCategory } from '@lib/vencimientos';
+
+const categories: TaxCategory[] = ['todos', 'monotributo', 'ri', 'sociedades'];
+
+// Serializar datos para el script cliente
+const allData = JSON.stringify(vencimientos2026);
+---
+<BaseLayout
+  practice="accounting"
+  title="PLB — Vencimientos Impositivos 2026 · AFIP · Buenos Aires"
+  description="Calendario de vencimientos impositivos AFIP Argentina 2026. Monotributo, IVA, Ganancias, Bienes Personales, Cargas Sociales y más. Estudio PLB Contable.">
+
+  <section class="ven-hero">
+    <div class="shell py-16 md:py-24">
+      <div class="reveal">
+        <span class="font-mono text-[0.7rem] uppercase tracking-[0.28em] font-semibold" style="color: var(--brand-500)">
+          Área Contable · AFIP
+        </span>
+        <h1 class="mt-4 font-sans font-bold leading-[1.08] tracking-tight"
+            style="font-size: clamp(2rem, 4.5vw, 3.4rem); color: var(--fg);">
+          Vencimientos<br/>
+          <span style="color: var(--brand-500)">Impositivos 2026</span>
+        </h1>
+        <p class="mt-5 max-w-[600px] text-[0.96rem] leading-relaxed" style="color: var(--fg-muted);">
+          Fechas clave de AFIP para el ejercicio fiscal 2026: IVA, Ganancias, Bienes Personales,
+          Cargas Sociales y más. Filtrá por tipo de contribuyente.
+        </p>
+      </div>
+
+      <!-- Filtros -->
+      <div class="mt-10 flex flex-wrap gap-2" id="ven-filters" role="group" aria-label="Filtrar por tipo de contribuyente">
+        {categories.map((cat) => (
+          <button
+            class="ven-filter-btn"
+            data-cat={cat}
+            aria-pressed={cat === 'todos' ? 'true' : 'false'}>
+            {CATEGORY_LABELS[cat]}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Lista de vencimientos -->
+  <section class="shell pb-20" aria-live="polite">
+    <div id="ven-list" class="ven-list">
+      <!-- Renderizado por JS -->
+    </div>
+    <p class="mt-10 font-mono text-[0.65rem] leading-relaxed" style="color: var(--fg-muted); max-width: 680px;">
+      ⚠ {DISCLAIMER}
+    </p>
+  </section>
+
+  <!-- CTA al estudio -->
+  <section class="ven-cta">
+    <div class="shell py-16 text-center">
+      <p class="font-sans font-semibold text-[1.1rem] mb-5" style="color: var(--fg);">
+        ¿Necesitás que un contador lleve el control por vos?
+      </p>
+      <a href="#contacto" class="btn-editorial">Contactar al equipo contable</a>
+    </div>
+  </section>
+
+  <!-- Contact inline simplificado -->
+  <div id="contacto" class="shell py-12 text-center" style="border-top: 1px solid var(--border);">
+    <p class="font-mono text-[0.7rem] uppercase tracking-widest mb-4" style="color: var(--fg-muted)">
+      Pantarotto Lértora Bardagí & Asocs.
+    </p>
+    <p style="color: var(--fg-muted); font-size: 0.9rem;">
+      Av. Corrientes 1464, Piso 16 · Buenos Aires ·
+      <a href="mailto:estudio@plb.com.ar" style="color: var(--brand-500); text-decoration: underline;">
+        estudio@plb.com.ar
+      </a>
+    </p>
+  </div>
+</BaseLayout>
+
+<script define:vars={{ allData }}>
+  (function () {
+    var data = JSON.parse(allData);
+
+    var MONTHS_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                     'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    var DAYS_ES   = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+
+    var today  = new Date();
+    today.setHours(0,0,0,0);
+    var in7    = new Date(today); in7.setDate(in7.getDate() + 7);
+
+    function parseDate(s) { var p = s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+
+    function badge(d) {
+      var diff = Math.round((d - today) / 86400000);
+      if (diff < 0)  return '<span class="ven-badge ven-badge--past">Vencido</span>';
+      if (diff === 0) return '<span class="ven-badge ven-badge--today">Hoy</span>';
+      if (diff <= 7)  return '<span class="ven-badge ven-badge--soon">En ' + diff + ' d</span>';
+      return '';
+    }
+
+    function fmtDate(d) {
+      return DAYS_ES[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS_ES[d.getMonth()];
+    }
+
+    function catLabel(c) {
+      var map = { monotributo: 'Monotributo', ri: 'Resp. Inscripto', sociedades: 'Sociedades' };
+      return map[c] || c;
+    }
+
+    function render(filter) {
+      var filtered = filter === 'todos'
+        ? data
+        : data.filter(function (v) { return v.categories.indexOf(filter) >= 0; });
+
+      // Ordenar por fecha
+      filtered.sort(function (a, b) { return a.date.localeCompare(b.date); });
+
+      // Agrupar por mes
+      var groups = {};
+      filtered.forEach(function (v) {
+        var key = v.date.substring(0, 7); // YYYY-MM
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(v);
+      });
+
+      var html = '';
+      var keys = Object.keys(groups).sort();
+
+      if (keys.length === 0) {
+        html = '<p class="ven-empty">No hay vencimientos para esta categoría.</p>';
+      }
+
+      keys.forEach(function (key) {
+        var parts = key.split('-');
+        var monthLabel = MONTHS_ES[+parts[1] - 1] + ' ' + parts[0];
+        var isPast = new Date(+parts[0], +parts[1]-1, 28) < today;
+
+        html += '<div class="ven-month' + (isPast ? ' ven-month--past' : '') + '">';
+        html += '<h2 class="ven-month-title">' + monthLabel + '</h2>';
+        html += '<div class="ven-items">';
+
+        groups[key].forEach(function (v) {
+          var d = parseDate(v.date);
+          var isPastItem = d < today;
+          var cats = v.categories.map(catLabel).join(' · ');
+
+          html += '<div class="ven-item' + (isPastItem ? ' ven-item--past' : '') + '">';
+          html += '<div class="ven-date-col">';
+          html += '<span class="ven-day">' + d.getDate() + '</span>';
+          html += '<span class="ven-dow">' + DAYS_ES[d.getDay()] + '</span>';
+          html += '</div>';
+          html += '<div class="ven-body">';
+          html += '<div class="ven-top">';
+          html += '<span class="ven-label-text">' + v.label + '</span>';
+          html += badge(d);
+          html += '</div>';
+          html += '<p class="ven-detail">' + v.detail + '</p>';
+          html += '<span class="ven-cats">' + cats + '</span>';
+          html += '</div></div>';
+        });
+
+        html += '</div></div>';
+      });
+
+      document.getElementById('ven-list').innerHTML = html;
+    }
+
+    // Filtros
+    var active = 'todos';
+    document.querySelectorAll('[data-cat]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        active = btn.getAttribute('data-cat');
+        document.querySelectorAll('[data-cat]').forEach(function (b) {
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+        render(active);
+      });
+    });
+
+    render('todos');
+
+    // Scroll al mes actual
+    setTimeout(function () {
+      var now = new Date();
+      var key = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+      var titles = document.querySelectorAll('.ven-month-title');
+      var monthLabel = MONTHS_ES[now.getMonth()] + ' ' + now.getFullYear();
+      titles.forEach(function (t) {
+        if (t.textContent === monthLabel) {
+          t.closest('.ven-month').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    }, 300);
+  })();
+</script>
+
+<style>
+  .ven-hero { border-bottom: 1px solid var(--border); }
+  .ven-cta  { border-top: 1px solid var(--border); background: var(--surface, var(--bg)); }
+
+  /* ── Filtros ── */
+  .ven-filter-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.7rem;
+    font-family: var(--font-mono, monospace);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: 1.5px solid var(--border);
+    color: var(--fg-muted);
+    background: transparent;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all .2s ease;
+  }
+  .ven-filter-btn:hover,
+  .ven-filter-btn[aria-pressed='true'] {
+    border-color: var(--brand-500);
+    color: var(--fg);
+    background: color-mix(in srgb, var(--brand-500) 10%, transparent);
+  }
+
+  /* ── Lista agrupada ── */
+  .ven-list { display: flex; flex-direction: column; gap: 2.5rem; padding-top: 2rem; }
+  .ven-month { }
+  .ven-month--past { opacity: 0.55; }
+  .ven-month-title {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--brand-500);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .ven-items { display: flex; flex-direction: column; gap: 0.6rem; }
+
+  /* ── Item ── */
+  .ven-item {
+    display: flex;
+    gap: 1.25rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: transparent;
+    transition: background .15s ease;
+  }
+  .ven-item:hover { background: color-mix(in srgb, var(--brand-500) 5%, transparent); }
+  .ven-item--past { opacity: 0.5; }
+
+  .ven-date-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 2.5rem;
+    padding-top: 0.1rem;
+  }
+  .ven-day {
+    font-size: 1.4rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    color: var(--fg);
+  }
+  .ven-dow {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-top: 0.1rem;
+  }
+
+  .ven-body { flex: 1; min-width: 0; }
+  .ven-top  { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.25rem; }
+  .ven-label-text {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--fg);
+  }
+  .ven-detail {
+    font-size: 0.78rem;
+    color: var(--fg-muted);
+    line-height: 1.5;
+    margin: 0 0 0.4rem;
+  }
+  .ven-cats {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    opacity: 0.7;
+  }
+
+  /* ── Badges ── */
+  .ven-badge {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
+  .ven-badge--today { background: var(--brand-500); color: var(--bg); }
+  .ven-badge--soon  { background: color-mix(in srgb, #f59e0b 80%, transparent); color: var(--bg); }
+  .ven-badge--past  { background: color-mix(in srgb, var(--fg-muted) 20%, transparent); color: var(--fg-muted); }
+
+  .ven-empty {
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+    padding: 2rem 0;
+  }
+</style>

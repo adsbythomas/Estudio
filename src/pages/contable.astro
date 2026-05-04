@@ -9,6 +9,7 @@ import News from '@components/News.astro';
 import CrossLink from '@components/CrossLink.astro';
 import Contact from '@components/Contact.astro';
 import Scheduler from '@components/Scheduler.astro';
+import EconBar from '@components/EconBar.astro';
 import { accounting } from '@lib/accounting';
 
 const base = import.meta.env.BASE_URL;
@@ -28,6 +29,8 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     altLabel="→ Ir al área legal"
     altHref={withBase('/')}
   />
+
+  <EconBar />
 
   <Counters
     label={accounting.counters.label}

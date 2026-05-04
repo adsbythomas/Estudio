@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Nav from '@components/Nav.astro';
 import Footer from '@components/Footer.astro';
+import WhatsApp from '@components/WhatsApp.astro';
 import type { Practice } from '@lib/site';
 import { ES_TO_EN, ES_TO_EN_PREFIXES } from '@lib/i18n';
 
@@ -90,6 +91,7 @@ const faviconHref = (base.endsWith('/') ? base.slice(0, -1) : base) + '/brand/is
     <main id="main"><slot /></main>
 
     <Footer practice={practice} />
+    <WhatsApp practice={practice} />
 
     <script is:inline>
       // ═══════════════════════════════════════════════
