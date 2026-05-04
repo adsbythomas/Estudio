@@ -10,6 +10,7 @@ import CrossLink from '@components/CrossLink.astro';
 import Contact from '@components/Contact.astro';
 import Scheduler from '@components/Scheduler.astro';
 import EconBar from '@components/EconBar.astro';
+import VencimientosPreview from '@components/VencimientosPreview.astro';
 import { accounting } from '@lib/accounting';
 
 const base = import.meta.env.BASE_URL;
@@ -63,6 +64,8 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
   />
 
   <News practice="accounting" label="Novedades" title="Radar impositivo" />
+
+  <VencimientosPreview />
 
   <Scheduler
     practice="accounting"
