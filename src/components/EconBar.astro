@@ -1,0 +1,122 @@
+---
+// Barra de indicadores económicos — datos en tiempo real via bluelytics.com.ar
+---
+<div class="econ-bar" aria-label="Indicadores económicos Argentina" data-no-translate>
+  <div class="shell">
+    <div class="eb-inner">
+      <span class="eb-label">
+        <span class="eb-dot" aria-hidden="true"></span>
+        Indicadores
+      </span>
+      <div class="eb-items">
+        <div class="eb-item">
+          <span class="eb-name">USD Oficial</span>
+          <span class="eb-val" id="eb-oficial">—</span>
+        </div>
+        <span class="eb-sep" aria-hidden="true">·</span>
+        <div class="eb-item">
+          <span class="eb-name">USD Blue</span>
+          <span class="eb-val" id="eb-blue">—</span>
+        </div>
+        <span class="eb-sep" aria-hidden="true">·</span>
+        <div class="eb-item">
+          <span class="eb-name">EUR Oficial</span>
+          <span class="eb-val" id="eb-eur">—</span>
+        </div>
+        <span class="eb-sep eb-sep--hide" aria-hidden="true">·</span>
+        <span class="eb-update eb-sep--hide" id="eb-update"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    function fmt(v) { return '$ ' + Math.round(v).toLocaleString('es-AR'); }
+    function fmtDate(iso) {
+      var d = new Date(iso);
+      return d.toLocaleDateString('es-AR', { day: '2-digit', month: 'short' }) +
+             ' ' + d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+    }
+    fetch('https://api.bluelytics.com.ar/v2/latest')
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (d) {
+        var el = function (id) { return document.getElementById(id); };
+        if (d.oficial && el('eb-oficial'))    el('eb-oficial').textContent = fmt(d.oficial.value_sell);
+        if (d.blue && el('eb-blue'))          el('eb-blue').textContent    = fmt(d.blue.value_sell);
+        if (d.oficial_euro && el('eb-eur'))   el('eb-eur').textContent     = fmt(d.oficial_euro.value_sell);
+        if (d.last_update && el('eb-update')) el('eb-update').textContent  = fmtDate(d.last_update);
+      })
+      .catch(function () {
+        var u = document.getElementById('eb-update');
+        if (u) u.textContent = 'no disponible';
+      });
+  })();
+</script>
+
+<style>
+  .econ-bar {
+    border-bottom: 1px solid var(--border);
+    padding: 0.38rem 0;
+    font-family: var(--font-mono, 'PT Sans', monospace);
+    background: var(--bg);
+  }
+  .eb-inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .eb-label {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--fg-muted);
+    white-space: nowrap;
+  }
+  .eb-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    flex-shrink: 0;
+    animation: eb-pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes eb-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.35; }
+  }
+  .eb-items {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .eb-item { display: flex; align-items: baseline; gap: 0.3rem; }
+  .eb-name {
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+  .eb-val {
+    font-size: 0.74rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--fg);
+    letter-spacing: 0.03em;
+  }
+  .eb-sep { color: var(--border); font-size: 0.65rem; }
+  .eb-update {
+    font-size: 0.6rem;
+    color: var(--fg-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 520px) {
+    .eb-sep--hide, .eb-update { display: none; }
+  }
+</style>

@@ -11,10 +11,11 @@ const base = import.meta.env.BASE_URL;
 const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
 
 const navLinks = [
-  { href: '#practica',   label: 'Práctica' },
-  { href: '#equipo',     label: 'Equipo' },
-  { href: '#agenda',     label: 'Agenda' },
-  { href: '#contacto',   label: 'Contacto' },
+  { href: '#practica',              label: 'Práctica' },
+  { href: '#equipo',                label: 'Equipo' },
+  { href: '#agenda',                label: 'Agenda' },
+  { href: withBase('/vencimientos'), label: 'Vencimientos' },
+  { href: '#contacto',              label: 'Contacto' },
 ];
 const altHref = isLegal ? withBase('/contable') : withBase('/');
 const altLabel = isLegal ? '→ Contable' : '→ Legal';
