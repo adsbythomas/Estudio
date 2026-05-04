@@ -11,8 +11,10 @@ export interface Props {
   description: string;
   practice: Practice;
   canonical?: string;
+  /** false en subpáginas que NO tienen los anchors (#practica, #equipo, etc). */
+  landing?: boolean;
 }
-const { title, description, practice, canonical } = Astro.props;
+const { title, description, practice, canonical, landing = true } = Astro.props;
 const themeClass = practice === 'legal' ? 'theme-legal' : 'theme-accounting';
 // Color oficial del brandbook (Midnight Slate) — igual para ambas páginas.
 const themeColor = '#242b42';
@@ -86,7 +88,7 @@ const faviconHref = (base.endsWith('/') ? base.slice(0, -1) : base) + '/brand/is
     <!-- Skip -->
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:bg-white focus:px-4 focus:py-2 focus:z-50 focus:text-ink-900">Saltar al contenido</a>
 
-    <Nav practice={practice} />
+    <Nav practice={practice} landing={landing} />
 
     <main id="main"><slot /></main>
 

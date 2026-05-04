@@ -3,19 +3,28 @@ import { site } from '@lib/site';
 import type { Practice } from '@lib/site';
 import LangToggle from '@components/LangToggle.astro';
 
-export interface Props { practice: Practice }
-const { practice } = Astro.props;
+export interface Props {
+  practice: Practice;
+  /** Si la página actual contiene los anchors (#practica, #equipo, etc).
+   *  En subpáginas (ej. /vencimientos) los anchors apuntan a la landing correcta. */
+  landing?: boolean;
+}
+const { practice, landing = true } = Astro.props;
 const isLegal = practice === 'legal';
 
 const base = import.meta.env.BASE_URL;
 const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
 
+// Prefijo para los anchors. Si estamos en la landing, vacío (anchor local).
+// Si no, va a la landing correspondiente al practice del nav.
+const anchorBase = landing ? '' : withBase(isLegal ? '/' : '/contable');
+
 const navLinks = [
-  { href: '#practica',              label: 'Práctica' },
-  { href: '#equipo',                label: 'Equipo' },
-  { href: '#agenda',                label: 'Agenda' },
-  { href: withBase('/vencimientos'), label: 'Vencimientos' },
-  { href: '#contacto',              label: 'Contacto' },
+  { href: anchorBase + '#practica', label: 'Práctica' },
+  { href: anchorBase + '#equipo',   label: 'Equipo' },
+  { href: anchorBase + '#agenda',   label: 'Agenda' },
+  ...(isLegal ? [] : [{ href: withBase('/vencimientos'), label: 'Vencimientos' }]),
+  { href: anchorBase + '#contacto', label: 'Contacto' },
 ];
 const altHref = isLegal ? withBase('/contable') : withBase('/');
 const altLabel = isLegal ? '→ Contable' : '→ Legal';

@@ -8,6 +8,7 @@ const allData = JSON.stringify(vencimientos2026);
 ---
 <BaseLayout
   practice="accounting"
+  landing={false}
   title="PLB — Calendario de Vencimientos AFIP 2026 · Buenos Aires"
   description="Calendario interactivo de vencimientos impositivos AFIP Argentina 2026. Monotributo, IVA, Ganancias, Bienes Personales, Cargas Sociales. Estudio PLB Contable.">
 
@@ -58,9 +59,9 @@ const allData = JSON.stringify(vencimientos2026);
         <div id="cal-grid" class="cal-grid"></div>
 
         <div class="cal-legend">
-          <span class="cal-legend-item"><span class="cal-dot cal-dot--mt"></span>Monotributo</span>
-          <span class="cal-legend-item"><span class="cal-dot cal-dot--ri"></span>Resp. Inscripto</span>
-          <span class="cal-legend-item"><span class="cal-dot cal-dot--soc"></span>Sociedades</span>
+          <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-dot--mt"></span>Monotributo</span>
+          <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-dot--ri"></span>Resp. Inscripto</span>
+          <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-dot--soc"></span>Sociedades</span>
         </div>
       </div>
 
@@ -426,11 +427,21 @@ const allData = JSON.stringify(vencimientos2026);
   .cal-legend {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.25rem;
+    gap: 1.5rem;
     padding-top: 1rem;
     margin-top: 1rem;
     border-top: 1px solid var(--border);
   }
+  .cal-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .cal-legend-dot--mt  { background: #f59e0b; }
+  .cal-legend-dot--ri  { background: var(--brand-500); }
+  .cal-legend-dot--soc { background: #8b5cf6; }
   .cal-legend-item {
     display: inline-flex;
     align-items: center;
