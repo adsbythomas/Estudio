@@ -38,8 +38,8 @@ const linkHref = withBase('/vencimientos');
 <script define:vars={{ allData }}>
   (function () {
     var data = JSON.parse(allData);
-    var MONTHS_SHORT = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-    var DAYS_LONG    = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+    var MONTHS_LONG = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    var DAYS_LONG   = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
     var CAT_LABEL    = { monotributo: 'Monotributo', ri: 'Resp. Inscripto', sociedades: 'Sociedades' };
 
     var today = new Date();
@@ -86,8 +86,8 @@ const linkHref = withBase('/vencimientos');
         html += '<div class="agenda-day-header">';
         html += '<span class="agenda-day-num">' + d.getDate() + '</span>';
         html += '<div class="agenda-day-info">';
-        html += '<span class="agenda-day-month">' + MONTHS_SHORT[d.getMonth()] + ' ' + d.getFullYear() + '</span>';
         html += '<span class="agenda-day-name">' + DAYS_LONG[d.getDay()] + '</span>';
+        html += '<span class="agenda-day-month">' + MONTHS_LONG[d.getMonth()] + ' ' + d.getFullYear() + '</span>';
         html += '</div>';
         html += '<span class="agenda-day-diff' + (urgent ? ' agenda-day-diff--urgent' : '') + '">' + diffLabel + '</span>';
         html += '</div>';
@@ -160,19 +160,22 @@ const linkHref = withBase('/vencimientos');
     gap: 0.15rem;
     min-width: 0;
   }
+  .agenda-day-name {
+    font-family: var(--font-sans, system-ui);
+    font-size: 1.05rem;
+    color: var(--fg);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.005em;
+  }
   .agenda-day-month {
     font-family: var(--font-mono, monospace);
     font-size: 0.62rem;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--brand-500);
     font-weight: 700;
-  }
-  .agenda-day-name {
-    font-family: var(--font-sans, system-ui);
-    font-size: 0.85rem;
-    color: var(--fg-muted);
-    font-weight: 500;
+    margin-top: 0.2rem;
   }
   .agenda-day-diff {
     font-family: var(--font-mono, monospace);
