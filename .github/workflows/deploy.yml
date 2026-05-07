@@ -32,8 +32,8 @@ jobs:
 
       - name: Build
         env:
-          SITE_URL: ${{ steps.pages.outputs.origin }}
-          BASE_PATH: /${{ github.event.repository.name }}
+          SITE_URL: https://pl-abogados.com
+          BASE_PATH: /
         run: npm run build
 
       - name: Setup Pages
