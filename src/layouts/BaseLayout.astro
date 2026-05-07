@@ -31,6 +31,12 @@ const faviconHref = (base.endsWith('/') ? base.slice(0, -1) : base) + '/brand/is
     <meta name="description" content={description} />
     <meta name="theme-color" content={themeColor} />
     <meta name="robots" content="index, follow, max-image-preview:large" />
+    <!-- HTML siempre revalidado: evita que el navegador sirva una versión vieja
+         tras un deploy. Los assets (JS/CSS/imágenes) usan hash en el nombre,
+         así que sí pueden cachearse agresivamente. -->
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     {canonical && <link rel="canonical" href={canonical} />}
 
     <meta property="og:type" content="website" />
