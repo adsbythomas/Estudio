@@ -4,7 +4,6 @@ import Nav from '@components/Nav.astro';
 import Footer from '@components/Footer.astro';
 import type { Practice } from '@lib/site';
 import { ES_TO_EN, ES_TO_EN_PREFIXES } from '@lib/i18n';
-import { ViewTransitions } from 'astro:transitions';
 
 export interface Props {
   title: string;
@@ -79,9 +78,6 @@ const faviconHref = (base.endsWith('/') ? base.slice(0, -1) : base) + '/brand/is
       },
       foundingDate: '2003',
     })} />
-
-    <!-- Transiciones suaves entre páginas (fade/morph en lugar de corte). -->
-    <ViewTransitions />
   </head>
   <body class="grain">
     <!-- Preloader con isotipo oficial del brandbook -->
