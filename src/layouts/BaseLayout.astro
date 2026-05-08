@@ -4,6 +4,7 @@ import Nav from '@components/Nav.astro';
 import Footer from '@components/Footer.astro';
 import type { Practice } from '@lib/site';
 import { ES_TO_EN, ES_TO_EN_PREFIXES } from '@lib/i18n';
+import { ViewTransitions } from 'astro:transitions';
 
 export interface Props {
   title: string;
@@ -78,6 +79,9 @@ const faviconHref = (base.endsWith('/') ? base.slice(0, -1) : base) + '/brand/is
       },
       foundingDate: '2003',
     })} />
+
+    <!-- Transiciones suaves entre páginas (fade/morph en lugar de corte). -->
+    <ViewTransitions />
   </head>
   <body class="grain">
     <!-- Preloader con isotipo oficial del brandbook -->
@@ -100,142 +104,183 @@ const faviconHref = (base.endsWith('/') ? base.slice(0, -1) : base) + '/brand/is
     <Footer practice={practice} />
 
     <script is:inline>
-      // ═══════════════════════════════════════════════
-      // Preloader — desaparece apenas carga el DOM
-      // ═══════════════════════════════════════════════
-      window.addEventListener('load', () => {
-        setTimeout(() => document.getElementById('preloader')?.classList.add('done'), 350);
-      });
+      // ═══════════════════════════════════════════════════════════════════════
+      // Init de la página. Se llama en el load inicial y en cada navegación
+      // por View Transitions (evento `astro:page-load`). El scroll listener y
+      // las variables de cache se atan una sola vez (flag `__plbInit`) para
+      // evitar duplicados; los IntersectionObservers se recrean cada vez
+      // porque el DOM se reemplaza.
+      // ═══════════════════════════════════════════════════════════════════════
+      (function () {
+        // Estado a nivel sesión
+        const State = (window.__plbState = window.__plbState || {
+          scrollAttached: false,
+          parallaxEls: [],
+          progressBar: null,
+          nav: null,
+          revealIO: null,
+          counterIO: null,
+        });
 
-      // ═══════════════════════════════════════════════
-      // Scroll progress bar + nav solid + parallax
-      // Cacheamos selectores, throttleamos con requestAnimationFrame
-      // y saltamos el parallax si el usuario prefiere menos motion o
-      // el dispositivo es táctil chico (menos ancho que 768px).
-      // ═══════════════════════════════════════════════
-      const progressBar = document.getElementById('scrollProgress');
-      const nav = document.querySelector('[data-nav]');
-      const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]')).map((el) => ({
-        el,
-        speed: parseFloat(el.getAttribute('data-parallax-speed') || '0.2'),
-      }));
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const isSmallViewport = window.innerWidth < 768;
-      const skipParallax = prefersReducedMotion || isSmallViewport;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isSmallViewport = window.innerWidth < 768;
+        const skipParallax = prefersReducedMotion || isSmallViewport;
 
-      let ticking = false;
-      const onScroll = () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-          const h = document.documentElement;
-          const scrolled = h.scrollHeight > h.clientHeight
-            ? h.scrollTop / (h.scrollHeight - h.clientHeight)
-            : 0;
-          if (progressBar) progressBar.style.setProperty('--progress', String(scrolled));
-          if (nav) nav.classList.toggle('solid', h.scrollTop > 40);
+        function attachScrollOnce() {
+          if (State.scrollAttached) return;
+          State.scrollAttached = true;
 
-          if (!skipParallax) {
-            const vhHalf = window.innerHeight / 2;
-            for (let i = 0; i < parallaxEls.length; i++) {
-              const p = parallaxEls[i];
-              const rect = p.el.getBoundingClientRect();
-              const off = (rect.top + rect.height / 2 - vhHalf) * p.speed * -1;
-              // translate3d fuerza compositing en GPU; no usamos transition.
-              p.el.style.transform = 'translate3d(0,' + off + 'px,0)';
+          let ticking = false;
+          const onScroll = () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+              const h = document.documentElement;
+              const scrolled = h.scrollHeight > h.clientHeight
+                ? h.scrollTop / (h.scrollHeight - h.clientHeight) : 0;
+              if (State.progressBar) State.progressBar.style.setProperty('--progress', String(scrolled));
+              if (State.nav) State.nav.classList.toggle('solid', h.scrollTop > 40);
+
+              if (!skipParallax) {
+                const vhHalf = window.innerHeight / 2;
+                for (let i = 0; i < State.parallaxEls.length; i++) {
+                  const p = State.parallaxEls[i];
+                  const rect = p.el.getBoundingClientRect();
+                  const off = (rect.top + rect.height / 2 - vhHalf) * p.speed * -1;
+                  p.el.style.transform = 'translate3d(0,' + off + 'px,0)';
+                }
+              }
+              ticking = false;
+            });
+          };
+          window.addEventListener('scroll', onScroll, { passive: true });
+          State.onScroll = onScroll;
+        }
+
+        function splitWords(el) {
+          if (el.dataset.wordSplit === '1') return;
+          let wordIndex = 0;
+          const TEXT_NODE = 3;
+          const ELEMENT_NODE = 1;
+
+          function process(node) {
+            if (node.nodeType === TEXT_NODE) {
+              const parts = (node.textContent || '').split(/(\s+)/);
+              const frag = document.createDocumentFragment();
+              parts.forEach((part) => {
+                if (/^\s+$/.test(part)) {
+                  frag.appendChild(document.createTextNode(part));
+                } else if (part.length) {
+                  const span = document.createElement('span');
+                  span.className = 'word';
+                  span.style.setProperty('--word-i', String(wordIndex++));
+                  span.textContent = part;
+                  frag.appendChild(span);
+                }
+              });
+              node.parentNode.replaceChild(frag, node);
+            } else if (node.nodeType === ELEMENT_NODE) {
+              // Recursión sobre hijos (snapshot porque vamos a mutar)
+              Array.from(node.childNodes).forEach(process);
             }
           }
-          ticking = false;
-        });
-      };
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
+          Array.from(el.childNodes).forEach(process);
+          el.dataset.wordSplit = '1';
+        }
 
-      // ═══════════════════════════════════════════════
-      // Reveal on scroll — para .reveal y .stack-line y .skyline y .blueprint y .split-word
-      // ═══════════════════════════════════════════════
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('in');
-            e.target.classList.add('in-view');
+        function initPage() {
+          // Re-cachear referencias que cambian con cada page-load
+          State.progressBar = document.getElementById('scrollProgress');
+          State.nav = document.querySelector('[data-nav]');
+          State.parallaxEls = Array.from(document.querySelectorAll('[data-parallax]')).map((el) => ({
+            el, speed: parseFloat(el.getAttribute('data-parallax-speed') || '0.2'),
+          }));
 
-            // stagger los stack-lines dentro del reveal
-            const lines = e.target.querySelectorAll?.('[data-stack-line]');
-            lines?.forEach?.((l, i) => {
-              setTimeout(() => l.classList.add('in'), i * 90);
+          attachScrollOnce();
+          // Re-disparar onScroll para sincronizar progress bar / parallax con la posición actual
+          if (State.onScroll) State.onScroll();
+
+          // Word-split sobre los títulos marcados (para el reveal palabra-por-palabra)
+          document.querySelectorAll('[data-word-reveal]').forEach((el) => splitWords(el));
+
+          // Reveal IntersectionObserver (recreamos cada navegación)
+          State.revealIO?.disconnect();
+          State.revealIO = new IntersectionObserver((entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('in', 'in-view');
+                const lines = e.target.querySelectorAll?.('[data-stack-line]');
+                lines?.forEach?.((l, i) => setTimeout(() => l.classList.add('in'), i * 90));
+                State.revealIO.unobserve(e.target);
+              }
             });
+          }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+          document.querySelectorAll('.reveal, .skyline, .blueprint, [data-stack-line], [data-team-row], [data-word-reveal]').forEach((el) => State.revealIO.observe(el));
 
-            io.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+          // Counters (count-up al entrar en viewport)
+          State.counterIO?.disconnect();
+          State.counterIO = new IntersectionObserver((entries) => {
+            entries.forEach((e) => {
+              if (!e.isIntersecting) return;
+              const target = parseFloat(e.target.getAttribute('data-target') || '0');
+              const valEl = e.target.querySelector('[data-counter-val]') || e.target;
+              const dur = 1600;
+              const start = performance.now();
+              const step = (t) => {
+                const p = Math.min(1, (t - start) / dur);
+                const ease = 1 - Math.pow(1 - p, 3);
+                valEl.textContent = Math.round(target * ease).toString();
+                if (p < 1) requestAnimationFrame(step);
+              };
+              requestAnimationFrame(step);
+              State.counterIO.unobserve(e.target);
+            });
+          }, { threshold: 0.4 });
+          document.querySelectorAll('[data-counter]').forEach((c) => State.counterIO.observe(c));
 
-      document.querySelectorAll('.reveal, .skyline, .blueprint, [data-stack-line], [data-team-row]').forEach((el) => io.observe(el));
+          // Menú mobile (re-attach por DOM nuevo)
+          const openBtn = document.getElementById('mob-open');
+          const closeBtn = document.getElementById('mob-close');
+          const mob = document.getElementById('mob');
+          openBtn?.addEventListener('click', () => { mob?.classList.add('open'); document.body.style.overflow = 'hidden'; });
+          closeBtn?.addEventListener('click', () => { mob?.classList.remove('open'); document.body.style.overflow = ''; });
+          mob?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
+            mob.classList.remove('open'); document.body.style.overflow = '';
+          }));
 
-      // ═══════════════════════════════════════════════
-      // Counters — count-up al entrar en viewport
-      // ═══════════════════════════════════════════════
-      const counters = document.querySelectorAll('[data-counter]');
-      const counterIO = new IntersectionObserver((entries) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          const target = parseFloat(e.target.getAttribute('data-target') || '0');
-          const valEl = e.target.querySelector('[data-counter-val]');
-          if (!valEl) return;
-          const dur = 1600;
-          const start = performance.now();
-          const step = (t) => {
-            const p = Math.min(1, (t - start) / dur);
-            const ease = 1 - Math.pow(1 - p, 3);
-            valEl.textContent = Math.round(target * ease).toString();
-            if (p < 1) requestAnimationFrame(step);
-          };
-          requestAnimationFrame(step);
-          counterIO.unobserve(e.target);
-        });
-      }, { threshold: 0.4 });
-      counters.forEach((c) => counterIO.observe(c));
+          // Form feedback
+          document.querySelectorAll('form[data-contact]').forEach((form) => {
+            form.addEventListener('submit', (e) => {
+              e.preventDefault();
+              const btn = form.querySelector('button[type="submit"]');
+              if (!btn) return;
+              btn.querySelector('span').textContent = 'Consulta enviada · gracias';
+              btn.setAttribute('disabled', 'true');
+              btn.style.background = '#2f5d38';
+            });
+          });
 
-      // Nota: cursor personalizado y magnetic buttons removidos
-      // para un look más sobrio y corporativo.
+          // Índice de prácticas — contador activo al hover
+          const indexItems = document.querySelectorAll('[data-index-item]');
+          const indexCount = document.querySelector('[data-index-count]');
+          indexItems.forEach((it, i) => {
+            it.addEventListener('mouseenter', () => {
+              if (indexCount) indexCount.textContent = String(i + 1).padStart(2, '0');
+            });
+          });
+        }
 
-      // ═══════════════════════════════════════════════
-      // Menú mobile
-      // ═══════════════════════════════════════════════
-      const openBtn = document.getElementById('mob-open');
-      const closeBtn = document.getElementById('mob-close');
-      const mob = document.getElementById('mob');
-      openBtn?.addEventListener('click', () => { mob?.classList.add('open'); document.body.style.overflow = 'hidden'; });
-      closeBtn?.addEventListener('click', () => { mob?.classList.remove('open'); document.body.style.overflow = ''; });
-      mob?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
-        mob.classList.remove('open'); document.body.style.overflow = '';
-      }));
+        // Preloader: una sola vez
+        window.addEventListener('load', () => {
+          setTimeout(() => document.getElementById('preloader')?.classList.add('done'), 350);
+        }, { once: true });
 
-      // ═══════════════════════════════════════════════
-      // Form feedback
-      // ═══════════════════════════════════════════════
-      document.querySelectorAll('form[data-contact]').forEach((form) => {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const btn = form.querySelector('button[type="submit"]');
-          if (!btn) return;
-          btn.querySelector('span').textContent = 'Consulta enviada · gracias';
-          btn.setAttribute('disabled', 'true');
-          btn.style.background = '#2f5d38';
-        });
-      });
-
-      // ═══════════════════════════════════════════════
-      // Índice de prácticas — contador activo al hover
-      // ═══════════════════════════════════════════════
-      const indexItems = document.querySelectorAll('[data-index-item]');
-      const indexCount = document.querySelector('[data-index-count]');
-      indexItems.forEach((it, i) => {
-        it.addEventListener('mouseenter', () => {
-          if (indexCount) indexCount.textContent = String(i + 1).padStart(2, '0');
-        });
-      });
+        // Init en page-load (View Transitions). Si el evento ya pasó, ejecutar igual.
+        document.addEventListener('astro:page-load', initPage);
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+          initPage();
+        }
+      })();
     </script>
 
     <!-- ═══════════════════════════════════════════════

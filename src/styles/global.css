@@ -493,12 +493,68 @@
   }
 
   /* Section kicker */
-  .section-kicker {
-    @apply flex items-center gap-4 text-tick uppercase tracking-tick font-mono mb-6;
-    color: var(--bronze-500);
+  /* Cada `<main>` arranca el contador de secciones desde 0 — así los números
+     editoriales (01, 02, ...) se reinician por página. */
+  main { counter-reset: plb-section; }
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     Reveal palabra-por-palabra. Las palabras se envuelven en `<span class="word">`
+     vía JS al cargar la página. CSS las anima con un stagger basado en el índice
+     `--word-i`. El estado inicial (oculto + clip-path) se aplica al elemento, y
+     se libera cuando el padre toma la clase `.in` (vía IntersectionObserver).
+     ───────────────────────────────────────────────────────────────────────── */
+  [data-word-reveal] .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.4em);
+    clip-path: inset(0 0 100% 0);
+    transition:
+      opacity .65s cubic-bezier(0.2, 0.6, 0.2, 1),
+      transform .65s cubic-bezier(0.2, 0.6, 0.2, 1),
+      clip-path .65s cubic-bezier(0.2, 0.6, 0.2, 1);
+    transition-delay: calc(var(--word-i, 0) * 22ms);
+    will-change: opacity, transform, clip-path;
   }
+  [data-word-reveal].in .word,
+  [data-word-reveal] .word.in {
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(0 0 0 0);
+  }
+  /* Sin animación si el usuario lo prefiere */
+  @media (prefers-reduced-motion: reduce) {
+    [data-word-reveal] .word {
+      opacity: 1; transform: none; clip-path: none; transition: none;
+    }
+  }
+
+  .section-kicker {
+    @apply flex items-center gap-3 text-tick uppercase tracking-tick font-mono mb-6;
+    color: var(--bronze-500);
+    counter-increment: plb-section;
+  }
+  /* Numeración editorial sutil: el número de sección antes del label. Misma
+     tipografía mono pero con el color principal del tema y un punto
+     separador. Aporta ritmo entre secciones sin pesar visualmente. */
   .section-kicker::before {
-    content: ''; width: 48px; height: 1px; background: currentColor;
+    content: counter(plb-section, decimal-leading-zero);
+    color: var(--brand-500);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    /* anula la línea horizontal del diseño anterior */
+    width: auto;
+    height: auto;
+    background: transparent;
+  }
+  /* Línea fina detrás del número, para mantener la pieza editorial */
+  .section-kicker::after {
+    content: '';
+    width: 36px;
+    height: 1px;
+    background: currentColor;
+    flex-shrink: 0;
+    opacity: 0.5;
+    order: 99; /* la deja al final */
   }
 
   /* Form */
