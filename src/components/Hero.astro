@@ -7,45 +7,41 @@ export interface Props {
   titleLine1: string;
   titleLine2: string;
   lead: string;
-  ctaPrimary: string;
   altLabel: string;
   altHref: string;
 }
-const { practice, titleLine1, titleLine2, lead, ctaPrimary, altLabel, altHref } = Astro.props;
+const { practice, titleLine1, titleLine2, lead, altLabel, altHref } = Astro.props;
 const kicker = practice === 'legal' ? 'Abogados · Buenos Aires' : 'Contadores Públicos · Buenos Aires';
+// Etiqueta del segundo cifrado: "Áreas" en legal, "Servicios" en contable.
+const middleStatLabel = practice === 'legal' ? 'Áreas' : 'Servicios';
 
 const base = import.meta.env.BASE_URL;
 const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
-const isoSrc = withBase(practice === 'legal' ? '/brand/isotipo-white.svg' : '/brand/isotipo.svg');
-const questionnairePath = practice === 'legal' ? withBase('/automatizacion') : withBase('/automatizacion-contable');
-const questionnaireLabel = practice === 'legal' ? 'Responda nuestro cuestionario' : 'Responda nuestro cuestionario';
 ---
-<section class="relative overflow-hidden flex items-center" data-hero style="min-height: calc(100svh - 4rem);">
-  <!-- Obelisco decorativo único, a la derecha -->
-  <div class="hidden lg:block absolute right-4 xl:right-12 top-1/2 -translate-y-1/2 z-0 w-[160px] xl:w-[210px] pointer-events-none opacity-[0.55]"
+<section class="relative overflow-hidden flex items-center" data-hero style="min-height: 100svh;">
+  <!-- Obelisco decorativo — su altura se ajusta dinámicamente para que el
+       extremo superior se alinee con la línea del kicker (Abogados · Buenos
+       Aires) y el inferior con la línea de los labels de la faja
+       (Jurisdicciones). El SVG escala manteniendo el aspecto 1:3. -->
+  <div class="hero-obelisco hidden lg:block absolute right-4 xl:right-12 z-0 pointer-events-none opacity-[0.55]"
        style="color: var(--brand-500);" data-parallax data-parallax-speed="0.15">
     <Obelisco />
   </div>
 
   <!-- Contenido centrado -->
   <div class="shell relative z-10 py-8 md:py-12 w-full text-center">
-    <!-- Isotipo (sin wordmark duplicado — ya está en el nav) -->
-    <div class="mb-5 flex justify-center">
-      <img src={isoSrc} alt="Pantarotto Lértora Bardagí" width="72" height="72" />
-    </div>
-
     <!-- Tagline con underline -->
     <div class="mb-7 md:mb-9 inline-flex flex-col items-center">
       <span class="font-mono text-[0.75rem] md:text-[0.85rem] uppercase tracking-[0.3em] font-medium"
-            style="color: var(--bronze-500)">
+            style="color: var(--bronze-500)" data-hero-kicker>
         {kicker}
       </span>
       <span class="mt-3 block w-10 h-px" style="background: var(--bronze-500)"></span>
     </div>
 
     <!-- Título grande en 2 líneas, centrado -->
-    <h1 class="font-sans font-bold leading-[1.06] tracking-tight max-w-[1000px] mx-auto mb-7"
-        style="font-size: clamp(2.3rem, 5.6vw, 4.3rem); color: var(--fg);">
+    <h1 class="font-sans font-bold leading-[1.06] tracking-tight max-w-[950px] mx-auto mb-7"
+        style="font-size: clamp(2rem, 4.6vw, 3.6rem); color: var(--fg);">
       <span class="stack-line block" data-stack-line>
         <span class="inline-block">{titleLine1}</span>
       </span>
@@ -56,90 +52,215 @@ const questionnaireLabel = practice === 'legal' ? 'Responda nuestro cuestionario
 
     <!-- Lead -->
     <p class="reveal mx-auto max-w-[700px] text-[0.98rem] md:text-[1.08rem] leading-relaxed mb-8"
-       style="color: var(--fg-muted);">
-      {lead}
+       style="color: var(--fg-muted);"
+       set:html={lead}>
     </p>
 
-    <!-- CTAs -->
-    <div class="reveal inline-flex flex-wrap gap-3 justify-center items-center">
-      <a href="#contacto" class="btn-editorial">
-        <span>{ctaPrimary}</span>
+    <!-- CTAs centrados -->
+    <div class="reveal flex flex-wrap gap-4 justify-center items-center">
+      <a href="#practica" class="btn-hero btn-hero-areas">
+        <span>Áreas</span>
       </a>
-      <a href={questionnairePath} class="btn-questionnaire">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-          <line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-        <span>{questionnaireLabel}</span>
+      <a href={altHref} class="btn-hero btn-hero-accounting">
+        <span>{altLabel}</span>
       </a>
     </div>
+  </div>
 
-    <!-- Link secundario a la otra área -->
-    <div class="reveal mt-6">
-      <a href={altHref} class="link-accounting font-mono text-tick uppercase tracking-tick">
-        {altLabel}
-      </a>
+  <!-- Faja de cifras clave — anclada al fondo del hero. Tres números con
+       etiqueta corta, separados por líneas finas. Comunica trayectoria,
+       alcance temático y geográfico de un vistazo. -->
+  <div class="hero-stats reveal" aria-label="Cifras clave del estudio">
+    <div class="hero-stat">
+      <div class="hero-stat-num">23</div>
+      <div class="hero-stat-label">Años</div>
+    </div>
+    <span class="hero-stat-sep" aria-hidden="true"></span>
+    <div class="hero-stat">
+      <div class="hero-stat-num">6</div>
+      <div class="hero-stat-label">{middleStatLabel}</div>
+    </div>
+    <span class="hero-stat-sep" aria-hidden="true"></span>
+    <div class="hero-stat">
+      <div class="hero-stat-num">3</div>
+      <div class="hero-stat-label">Jurisdicciones</div>
     </div>
   </div>
 </section>
 
+<script is:inline>
+  // Calcula top/bottom del obelisco para que su extremo superior coincida con
+  // la línea del kicker ("Abogados · Buenos Aires") y el inferior con la línea
+  // de los labels de la faja ("Jurisdicciones"). Publica variables CSS sobre
+  // el <section> del hero.
+  (function () {
+    const setObelisco = () => {
+      const section = document.querySelector('[data-hero]');
+      const kicker = document.querySelector('[data-hero-kicker]');
+      const stats = document.querySelector('.hero-stats');
+      if (!section || !kicker || !stats) return;
+      const sRect = section.getBoundingClientRect();
+      const kRect = kicker.getBoundingClientRect();
+      const stRect = stats.getBoundingClientRect();
+      // top: distancia desde el tope de la sección hasta el tope del kicker.
+      const top = Math.max(0, kRect.top - sRect.top);
+      // bottom: distancia desde el fondo de la sección hasta el fondo de la
+      // faja (que es la línea de baseline de los labels).
+      const bottom = Math.max(0, sRect.bottom - stRect.bottom);
+      section.style.setProperty('--obelisco-top', top + 'px');
+      section.style.setProperty('--obelisco-bottom', bottom + 'px');
+    };
+    setObelisco();
+    window.addEventListener('resize', setObelisco);
+    window.addEventListener('load', setObelisco);
+    // En caso de que las fuentes terminen de cargar después
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(setObelisco);
+  })();
+</script>
+
 <style>
-  .btn-outline {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.75rem 1.35rem;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--fg);
-    background: transparent;
-    border: 1px solid var(--border);
-    transition: all .4s cubic-bezier(0.2, 0.6, 0.2, 1);
+  /* Obelisco — extremo superior alineado con el kicker, extremo inferior
+     alineado con la línea de "Jurisdicciones". El SVG llena el alto del
+     wrapper manteniendo aspecto 1:3 (ancho derivado). Uso :global() porque
+     `.skyline` y `svg` viven en el componente Obelisco — el CSS scoping
+     de Astro no los alcanzaría sin esto. */
+  .hero-obelisco {
+    top: var(--obelisco-top, 22%);
+    bottom: var(--obelisco-bottom, 2rem);
+    /* aspecto del SVG: 200×600 = 1:3. Fijamos ancho derivado del alto
+       disponible para que el wrapper tenga dimensiones explícitas y no
+       colapse a 0 en navegadores que no infieren ancho del SVG. */
+    aspect-ratio: 1 / 3;
   }
-  .btn-outline:hover {
-    border-color: var(--brand-500);
-    color: var(--brand-400);
+  .hero-obelisco :global(.skyline) {
+    height: 100%;
+    width: 100%;
+    display: block;
+  }
+  .hero-obelisco :global(svg) {
+    height: 100%;
+    width: 100%;
+    display: block;
   }
 
-  /* Botón distintivo para el cuestionario — acento bronce */
-  .btn-questionnaire {
+  /* Faja de cifras clave — centrada en la base del hero. */
+  .hero-stats {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    z-index: 5;
+  }
+  .hero-stat {
+    text-align: center;
+    min-width: 88px;
+  }
+  .hero-stat-num {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--brand-500);
+    letter-spacing: -0.02em;
+  }
+  .hero-stat-label {
+    margin-top: 0.45rem;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: 0.66rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    font-weight: 500;
+  }
+  .hero-stat-sep {
+    display: block;
+    width: 1px;
+    height: 36px;
+    background: var(--border);
+    opacity: 0.6;
+  }
+  @media (max-width: 640px) {
+    .hero-stats { gap: 1.4rem; bottom: 1.25rem; }
+    .hero-stat-num { font-size: 1.7rem; }
+    .hero-stat-label { font-size: 0.6rem; }
+    .hero-stat-sep { height: 28px; }
+  }
+
+  /* Botones del Hero — sobrios, tamaño cómodo, centrados */
+  .btn-hero {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-    padding: 0.75rem 1.35rem;
-    font-size: 0.72rem;
+    justify-content: center;
+    min-width: 200px;
+    padding: 1rem 2.25rem;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: 0.82rem;
     font-weight: 600;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--bronze-500);
-    background: transparent;
-    border: 1.5px solid var(--bronze-500);
     border-radius: 2px;
-    transition: all .4s cubic-bezier(0.2, 0.6, 0.2, 1);
+    transition: all .45s cubic-bezier(0.2, 0.6, 0.2, 1);
     position: relative;
     overflow: hidden;
   }
-  .btn-questionnaire::before {
+  .btn-hero span {
+    position: relative;
+    z-index: 1;
+  }
+  .btn-hero::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--bronze-500);
-    transform: translateX(-100%);
-    transition: transform .4s cubic-bezier(0.2, 0.6, 0.2, 1);
+    transform: translateX(-101%);
+    transition: transform .45s cubic-bezier(0.2, 0.6, 0.2, 1);
     z-index: 0;
   }
-  .btn-questionnaire:hover::before {
+  .btn-hero:hover::before {
     transform: translateX(0);
   }
-  .btn-questionnaire:hover {
+
+  /* Áreas — usa el color principal del área activa (legal=slate / contable=bronze) */
+  .btn-hero-areas {
+    color: var(--brand-500);
+    background: transparent;
+    border: 1.5px solid var(--brand-500);
+  }
+  .btn-hero-areas::before {
+    background: var(--brand-500);
+  }
+  .btn-hero-areas:hover {
     color: var(--bg);
   }
-  .btn-questionnaire svg,
-  .btn-questionnaire span {
-    position: relative;
-    z-index: 1;
+
+  /* Botón cross-link entre áreas — en tema legal apunta a contable y usa el color
+     de fondo de la página contable (Ice Grey #e9e9f2). En tema contable apunta a
+     legal y usa el navy (color principal del área contable como acento). */
+  .btn-hero-accounting {
+    color: #e9e9f2;
+    background: transparent;
+    border: 1.5px solid #e9e9f2;
+  }
+  .btn-hero-accounting::before {
+    background: #e9e9f2;
+  }
+  .btn-hero-accounting:hover {
+    color: #242b42;
+    border-color: #e9e9f2;
+  }
+  /* En tema contable (fondo ice grey) el botón apunta a legal: color navy. */
+  :global(.theme-accounting) .btn-hero-accounting {
+    color: #242b42;
+    background: transparent;
+    border-color: #242b42;
+  }
+  :global(.theme-accounting) .btn-hero-accounting::before {
+    background: #242b42;
+  }
+  :global(.theme-accounting) .btn-hero-accounting:hover {
+    color: #e9e9f2;
+    border-color: #242b42;
   }
 </style>

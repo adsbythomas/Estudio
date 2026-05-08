@@ -58,7 +58,7 @@ export const legalQuestions: Question[] = [
     question: '¿Se trata de planificación fiscal, litigio con el fisco, o precios de transferencia?',
     answers: [
       { id: 'legal-tax-planning', label: 'Planificación fiscal / reestructuración', nextStep: 'results' },
-      { id: 'legal-tax-litigation', label: 'Litigio con la AFIP', nextStep: 'results' },
+      { id: 'legal-tax-litigation', label: 'Litigio con ARCA', nextStep: 'results' },
       { id: 'legal-transfer-pricing', label: 'Precios de transferencia', nextStep: 'results' },
       { id: 'legal-tax-other', label: 'Otra', nextStep: 'results' },
     ],
@@ -91,7 +91,7 @@ export const legalQuestions: Question[] = [
     answers: [
       { id: 'legal-trade-customs', label: 'Penal aduanero / infracciones', nextStep: 'results' },
       { id: 'legal-trade-imex', label: 'Importación y exportación', nextStep: 'results' },
-      { id: 'legal-trade-afip', label: 'Representación ante AFIP-DGA', nextStep: 'results' },
+      { id: 'legal-trade-afip', label: 'Representación ante ARCA-DGA', nextStep: 'results' },
     ],
   },
   {
@@ -185,7 +185,7 @@ export const documentsByRoute: Record<string, DocumentRequirement[]> = {
   legal_trade: [
     { name: 'Documentos aduaneros (DUA, facturas)', category: 'Aduanero', description: 'Documentación de operaciones de comercio exterior' },
     { name: 'Permisos de importación/exportación', category: 'Aduanero', description: 'Licencias o autorización de comercialización si aplican' },
-    { name: 'Correspondencia con la AFIP-DGA', category: 'Aduanero', description: 'Notificaciones o requerimientos de la autoridad aduanera', optional: true },
+    { name: 'Correspondencia con ARCA-DGA', category: 'Aduanero', description: 'Notificaciones o requerimientos de la autoridad aduanera', optional: true },
   ],
   // Legal - Aerocomercial
   legal_aviation: [
@@ -238,7 +238,7 @@ export const responseRoutes: Record<string, ResultRoute> = {
   'legal-tax-litigation': {
     contactKey: 'pantarotto',
     documents: ['legal_tax'],
-    advice: 'Contamos con experiencia en litigios ante la AFIP. Traiga toda correspondencia del fisco y sus últimos balances.',
+    advice: 'Contamos con experiencia en litigios ante ARCA. Traiga toda correspondencia del fisco y sus últimos balances.',
   },
   'legal-transfer-pricing': {
     contactKey: 'pantarotto',
@@ -300,7 +300,7 @@ export const responseRoutes: Record<string, ResultRoute> = {
   'accounting-payroll': {
     contactKey: 'accounting',
     documents: ['accounting_taxes'],
-    advice: 'Liquidamos sueldos y presentamos información ante la AFIP. Comunique cantidad de empleados y cambios de personal.',
+    advice: 'Liquidamos sueldos y presentamos información ante ARCA. Comunique cantidad de empleados y cambios de personal.',
   },
   'accounting-intl': {
     contactKey: 'accounting',
@@ -378,7 +378,7 @@ export const responseRoutes: Record<string, ResultRoute> = {
   'legal-trade-afip': {
     contactKey: 'pantarotto',
     documents: ['legal_trade'],
-    advice: 'Representamos ante AFIP-DGA. Traiga toda correspondencia y notificaciones de la autoridad aduanera.',
+    advice: 'Representamos ante ARCA-DGA. Traiga toda correspondencia y notificaciones de la autoridad aduanera.',
   },
 
   // Rutas del sub-paso tributario "otra"

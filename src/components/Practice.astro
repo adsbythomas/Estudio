@@ -1,12 +1,22 @@
 ---
-export interface Area { key: string; name: string; desc: string; }
+export interface Area {
+  key: string;
+  name: string;
+  desc: string;
+  meetingTopic?: string;
+  intro?: string;
+  services?: Array<{ title: string; desc: string }>;
+}
 export interface Props {
   label: string;
   title: string;
   sub: string;
   items: Area[];
+  /** Si se pasa, cada área linkea a `${subpagePrefix}/${a.key}`. Si no, a #contacto. */
+  subpagePrefix?: string;
 }
-const { label, title, sub, items } = Astro.props;
+const { label, title, sub, items, subpagePrefix } = Astro.props;
+const linkFor = (key: string) => subpagePrefix ? `${subpagePrefix}/${key}` : '#contacto';
 ---
 <section id="practica" class="relative py-16 md:py-20 reveal">
   <div class="shell grid md:grid-cols-[1fr_1.8fr] gap-12 md:gap-20">
@@ -38,7 +48,7 @@ const { label, title, sub, items } = Astro.props;
     <!-- Lista de áreas -->
     <div class="space-y-0" data-index>
       {items.map((a, i) => (
-        <a href="#contacto"
+        <a href={linkFor(a.key)}
            class="block index-row group"
            data-index-item
            data-area-key={a.key}
@@ -48,7 +58,7 @@ const { label, title, sub, items } = Astro.props;
             <span class="index-name">{a.name}</span>
             <p class="index-desc">{a.desc}</p>
           </div>
-          <span class="index-arrow">Consultar →</span>
+          <span class="index-arrow">{subpagePrefix ? 'Ver área →' : 'Consultar →'}</span>
         </a>
       ))}
     </div>

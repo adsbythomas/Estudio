@@ -12,7 +12,7 @@ export const ES_TO_EN: Record<string, string> = {
   '→ Contable': '→ Accounting',
   '→ Legal': '→ Legal',
   'Inicio': 'Home',
-  'Desde 2004': 'Since 2004',
+  'Desde 2003': 'Since 2003',
   'Abrir menú': 'Open menu',
   'Cerrar': 'Close',
 
@@ -89,8 +89,8 @@ export const ES_TO_EN: Record<string, string> = {
   'Consultar': 'Inquire',
   'Planificación fiscal, litigios ante el fisco, precios de transferencia, tributario internacional y reestructuraciones impositivas.':
     'Tax planning, tax litigation, transfer pricing, international tax and tax restructurings.',
-  'Penal aduanero, comercio exterior, importación y exportación, infracciones y representación ante la AFIP-DGA.':
-    'Customs criminal law, foreign trade, imports and exports, infractions and representation before AFIP-DGA.',
+  'Penal aduanero, comercio exterior, importación y exportación, infracciones y representación ante la ARCA-DGA.':
+    'Customs criminal law, foreign trade, imports and exports, infractions and representation before ARCA-DGA.',
   'Relaciones individuales y colectivas de trabajo, negociación sindical, conflictos laborales y reestructuraciones de personal.':
     'Individual and collective employment relations, union negotiations, labor disputes and workforce restructurings.',
   'Gobierno corporativo, fusiones y adquisiciones, due diligence, acuerdos de accionistas y transformaciones societarias.':
@@ -121,8 +121,8 @@ export const ES_TO_EN: Record<string, string> = {
     'Financial statement audits, limited reviews, agreed-upon procedures and financial due diligence.',
   'Estructuración fiscal, análisis de carga tributaria, reorganizaciones empresariales y precios de transferencia.':
     'Tax structuring, tax burden analysis, corporate reorganizations and transfer pricing.',
-  'Liquidación de haberes, cargas sociales, aportes y contribuciones. Presentación de DJ ante AFIP.':
-    'Wage settlement, social charges, employee contributions and payroll tax filings with AFIP.',
+  'Liquidación de haberes, cargas sociales, aportes y contribuciones. Presentación de DJ ante ARCA.':
+    'Wage settlement, social charges, employee contributions and payroll tax filings with ARCA.',
   'Asesoramiento para empresas con operaciones en el exterior. Consolidación NIIF y conversión de moneda.':
     'Advisory for companies with operations abroad. IFRS consolidation and currency translation.',
 
@@ -228,8 +228,8 @@ export const ES_TO_EN: Record<string, string> = {
     'Resolutions, decrees and laws relevant to the practice — automatically updated from the Official Gazette.',
   'Resoluciones, decretos y leyes relevantes para el área legal — aerocomercial, societario, laboral y penal económico. Radar actualizado automáticamente desde el Boletín Oficial.':
     'Resolutions, decrees and laws relevant to the legal practice — aviation, corporate, employment and white-collar crime. Radar automatically updated from the Official Gazette.',
-  'Resoluciones de AFIP/ARCA, decretos y novedades tributarias y aduaneras. Radar actualizado automáticamente desde el Boletín Oficial.':
-    'AFIP/ARCA resolutions, decrees and tax and customs updates. Radar automatically updated from the Official Gazette.',
+  'Resoluciones de ARCA, decretos y novedades tributarias y aduaneras. Radar actualizado automáticamente desde el Boletín Oficial.':
+    'ARCA resolutions, decrees and tax and customs updates. Radar automatically updated from the Official Gazette.',
   'Ver todas': 'View all',
   'Leer →': 'Read →',
   '← Volver al estudio': '← Back to the firm',

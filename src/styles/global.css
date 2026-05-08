@@ -369,23 +369,45 @@
   .brand-tick { color: var(--fg-subtle); }
   #mob-open { color: var(--fg); }
 
-  /* Botón al área Contable — rectangular, prominente, alto contraste.
-     Usa Royal Blue puro (--accent-700 = #455a89) sólido con texto ice
-     grey y un sutil border highlight. Variante destacada para que
-     "salte" desde cualquier fondo (navy del legal o ice del contable). */
+  /* Link inline al área contable — cuando "contable/contadores" aparece dentro de
+     un párrafo, se renderiza como link de texto (NO botón) con el color de fondo
+     de la página contable (Ice Grey #e9e9f2). Para botones flotantes hacia
+     /contable ver `.btn-hero-accounting` o `.link-accounting` más abajo. */
+  .link-contable {
+    color: #e9e9f2 !important;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: opacity .25s ease, text-decoration-thickness .25s ease;
+  }
+  .link-contable:hover {
+    opacity: 0.75;
+    text-decoration-thickness: 2px;
+  }
+  /* En el (improbable) caso de que un link-contable aparezca sobre tema contable
+     (fondo ice grey), invertimos al navy para que contraste. */
+  .theme-accounting .link-contable {
+    color: #242b42 !important;
+  }
+
+  /* Botón cross-link en el nav. En tema legal apunta a contable y usa el color
+     de fondo de la página contable (Ice Grey #e9e9f2) — fondo sólido #e9e9f2
+     con texto navy. En tema contable apunta a legal y queda en navy con texto
+     ice grey, manteniendo la identidad cromática del área contable. */
   .link-accounting {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.55rem 1.1rem;
-    background: var(--accent-700);
-    color: #ffffff !important;
-    border: 1px solid var(--accent-600);
+    background: #e9e9f2;
+    color: #242b42 !important;
+    border: 1px solid #e9e9f2;
     border-radius: 4px;
     font-weight: 700;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    box-shadow: 0 4px 14px -6px rgba(69, 90, 137, 0.55);
+    box-shadow: 0 4px 14px -6px rgba(233, 233, 242, 0.45);
     transition: all .3s cubic-bezier(0.2, 0.6, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -394,24 +416,34 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0));
+    background: linear-gradient(135deg, rgba(36,43,66,0.08), rgba(36,43,66,0));
     opacity: 0;
     transition: opacity .3s ease;
   }
   .link-accounting:hover {
-    background: var(--accent-600);
+    background: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px -6px rgba(69, 90, 137, 0.7);
+    box-shadow: 0 6px 20px -6px rgba(233, 233, 242, 0.7);
   }
   .link-accounting:hover::before { opacity: 1; }
   .link-accounting > * { position: relative; z-index: 1; }
-  /* En nav solid mantenemos el botón igual — destaca por contraste interno. */
-  nav[data-nav].solid .link-accounting {
-    background: var(--accent-700);
-    color: #ffffff !important;
+
+  /* En tema contable, esta pill es el cross-link a legal: navy sólido + texto ice. */
+  .theme-accounting .link-accounting {
+    background: #242b42;
+    color: #e9e9f2 !important;
+    border-color: #242b42;
+    box-shadow: 0 4px 14px -6px rgba(36, 43, 66, 0.55);
   }
-  nav[data-nav].solid .link-accounting:hover {
-    background: var(--accent-600);
+  .theme-accounting .link-accounting:hover {
+    background: #1a2033;
+    box-shadow: 0 6px 20px -6px rgba(36, 43, 66, 0.7);
+  }
+
+  /* En nav solid mantenemos el botón igual — el contraste lo da el fondo sólido. */
+  nav[data-nav].solid .link-accounting,
+  nav[data-nav].solid.theme-accounting .link-accounting {
+    /* hereda los estilos de tema correspondientes */
   }
   .nav-link::after {
     content: ''; position: absolute; left: 0; right: 0; bottom: -6px;

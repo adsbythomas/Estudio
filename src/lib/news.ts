@@ -13,6 +13,11 @@ export interface NewsItem {
   url: string;         // link al Boletín Oficial u organismo
   categories: string[];
   slug?: string;       // generado, no viene del JSON
+  // Campos opcionales para enriquecer la subpágina del artículo. Cuando faltan,
+  // la subpágina cae en una versión más básica con sólo `desc`.
+  summary?: string;    // resumen ejecutivo (1-2 párrafos)
+  keyPoints?: string[];// bullets de qué cambia
+  impact?: string;     // cómo afecta a la empresa / cliente
 }
 
 export interface Radar {

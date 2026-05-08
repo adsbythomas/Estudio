@@ -10,16 +10,34 @@ const linkHref = withBase('/vencimientos');
 <section class="ven-prev" aria-labelledby="ven-prev-title">
   <div class="shell py-16 md:py-20">
     <div class="ven-prev-head reveal">
-      <span class="font-mono text-[0.7rem] uppercase tracking-[0.28em] font-semibold" style="color: var(--brand-500)">
-        Próximos vencimientos
-      </span>
-      <h2 id="ven-prev-title" class="font-sans font-bold mt-3"
-          style="font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--fg); letter-spacing: -0.01em;">
-        Calendario AFIP <span style="color: var(--brand-500)">en vivo</span>
+      <div class="ven-prev-eyebrow">
+        <span class="ven-prev-live" aria-label="Datos en vivo">
+          <span class="ven-prev-live-dot" aria-hidden="true"></span>
+          EN VIVO
+        </span>
+        <span class="ven-prev-source">ARCA · Calendario impositivo</span>
+      </div>
+
+      <h2 id="ven-prev-title" class="ven-prev-title">
+        Próximos <span style="color: var(--brand-500)">vencimientos</span>
       </h2>
-      <p class="mt-3 max-w-[520px] text-[0.92rem] leading-relaxed" style="color: var(--fg-muted);">
-        Tu agenda fiscal de las próximas semanas. Hacé clic en "Ver calendario completo" para explorar el año entero.
-      </p>
+
+      <div class="ven-prev-stats" data-ven-stats>
+        <span class="ven-prev-stat">
+          <strong data-ven-count-7>—</strong>
+          <span>esta semana</span>
+        </span>
+        <span class="ven-prev-stat-sep" aria-hidden="true"></span>
+        <span class="ven-prev-stat">
+          <strong data-ven-count-30>—</strong>
+          <span>en 30 días</span>
+        </span>
+        <span class="ven-prev-stat-sep" aria-hidden="true"></span>
+        <span class="ven-prev-stat">
+          <strong data-ven-count-total>—</strong>
+          <span>en {new Date().getFullYear()}</span>
+        </span>
+      </div>
     </div>
 
     <div id="ven-prev-list" class="ven-prev-list reveal" data-no-translate>
@@ -39,11 +57,13 @@ const linkHref = withBase('/vencimientos');
   (function () {
     var data = JSON.parse(allData);
     var MONTHS_LONG = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    var MONTHS_SHORT = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
     var DAYS_LONG   = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
     var CAT_LABEL   = { monotributo: 'Monotributo', ri: 'Resp. Inscripto', sociedades: 'Sociedades' };
 
     var today = new Date();
     today.setHours(0, 0, 0, 0);
+    var currentYear = today.getFullYear();
 
     function parseDate(s) {
       var p = s.split('-');
@@ -57,10 +77,38 @@ const linkHref = withBase('/vencimientos');
       return 'cal-card-dot--mt';
     }
 
-    var upcoming = data
+    function urgencyClass(diff) {
+      if (diff <= 3)  return 'cal-card--critical';
+      if (diff <= 7)  return 'cal-card--urgent';
+      if (diff <= 14) return 'cal-card--soon';
+      return '';
+    }
+    function urgencyLabelClass(diff) {
+      if (diff <= 3)  return 'cal-card-diff--critical';
+      if (diff <= 7)  return 'cal-card-diff--urgent';
+      if (diff <= 14) return 'cal-card-diff--soon';
+      return '';
+    }
+    function diffDays(d) { return Math.round((d - today) / 86400000); }
+
+    // ── Stats: contadores de la próxima semana / 30 días / año en curso ──
+    var upcomingAll = data
       .filter(function (v) { return parseDate(v.date) >= today; })
-      .sort(function (a, b) { return a.date.localeCompare(b.date); })
-      .slice(0, 4);
+      .sort(function (a, b) { return a.date.localeCompare(b.date); });
+
+    var count7  = upcomingAll.filter(function (v) { return diffDays(parseDate(v.date)) <= 7;  }).length;
+    var count30 = upcomingAll.filter(function (v) { return diffDays(parseDate(v.date)) <= 30; }).length;
+    var countTotal = upcomingAll.filter(function (v) { return parseDate(v.date).getFullYear() === currentYear; }).length;
+
+    var el7  = document.querySelector('[data-ven-count-7]');
+    var el30 = document.querySelector('[data-ven-count-30]');
+    var elT  = document.querySelector('[data-ven-count-total]');
+    if (el7)  el7.textContent  = count7;
+    if (el30) el30.textContent = count30;
+    if (elT)  elT.textContent  = countTotal;
+
+    // ── Lista: 4 próximas tarjetas ──
+    var upcoming = upcomingAll.slice(0, 4);
 
     if (upcoming.length === 0) {
       document.getElementById('ven-prev-list').innerHTML =
@@ -68,37 +116,38 @@ const linkHref = withBase('/vencimientos');
       return;
     }
 
-    function diffDays(d) { return Math.round((d - today) / 86400000); }
-
     var html = '';
-    upcoming.forEach(function (v) {
+    upcoming.forEach(function (v, idx) {
       var d = parseDate(v.date);
       var diff = diffDays(d);
       var diffLabel = diff === 0 ? 'Hoy' : (diff === 1 ? 'Mañana' : 'En ' + diff + ' días');
-      var urgent = diff <= 7;
       var cats = v.categories.map(function (c) { return CAT_LABEL[c] || c; }).join(' · ');
 
-      html += '<article class="cal-card' + (urgent ? ' cal-card--urgent' : '') + '">';
+      html += '<article class="cal-card ' + urgencyClass(diff) + '" style="--card-i: ' + idx + ';">';
 
-      // Header — Mes Año
+      // Header: mes + año compactos
       html += '<header class="cal-card-header">';
-      html += '<span class="cal-card-month">' + MONTHS_LONG[d.getMonth()] + ' ' + d.getFullYear() + '</span>';
+      html +=   '<span class="cal-card-month">' + MONTHS_SHORT[d.getMonth()] + '</span>';
+      html +=   '<span class="cal-card-year">' + d.getFullYear() + '</span>';
       html += '</header>';
 
-      // Hoja de día — número grande + nombre del día
+      // Hoja del día
       html += '<div class="cal-card-page">';
-      html += '<span class="cal-card-num">' + d.getDate() + '</span>';
-      html += '<span class="cal-card-dow">' + DAYS_LONG[d.getDay()] + '</span>';
+      html +=   '<span class="cal-card-num">' + d.getDate() + '</span>';
+      html +=   '<span class="cal-card-dow">' + DAYS_LONG[d.getDay()] + '</span>';
       html += '</div>';
 
-      // Pie — Evento
+      // Pie con evento
       html += '<footer class="cal-card-event">';
-      html += '<div class="cal-card-cats-row">';
-      html += '<span class="cal-card-dot ' + dotClass(v.categories) + '" aria-hidden="true"></span>';
-      html += '<span class="cal-card-cats">' + cats + '</span>';
-      html += '</div>';
-      html += '<h3 class="cal-card-title">' + v.label + '</h3>';
-      html += '<span class="cal-card-diff' + (urgent ? ' cal-card-diff--urgent' : '') + '">' + diffLabel + '</span>';
+      html +=   '<div class="cal-card-cats-row">';
+      html +=     '<span class="cal-card-dot ' + dotClass(v.categories) + '" aria-hidden="true"></span>';
+      html +=     '<span class="cal-card-cats">' + cats + '</span>';
+      html +=   '</div>';
+      html +=   '<h3 class="cal-card-title">' + v.label + '</h3>';
+      if (v.detail) {
+        html += '<p class="cal-card-detail">' + v.detail + '</p>';
+      }
+      html +=   '<span class="cal-card-diff ' + urgencyLabelClass(diff) + '">' + diffLabel + '</span>';
       html += '</footer>';
 
       html += '</article>';
@@ -113,8 +162,97 @@ const linkHref = withBase('/vencimientos');
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
   }
-  .ven-prev-head { margin-bottom: 2.5rem; }
 
+  /* ── Header ─────────────────────────────────────────────── */
+  .ven-prev-head {
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .ven-prev-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+  }
+  .ven-prev-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.3rem 0.6rem;
+    background: color-mix(in srgb, #10b981 14%, transparent);
+    border: 1px solid color-mix(in srgb, #10b981 35%, transparent);
+    border-radius: 999px;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #10b981;
+  }
+  .ven-prev-live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 0 color-mix(in srgb, #10b981 70%, transparent);
+    animation: ven-pulse 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  @keyframes ven-pulse {
+    0%   { box-shadow: 0 0 0 0 color-mix(in srgb, #10b981 60%, transparent); }
+    70%  { box-shadow: 0 0 0 8px color-mix(in srgb, #10b981 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 color-mix(in srgb, #10b981 0%, transparent); }
+  }
+  .ven-prev-source {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 600;
+  }
+
+  .ven-prev-title {
+    font-family: var(--font-sans, system-ui);
+    font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin: 0;
+  }
+
+  /* Stats: 3 contadores con separadores */
+  .ven-prev-stats {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 0.5rem;
+  }
+  .ven-prev-stat {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+  }
+  .ven-prev-stat strong {
+    font-family: var(--font-sans, system-ui);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--brand-500);
+    font-variant-numeric: tabular-nums;
+  }
+  .ven-prev-stat-sep {
+    width: 1px;
+    height: 1.2rem;
+    background: var(--border);
+    opacity: 0.6;
+  }
+
+  /* ── Grid de tarjetas ──────────────────────────────────── */
   .ven-prev-list {
     display: grid;
     gap: 1.25rem;
@@ -137,118 +275,12 @@ const linkHref = withBase('/vencimientos');
     grid-column: 1 / -1;
   }
 
-  /* ── Tarjeta tipo hoja de calendario ── */
-  .cal-card {
-    display: flex;
-    flex-direction: column;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px color-mix(in srgb, var(--fg) 4%, transparent);
-    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-  }
-  .cal-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px color-mix(in srgb, var(--fg) 10%, transparent);
-    border-color: color-mix(in srgb, var(--brand-500) 50%, var(--border));
-  }
-  .cal-card--urgent { border-top: 3px solid #f59e0b; }
-
-  /* Header — banda con el mes */
-  .cal-card-header {
-    background: var(--brand-500);
-    padding: 0.55rem 0.75rem;
-    text-align: center;
-  }
-  .cal-card-month {
-    display: block;
-    font-family: var(--font-mono, monospace);
-    font-size: 0.65rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: var(--bg);
-  }
-
-  /* Hoja del día — número grande + nombre */
-  .cal-card-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem 1rem 1.4rem;
-    border-bottom: 1px dashed var(--border);
-    background: color-mix(in srgb, var(--fg) 1.5%, var(--bg));
-  }
-  .cal-card-num {
-    font-family: var(--font-sans, system-ui);
-    font-size: 3.6rem;
-    font-weight: 200;
-    line-height: 1;
-    color: var(--fg);
-    letter-spacing: -0.04em;
-    font-variant-numeric: tabular-nums;
-    margin-bottom: 0.4rem;
-  }
-  .cal-card-dow {
-    font-family: var(--font-sans, system-ui);
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--fg);
-    letter-spacing: -0.01em;
-  }
-
-  /* Evento — pie de la tarjeta */
-  .cal-card-event {
-    padding: 1rem 1.1rem 1.1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-    flex: 1;
-  }
-  .cal-card-cats-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .cal-card-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .cal-card-dot--mt  { background: #f59e0b; }
-  .cal-card-dot--ri  { background: var(--brand-500); }
-  .cal-card-dot--soc { background: #8b5cf6; }
-  .cal-card-cats {
-    font-family: var(--font-mono, monospace);
-    font-size: 0.58rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--fg-muted);
-    font-weight: 700;
-  }
-  .cal-card-title {
-    font-family: var(--font-sans, system-ui);
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: var(--fg);
-    margin: 0;
-    line-height: 1.3;
-    letter-spacing: -0.005em;
-  }
-  .cal-card-diff {
-    margin-top: auto;
-    padding-top: 0.5rem;
-    font-family: var(--font-mono, monospace);
-    font-size: 0.62rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--fg-muted);
-    font-weight: 700;
-  }
-  .cal-card-diff--urgent { color: #f59e0b; }
+  /* ── Card ───────────────────────────────────────────────────────────────────
+     Las reglas para `.cal-card*` viven en un bloque <style is:global> separado
+     más abajo. Razón: las tarjetas se inyectan vía innerHTML y no reciben el
+     atributo data-astro-cid que Astro usa para scopear estilos. Si scopeamos
+     las reglas, no se aplican.
+     ────────────────────────────────────────────────────────────────────── */
 
   /* CTA */
   .ven-prev-cta {
@@ -265,15 +297,185 @@ const linkHref = withBase('/vencimientos');
     text-transform: uppercase;
     font-weight: 700;
     color: var(--brand-500);
-    padding: 0.6rem 1.2rem;
+    padding: 0.7rem 1.4rem;
     border: 1.5px solid var(--brand-500);
-    border-radius: 3px;
-    transition: all .2s ease;
+    border-radius: 4px;
+    transition: all .25s ease;
   }
   .ven-prev-link:hover {
     background: var(--brand-500);
     color: var(--bg);
   }
-  .ven-prev-link span { transition: transform .2s ease; }
-  .ven-prev-link:hover span { transform: translateX(3px); }
+  .ven-prev-link span { transition: transform .25s ease; }
+  .ven-prev-link:hover span { transform: translateX(4px); }
+
+  /* Reduce motion: no animation */
+  @media (prefers-reduced-motion: reduce) {
+    .ven-prev-live-dot { animation: none; }
+  }
+</style>
+
+<!-- Global block para las tarjetas inyectadas por JS. Estas reglas no pueden ser
+     scopeadas porque los elementos no llevan el atributo data-astro-cid. Las
+     prefijamos con `.ven-prev-list` para que solo apliquen dentro del componente. -->
+<style is:global>
+  .ven-prev-list .cal-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px color-mix(in srgb, var(--fg) 4%, transparent);
+    transition: transform .3s cubic-bezier(0.2, 0.6, 0.2, 1),
+                box-shadow .3s cubic-bezier(0.2, 0.6, 0.2, 1),
+                border-color .3s ease;
+    position: relative;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: ven-card-in .55s cubic-bezier(0.2, 0.6, 0.2, 1) forwards;
+    animation-delay: calc(var(--card-i, 0) * 90ms + 100ms);
+  }
+  @keyframes ven-card-in {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .ven-prev-list .cal-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--fg) 12%, transparent);
+    border-color: color-mix(in srgb, var(--brand-500) 60%, var(--border));
+  }
+
+  /* Banda lateral de urgencia (3 niveles) */
+  .ven-prev-list .cal-card--critical { border-top: 3px solid #ef4444; }
+  .ven-prev-list .cal-card--urgent   { border-top: 3px solid #f59e0b; }
+  .ven-prev-list .cal-card--soon     { border-top: 3px solid #eab308; }
+
+  /* Header — mes/año, separados claramente con space-between. */
+  .ven-prev-list .cal-card-header {
+    background: var(--brand-500);
+    padding: 0.7rem 1rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .ven-prev-list .cal-card-month {
+    font-family: 'Montserrat', ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--bg);
+  }
+  .ven-prev-list .cal-card-year {
+    font-family: 'Montserrat', ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    color: var(--bg);
+    opacity: 0.65;
+  }
+
+  /* Hoja del día — número grande arriba, nombre abajo, con respiro entre ellos. */
+  .ven-prev-list .cal-card-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    padding: 1.85rem 1rem 1.65rem;
+    border-bottom: 1px dashed var(--border);
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--fg) 0.5%, var(--bg)) 0%,
+      color-mix(in srgb, var(--fg) 2.5%, var(--bg)) 100%
+    );
+  }
+  .ven-prev-list .cal-card-num {
+    display: block;
+    font-family: 'Montserrat', system-ui;
+    font-size: 4rem;
+    font-weight: 200;
+    line-height: 1;
+    color: var(--fg);
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+    margin: 0;
+  }
+  .ven-prev-list .cal-card-dow {
+    display: block;
+    font-family: 'Montserrat', system-ui;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin: 0;
+  }
+
+  /* Pie — evento, con espaciado generoso entre líneas. */
+  .ven-prev-list .cal-card-event {
+    padding: 1.15rem 1.15rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    flex: 1;
+  }
+  .ven-prev-list .cal-card-cats-row {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+  .ven-prev-list .cal-card-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .ven-prev-list .cal-card-dot--mt  { background: #f59e0b; }
+  .ven-prev-list .cal-card-dot--ri  { background: var(--brand-500); }
+  .ven-prev-list .cal-card-dot--soc { background: #8b5cf6; }
+  .ven-prev-list .cal-card-cats {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .ven-prev-list .cal-card-title {
+    font-family: 'Montserrat', system-ui;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--fg);
+    margin: 0;
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+  }
+  .ven-prev-list .cal-card-detail {
+    font-family: 'Montserrat', system-ui;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: var(--fg-muted);
+    margin: 0;
+  }
+  .ven-prev-list .cal-card-diff {
+    margin: 0.5rem 0 0;
+    padding-top: 0.7rem;
+    border-top: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .ven-prev-list .cal-card-diff--critical { color: #ef4444; }
+  .ven-prev-list .cal-card-diff--urgent   { color: #f59e0b; }
+  .ven-prev-list .cal-card-diff--soon     { color: #eab308; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ven-prev-list .cal-card { opacity: 1; transform: none; animation: none; }
+  }
 </style>

@@ -32,10 +32,9 @@ const { label, title, items } = Astro.props;
         <article class="timeline-card">
           <div class="pt-10 pr-2">
             <div class="font-mono text-tick uppercase tracking-tick mb-3" style="color: var(--brand-700)">{it.year}</div>
-            <div class="font-sans font-bold text-[1.5rem] md:text-[1.7rem] leading-tight text-ink-900 mb-3">
-              {it.title}
+            <div class="font-sans font-bold text-[1.5rem] md:text-[1.7rem] leading-tight text-ink-900 mb-3" set:html={it.title}>
             </div>
-            <p class="text-ink-600 leading-relaxed text-[0.95rem]">{it.desc}</p>
+            <p class="text-ink-600 leading-relaxed text-[0.95rem]" set:html={it.desc}></p>
           </div>
         </article>
       ))}

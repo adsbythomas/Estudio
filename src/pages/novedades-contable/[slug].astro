@@ -13,57 +13,308 @@ export const getStaticPaths: GetStaticPaths = () => {
 const { item } = Astro.props as any;
 const base = import.meta.env.BASE_URL;
 const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
+
+const sourceShort = (item.source || '').split('·')[0].trim();
 ---
 <BaseLayout
   practice="accounting"
   title={`${item.title} — Novedades PLB Contable`}
-  description={item.desc}>
+  description={item.desc}
+  landing={false}>
 
-  <article class="pt-32 pb-28 md:pt-40 md:pb-32 reveal">
-    <div class="shell max-w-3xl mx-auto">
-      <a href={withBase('/novedades-contable')} class="inline-flex items-center gap-2 font-mono text-tick uppercase tracking-tick mb-10 transition" style="color: var(--brand-500);">
-        ← Todas las novedades
+  <article class="article-page">
+    <div class="shell">
+      <a href={withBase('/novedades-contable')} class="article-back">
+        <span aria-hidden="true">←</span> Todas las novedades
       </a>
 
-      <div class="flex flex-wrap gap-2 mb-6 text-xs font-mono uppercase tracking-tick" style="color: var(--fg-subtle);">
-        <span style="color: var(--brand-500);">{item.date}</span>
-        <span style="opacity: 0.4">·</span>
-        <span>{item.source}</span>
+      <div class="article-meta">
+        <span class="article-meta-date">{item.date}</span>
+        <span class="article-meta-sep" aria-hidden="true">·</span>
+        <span class="article-meta-source">{item.source}</span>
       </div>
 
-      <h1 class="font-sans font-bold leading-[1.05] mb-8" style="color: var(--fg); font-size: clamp(2rem, 4.5vw, 3.5rem);">
-        {item.title}
-      </h1>
+      <h1 class="article-title">{item.title}</h1>
 
-      <p class="text-[1.15rem] md:text-[1.3rem] leading-relaxed mb-10" style="color: var(--fg-muted);">
-        {item.desc}
-      </p>
+      <p class="article-lead">{item.desc}</p>
 
-      <div class="flex flex-wrap gap-2 mb-12">
-        {item.categories.map((c: string) => (
-          <span class="px-3 py-1.5 text-xs font-mono uppercase tracking-tick border" style="border-color: var(--border); color: var(--fg-muted);">
-            {c.replace('_', ' ')}
-          </span>
-        ))}
-      </div>
+      {item.categories && item.categories.length > 0 && (
+        <div class="article-chips">
+          {item.categories.map((c: string) => (
+            <span class="article-chip">{c.replace(/_/g, ' ')}</span>
+          ))}
+        </div>
+      )}
 
-      <div class="pt-10 border-t" style="border-color: var(--border);">
-        <p class="mb-6 text-sm" style="color: var(--fg-subtle);">
-          Este radar se nutre del Boletín Oficial. Para el texto completo de la norma,
-          acceda a la fuente oficial:
+      <section class="article-section">
+        <h2 class="article-h2">Resumen</h2>
+        <div class="article-prose">
+          {item.summary ? (<p>{item.summary}</p>) : (<p>{item.desc}</p>)}
+        </div>
+      </section>
+
+      {item.keyPoints && item.keyPoints.length > 0 && (
+        <section class="article-section">
+          <h2 class="article-h2">Puntos clave</h2>
+          <ul class="article-bullets">
+            {item.keyPoints.map((kp: string) => (<li>{kp}</li>))}
+          </ul>
+        </section>
+      )}
+
+      {item.impact && (
+        <section class="article-section">
+          <h2 class="article-h2">Cómo impacta</h2>
+          <div class="article-prose"><p>{item.impact}</p></div>
+        </section>
+      )}
+
+      <section class="article-section article-source">
+        <h2 class="article-h2">Texto oficial</h2>
+        <p class="article-prose">
+          Esta novedad se nutre de ARCA, fiscos provinciales y el Boletín Oficial.
+          Para el detalle completo, acceda a la fuente:
         </p>
-        <a href={item.url} target="_blank" rel="noopener" class="btn-editorial">
-          <span>Leer en {item.source.split('·')[0].trim()}</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+        <a href={item.url} target="_blank" rel="noopener" class="article-source-btn">
+          <span>Leer en {sourceShort || 'la fuente oficial'}</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
         </a>
-      </div>
+      </section>
 
-      <aside class="mt-16 p-6 border text-sm leading-relaxed" style="border-color: var(--border); color: var(--fg-muted);">
-        <strong style="color: var(--fg);">Importante.</strong>
+      <section class="article-cta">
+        <span class="article-cta-label">Próximo paso</span>
+        <h2 class="article-cta-title">¿Necesita una opinión sobre cómo esta norma afecta a su empresa?</h2>
+        <p class="article-cta-desc">
+          Coordinamos una primera reunión para evaluar el impacto puntual sobre su operación,
+          dentro de las 24 horas hábiles. Confidencial.
+        </p>
+        <div class="article-cta-actions">
+          <a href={withBase('/contable#agenda')} class="article-cta-primary">
+            <span>Solicitar reunión</span>
+            <svg width="14" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 5h14M11 1l4 4-4 4"/></svg>
+          </a>
+          <a href={withBase('/contable#contacto')} class="article-cta-secondary">
+            O escribir al estudio
+          </a>
+        </div>
+      </section>
+
+      <aside class="article-disclaimer">
+        <strong>Importante.</strong>
         Este resumen tiene fines informativos y no reemplaza el asesoramiento profesional.
-        Para un análisis sobre cómo esta norma afecta a su empresa,
-        <a href={withBase('/contable#contacto')} class="ink-link">contáctenos</a>.
       </aside>
     </div>
   </article>
 </BaseLayout>
+
+<style>
+  .article-page { padding: 8rem 0 6rem; }
+  .article-page .shell { max-width: 880px; }
+
+  .article-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 3rem;
+    transition: color .25s ease;
+  }
+  .article-back:hover { color: var(--brand-500); }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+  .article-meta-date { color: var(--brand-500); }
+  .article-meta-sep { opacity: 0.4; }
+
+  .article-title {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin: 0 0 1.5rem;
+  }
+
+  .article-lead {
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    line-height: 1.65;
+    color: var(--fg-muted);
+    margin: 0 0 2rem;
+  }
+
+  .article-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 3.5rem;
+  }
+  .article-chip {
+    padding: 0.4rem 0.8rem;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+  }
+
+  .article-section {
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .article-h2 {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    margin: 0 0 1.25rem;
+  }
+  .article-prose p {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--fg-muted);
+    margin: 0 0 1rem;
+  }
+
+  .article-bullets { list-style: none; padding: 0; margin: 0; }
+  .article-bullets li {
+    position: relative;
+    padding-left: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--fg-muted);
+    margin-bottom: 0.75rem;
+  }
+  .article-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7rem;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--brand-500);
+  }
+
+  .article-source-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    padding: 0.85rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg);
+    transition: all .25s ease;
+  }
+  .article-source-btn:hover {
+    border-color: var(--brand-500);
+    color: var(--brand-500);
+  }
+
+  .article-cta {
+    margin-top: 3rem;
+    padding: 2.5rem 2rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    text-align: center;
+  }
+  .article-cta-label {
+    display: inline-block;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--bronze-500);
+    margin-bottom: 1rem;
+  }
+  .article-cta-title {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--fg);
+    margin: 0 0 0.75rem;
+  }
+  .article-cta-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--fg-muted);
+    margin: 0 auto 1.75rem;
+    max-width: 540px;
+  }
+  .article-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.75rem;
+    justify-content: center;
+    align-items: center;
+  }
+  .article-cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.95rem 1.6rem;
+    background: var(--brand-500);
+    color: var(--bg);
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: all .3s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+  .article-cta-primary:hover { transform: translateY(-2px); }
+  .article-cta-secondary {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bronze-500);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+    transition: opacity .25s ease;
+  }
+  .article-cta-secondary:hover { opacity: 0.7; }
+
+  .article-disclaimer {
+    margin-top: 3rem;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--fg-muted);
+  }
+  .article-disclaimer strong {
+    color: var(--fg);
+    margin-right: 0.35em;
+  }
+
+  @media (max-width: 768px) {
+    .article-page { padding: 6rem 0 4rem; }
+    .article-cta { padding: 2rem 1.25rem; }
+  }
+</style>

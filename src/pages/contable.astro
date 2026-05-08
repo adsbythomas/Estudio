@@ -9,7 +9,6 @@ import News from '@components/News.astro';
 import CrossLink from '@components/CrossLink.astro';
 import Contact from '@components/Contact.astro';
 import Scheduler from '@components/Scheduler.astro';
-import EconBar from '@components/EconBar.astro';
 import VencimientosPreview from '@components/VencimientosPreview.astro';
 import { accounting } from '@lib/accounting';
 
@@ -18,7 +17,7 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
 ---
 <BaseLayout
   practice="accounting"
-  title="PLB Contable — Contabilidad & Impuestos · Buenos Aires · 20 años"
+  title="PLB Contable — Contabilidad & Impuestos · Buenos Aires · 23 años"
   description="Área contable integral del estudio Pantarotto Lértora Bardagí. Liquidación de impuestos, estados contables, auditoría, planificación fiscal, sueldos y contabilidad internacional.">
 
   <Hero
@@ -26,18 +25,8 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     titleLine1={accounting.hero.titleLine1}
     titleLine2={accounting.hero.titleLine2}
     lead={accounting.hero.lead}
-    ctaPrimary={accounting.hero.ctaPrimary}
-    altLabel="→ Ir al área legal"
+    altLabel="Ir al área legal"
     altHref={withBase('/')}
-  />
-
-  <EconBar />
-
-  <Counters
-    label={accounting.counters.label}
-    title={accounting.counters.title}
-    sub={accounting.counters.sub}
-    items={accounting.counters.items}
   />
 
   <Practice
@@ -45,6 +34,7 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     title={accounting.practice.title}
     sub={accounting.practice.sub}
     items={accounting.practice.items}
+    subpagePrefix={withBase('/servicios')}
   />
 
   <CrossLink practice="accounting" />
@@ -55,6 +45,7 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     sub={accounting.team.sub}
     members={accounting.team.members}
     ctaText={accounting.team.ctaText}
+    subpagePrefix={withBase('/equipo-contable')}
   />
 
   <Timeline
@@ -66,6 +57,13 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
   <News practice="accounting" label="Novedades" title="Radar impositivo" />
 
   <VencimientosPreview />
+
+  <Counters
+    label={accounting.counters.label}
+    title={accounting.counters.title}
+    sub={accounting.counters.sub}
+    items={accounting.counters.items}
+  />
 
   <Scheduler
     practice="accounting"

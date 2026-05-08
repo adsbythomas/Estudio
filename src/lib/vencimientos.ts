@@ -15,8 +15,9 @@ export const CATEGORY_LABELS: Record<TaxCategory, string> = {
   sociedades:  'Sociedades',
 };
 
-// Datos 2026 — estimados sobre calendario AFIP (dígito CUIT promedio).
-// Actualizar según resoluciones AFIP de cada año.
+// Datos 2026 — estimados sobre calendario ARCA (dígito CUIT promedio).
+// Actualizar según resoluciones ARCA de cada año.
+// (Nota: ARCA reemplaza a AFIP desde 2024 — Decreto 953/2024.)
 export const vencimientos2026: Vencimiento[] = [
   // ── ENERO ──────────────────────────────────────────────────────────────────
   { id: 'jan-mt',   date: '2026-01-20', label: 'Monotributo',            detail: 'Pago mensual unificado (categoría A–K)',                      categories: ['monotributo'] },
@@ -92,4 +93,4 @@ export const vencimientos2026: Vencimiento[] = [
 ];
 
 export const DISCLAIMER =
-  'Fechas estimadas sobre el calendario AFIP habitual. Verificar siempre en afip.gob.ar ante posibles corrimientos por feriados o resoluciones.';
+  'Fechas estimadas sobre el calendario ARCA habitual. Verificar siempre en arca.gob.ar ante posibles corrimientos por feriados o resoluciones.';

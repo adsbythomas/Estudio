@@ -3,8 +3,8 @@ export const site = {
   firmName: 'Pantarotto Lértora Bardagí & Asocs.',
   firmShort: 'PLB & Asocs.',
   abbr: { a: 'PL', b: 'B' },
-  foundingYear: 2004,
-  yearsOfExperience: 20,
+  foundingYear: 2003,
+  yearsOfExperience: 23,
   address: {
     line1: 'Av. Corrientes 1464',
     line2: 'Piso 16 · Oficina 1605',
@@ -15,6 +15,10 @@ export const site = {
   hours: 'Lunes a viernes · 9:00 a 18:00 hs.',
   phonePlaceholder: '+54 11 0000-0000',
   emailPlaceholder: 'contacto@pl-abogados.com',
+  // WhatsApp: el número en formato internacional sin "+" ni espacios para wa.me,
+  // y el formato legible para mostrar al usuario.
+  whatsappPhone: '5491100000000',
+  whatsappDisplay: '+54 9 11 0000-0000',
   offices: ['Buenos Aires', 'Estados Unidos', 'Uruguay'],
   linkedin: 'https://www.linkedin.com/company/pl-abogados/',
   mapsEmbed:

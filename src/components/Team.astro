@@ -1,13 +1,29 @@
 ---
-export interface Member { initials: string; name: string; role: string; spec: string; }
+export interface Member {
+  initials: string;
+  name: string;
+  role: string;
+  spec?: string;
+  /** Slug para la subpágina del miembro (ej. 'matias-pantarotto'). */
+  key?: string;
+  /** Ruta a la foto en /public (ej. '/team/matias-pantarotto.jpg'). */
+  photo?: string;
+}
 export interface Props {
   label: string;
   title: string;
   sub: string;
   members: Member[];
-  ctaText: string;
+  ctaText?: string;
+  /** Si se pasa, cada miembro linkea a `${subpagePrefix}/${m.key}`. */
+  subpagePrefix?: string;
 }
-const { label, title, sub, members, ctaText } = Astro.props;
+const { label, title, sub, members, ctaText, subpagePrefix } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
+
+const linkFor = (m: Member) => (subpagePrefix && m.key) ? `${subpagePrefix}/${m.key}` : '#contacto';
 ---
 <section id="equipo" class="relative py-16 md:py-20 reveal">
   <div class="shell">
@@ -15,27 +31,141 @@ const { label, title, sub, members, ctaText } = Astro.props;
     <h2 class="font-sans font-bold text-cover text-ink-900 mb-4 max-w-[900px] leading-[1.1]">
       <span class="stack-line inline-block" data-stack-line><span>{title}</span></span>
     </h2>
-    <p class="reader text-ink-600 leading-relaxed mb-16">{sub}</p>
+    <p class="reader text-ink-600 leading-relaxed mb-12" set:html={sub}></p>
   </div>
 
   <div class="shell">
-    {members.map((m, i) => (
-      <article class="team-row reveal" data-team-row>
-        <div class="grid md:grid-cols-[1fr_auto] gap-6 md:gap-20 items-center">
-          <div class="team-name text-ink-900">{m.name}</div>
-          <div class="team-meta text-right">
-            <div class="font-mono text-tick uppercase tracking-tick mb-1" style="color: var(--brand-700)">
-              {String(i + 1).padStart(2, '0')} · {m.role}
-            </div>
-            <div class="text-sm text-ink-500">{m.spec}</div>
+    <div class="team-grid">
+      {members.map((m) => (
+        <a href={linkFor(m)} class="team-card reveal" data-team-row>
+          <div class="team-photo">
+            <span class="team-photo-fallback" aria-hidden="true">{m.initials}</span>
+            {m.photo && (
+              <img
+                src={withBase(m.photo)}
+                alt={`Foto de ${m.name}`}
+                loading="lazy"
+                onerror="this.style.display='none'"
+              />
+            )}
           </div>
-        </div>
-      </article>
-    ))}
-
-    <div class="reveal grid md:grid-cols-[1fr_auto] gap-6 md:gap-20 items-center py-10 border-y border-ink-200">
-      <p class="text-ink-700 leading-snug max-w-xl">{ctaText}</p>
-      <a href="#contacto" class="ink-link font-mono text-tick uppercase tracking-tick">Contactar al equipo</a>
+          <div class="team-card-meta">
+            <div class="team-card-name">{m.name}</div>
+            <div class="team-card-role">{m.role}</div>
+          </div>
+          <span class="team-card-cta" aria-hidden="true">Ver perfil →</span>
+        </a>
+      ))}
     </div>
+
+    {ctaText && ctaText.length > 0 && (
+      <div class="reveal grid md:grid-cols-[1fr_auto] gap-6 md:gap-20 items-center py-10 mt-12 border-y" style="border-color: var(--border);">
+        <p class="text-ink-700 leading-snug max-w-xl" set:html={ctaText}></p>
+        <a href="#contacto" class="ink-link font-mono text-tick uppercase tracking-tick">Contactar al equipo</a>
+      </div>
+    )}
   </div>
 </section>
+
+<style>
+  /* Grid responsivo: 3 columnas en desktop, 2 en tablet, 1 en mobile. */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.75rem;
+  }
+  @media (min-width: 1024px) {
+    .team-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .team-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    text-decoration: none;
+    transition: border-color .35s ease, transform .35s ease, box-shadow .35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .team-card:hover {
+    border-color: var(--brand-500);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px -14px color-mix(in oklab, var(--brand-500) 55%, transparent);
+  }
+
+  /* Contenedor de la foto: cuadrado, con placeholder de iniciales detrás
+     y la <img> superpuesta. Si la imagen falla, queda visible el placeholder. */
+  .team-photo {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    overflow: hidden;
+    background: linear-gradient(135deg,
+      color-mix(in oklab, var(--brand-500) 22%, var(--surface-2)),
+      var(--surface-2));
+  }
+  .team-photo-fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 700;
+    color: var(--brand-500);
+    letter-spacing: 0.04em;
+    opacity: 0.55;
+  }
+  .team-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: transform .6s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+  .team-card:hover .team-photo img {
+    transform: scale(1.04);
+  }
+
+  .team-card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0 0.25rem;
+  }
+  .team-card-name {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--fg);
+    line-height: 1.3;
+  }
+  .team-card-role {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brand-500);
+  }
+
+  .team-card-cta {
+    margin-top: auto;
+    padding: 0 0.25rem 0.25rem;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    transition: color .25s ease, transform .25s ease;
+  }
+  .team-card:hover .team-card-cta {
+    color: var(--brand-500);
+    transform: translateX(4px);
+  }
+</style>

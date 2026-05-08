@@ -19,12 +19,15 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
 // Si no, va a la landing correspondiente al practice del nav.
 const anchorBase = landing ? '' : withBase(isLegal ? '/' : '/contable');
 
+// Mismas entradas en ambas páginas para que el header sea idéntico estructuralmente.
+// "Vencimientos" linkea siempre a /vencimientos (calendario ARCA) — es info útil
+// también para clientes del área legal.
 const navLinks = [
-  { href: anchorBase + '#practica', label: 'Práctica' },
-  { href: anchorBase + '#equipo',   label: 'Equipo' },
-  { href: anchorBase + '#agenda',   label: 'Agenda' },
-  ...(isLegal ? [] : [{ href: withBase('/vencimientos'), label: 'Vencimientos' }]),
-  { href: anchorBase + '#contacto', label: 'Contacto' },
+  { href: anchorBase + '#practica',         label: 'Práctica' },
+  { href: anchorBase + '#equipo',           label: 'Equipo' },
+  { href: anchorBase + '#agenda',           label: 'Agenda' },
+  { href: withBase('/vencimientos'),        label: 'Vencimientos' },
+  { href: anchorBase + '#contacto',         label: 'Contacto' },
 ];
 const altHref = isLegal ? withBase('/contable') : withBase('/');
 const altLabel = isLegal ? '→ Contable' : '→ Legal';
@@ -34,21 +37,21 @@ const isoSrc = withBase(isLegal ? '/brand/isotipo-white.svg' : '/brand/isotipo.s
 <div class="scroll-progress" id="scrollProgress"></div>
 
 <nav id="mainNav" class="fixed inset-x-0 top-0 z-50 transition-all duration-500" data-nav>
-  <div class="shell h-16 md:h-20 flex items-center justify-between">
+  <div class="shell h-20 md:h-28 flex items-center justify-between">
     <div class="flex items-center gap-4 md:gap-6">
       <LangToggle />
     <a href={withBase('/')} class="flex items-center gap-3 group" aria-label="Inicio">
-      <img src={isoSrc} alt="" width="28" height="28" class="brand-iso" />
+      <img src={isoSrc} alt="" width="38" height="38" class="brand-iso" />
       <span class="flex flex-col leading-none">
-        <span class="brand-mark font-sans text-[0.95rem] md:text-[1.05rem] font-semibold tracking-tight">
+        <span class="brand-mark font-sans text-[1.1rem] md:text-[1.25rem] font-semibold tracking-tight">
           Pantarotto Lértora Bardagí
         </span>
-        <span class="brand-tick hidden md:inline font-mono text-[0.58rem] uppercase tracking-[0.24em] mt-1">Legal | Tax Accountants</span>
+        <span class="brand-tick hidden md:inline font-mono text-[0.66rem] uppercase tracking-[0.24em] mt-1.5">Legal | Tax Accountants</span>
       </span>
     </a>
     </div>
 
-    <ul class="hidden md:flex items-center gap-9">
+    <ul class="hidden md:flex items-center gap-9 text-[0.95rem]">
       {navLinks.map((l) => (
         <li><a href={l.href} class="nav-link">{l.label}</a></li>
       ))}
