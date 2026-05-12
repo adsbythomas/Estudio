@@ -1,8 +1,8 @@
 // Datos globales del estudio — editar acá cuando cambien los datos de contacto.
 export const site = {
-  firmName: 'Pantarotto Lértora Bardagí & Asocs.',
-  firmShort: 'PLB & Asocs.',
-  abbr: { a: 'PL', b: 'B' },
+  firmName: 'Pantarotto Lértora & Asocs.',
+  firmShort: 'PL & Asocs.',
+  abbr: { a: 'P', b: 'L' },
   foundingYear: 2003,
   yearsOfExperience: 23,
   address: {

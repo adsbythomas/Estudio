@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "Sitio institucional del Estudio Pantarotto Lértora Bardagí & Asocs.",
+  "description": "Sitio institucional del Estudio Pantarotto Lértora & Asocs.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

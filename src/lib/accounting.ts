@@ -131,7 +131,7 @@ export const accounting = {
     label: 'Trayectoria',
     title: 'Trayectoria',
     items: [
-      { year: '2003', title: 'Fundación del estudio', desc: 'Se constituye Pantarotto Lértora Bardagí & Asocs.' },
+      { year: '2003', title: 'Fundación del estudio', desc: 'Se constituye Pantarotto Lértora & Asocs.' },
       { year: '2010', title: 'Red internacional',     desc: 'Apertura de corresponsales contables en Estados Unidos y Uruguay.' },
       { year: '2015', title: 'Servicios aduaneros',   desc: 'Incorporación de liquidación aduanera, reintegros y devolución de IVA.' },
       { year: '2020', title: 'División autónoma',     desc: 'Consolidación del área contable como práctica propia.' },

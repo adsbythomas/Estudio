@@ -155,10 +155,10 @@ export const ES_TO_EN: Record<string, string> = {
   '20 años': '20 Years',
   'Anterior': 'Previous',
   'Siguiente': 'Next',
-  'Se constituye Pantarotto Lértora Bardagí & Asocs. en Buenos Aires.':
-    'Pantarotto Lértora Bardagí & Assocs. is founded in Buenos Aires.',
-  'Se constituye Pantarotto Lértora Bardagí & Asocs.':
-    'Pantarotto Lértora Bardagí & Assocs. is founded.',
+  'Se constituye Pantarotto Lértora & Asocs. en Buenos Aires.':
+    'Pantarotto Lértora & Assocs. is founded in Buenos Aires.',
+  'Se constituye Pantarotto Lértora & Asocs.':
+    'Pantarotto Lértora & Assocs. is founded.',
   'Apertura de corresponsales en Estados Unidos y Uruguay.':
     'Correspondents established in the United States and Uruguay.',
   'Apertura de corresponsales contables en Estados Unidos y Uruguay.':
@@ -248,19 +248,19 @@ export const ES_TO_EN: Record<string, string> = {
     'This summary is for informational purposes only and does not replace professional advice. For an analysis of how this rule affects your company,',
 
   // ── Page titles ──────────────────────────────────────
-  'PLB Abogados — Derecho empresarial · Buenos Aires · 20 años':
-    'PLB Attorneys — Corporate Law · Buenos Aires · 20 years',
-  'PLB Contable — Contabilidad & Impuestos · Buenos Aires · 20 años':
-    'PLB Accounting — Accounting & Tax · Buenos Aires · 20 years',
-  'Novedades — PLB Abogados': 'News — PLB Attorneys',
-  'Novedades — PLB Contable': 'News — PLB Accounting',
+  'PL Abogados — Derecho empresarial · Buenos Aires · 20 años':
+    'PL Attorneys — Corporate Law · Buenos Aires · 20 years',
+  'PL Contable — Contabilidad & Impuestos · Buenos Aires · 20 años':
+    'PL Accounting — Accounting & Tax · Buenos Aires · 20 years',
+  'Novedades — PL Abogados': 'News — PL Attorneys',
+  'Novedades — PL Contable': 'News — PL Accounting',
 
   // ── Labels sueltos (eyebrows) ────────────────────────
   'Área Legal': 'Legal Practice',
   'Área Contable': 'Accounting Practice',
 
   // ── Tags/kickers adicionales ─────────────────────────
-  'Pantarotto · Lértora · Bardagí': 'Pantarotto · Lértora · Bardagí',
+  'Pantarotto · Lértora': 'Pantarotto · Lértora',
 };
 
 // Prefijos dinámicos — se manejan por matching de prefijo en el script.

@@ -115,7 +115,7 @@ export const legal = {
     label: 'Trayectoria',
     title: 'Trayectoria',
     items: [
-      { year: '2003', title: 'Fundación',         desc: 'Se constituye Pantarotto Lértora Bardagí & Asocs. en Buenos Aires.' },
+      { year: '2003', title: 'Fundación',         desc: 'Se constituye Pantarotto Lértora & Asocs. en Buenos Aires.' },
       { year: '2010', title: 'Red internacional', desc: 'Apertura de corresponsales en Estados Unidos y Uruguay.' },
       { year: '2015', title: 'Área aerocomercial',desc: 'La práctica aerocomercial se consolida como pilar del estudio.' },
       { year: '2020', title: 'División <a href="/contable" class="link-contable">contable</a>', desc: 'Incorporación del <a href="/contable" class="link-contable">área contable</a> integrada al servicio jurídico.' },
