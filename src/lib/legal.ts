@@ -15,7 +15,7 @@ export const legal = {
     sub: 'Dos décadas de trabajo continuo, con foco y método.',
     items: [
       { num: '20', suffix: '+',  label: 'Años de trayectoria',  desc: 'Dos décadas asesorando a empresas en operaciones tributarias, societarias y penales económicas complejas.', icon: 'clock' },
-      { num: '6',  suffix: '',   label: 'Áreas especializadas', desc: 'Tributario, aduanero, laboral, societario, aerocomercial y penal económico.', icon: 'layers' },
+      { num: '5',  suffix: '',   label: 'Áreas especializadas', desc: 'Tributario, laboral, societario, aerocomercial y penal económico.', icon: 'layers' },
       { num: '3',  suffix: '',   label: 'Jurisdicciones',       desc: 'Argentina, Estados Unidos y Uruguay, con corresponsales activos en cada mercado.', icon: 'globe' },
       { num: '100',suffix: '%',  label: 'Confidencialidad',     desc: 'Secreto profesional y reserva estricta sobre toda la información del cliente.', icon: 'shield' },
     ],
@@ -23,7 +23,7 @@ export const legal = {
   practice: {
     label: 'Práctica profesional',
     title: 'Áreas',
-    sub: 'Seis áreas de derecho empresarial, ejercidas con autonomía y coordinación entre sí.',
+    sub: 'Cinco áreas de derecho empresarial, ejercidas con autonomía y coordinación entre sí.',
     items: [
       {
         key: 'tributario',
@@ -37,20 +37,6 @@ export const legal = {
           { title: 'Precios de transferencia',    desc: 'Estudio y documentación de operaciones entre empresas vinculadas, con foco en BEPS y los lineamientos OCDE.' },
           { title: 'Tributación internacional',   desc: 'Análisis de convenios para evitar la doble imposición, residencia fiscal de personas físicas y jurídicas, e impuestos por inversiones extranjeras.' },
           { title: 'Reestructuraciones impositivas', desc: 'Reorganizaciones societarias con tratamiento fiscal — fusiones, escisiones, transferencias de fondos de comercio, sin pérdida de quebrantos ni cómputos pendientes.' },
-        ],
-      },
-      {
-        key: 'aduanero',
-        name: 'Aduanero',
-        desc: 'Penal aduanero, comercio exterior, importación y exportación, infracciones y representación ante la ARCA-DGA.',
-        meetingTopic: 'derecho aduanero',
-        intro: 'El derecho aduanero regula el ingreso y egreso de mercaderías al territorio nacional, junto con las infracciones y delitos vinculados al tráfico internacional. Asistimos a importadores, exportadores y operadores logísticos en sus procesos ante la Dirección General de Aduanas y en defensas penales aduaneras.',
-        services: [
-          { title: 'Penal aduanero',              desc: 'Defensa en delitos de contrabando, declaración inexacta, abuso de regímenes especiales y fraudes en operaciones de comercio exterior.' },
-          { title: 'Comercio exterior',           desc: 'Asesoramiento en operaciones de importación y exportación, regímenes especiales (drawback, exportaciones por cuenta y orden, admisión temporaria).' },
-          { title: 'Importación y exportación',   desc: 'Gestión de licencias, certificados de origen, valoración aduanera, clasificación arancelaria y trámites de despacho.' },
-          { title: 'Infracciones aduaneras',      desc: 'Defensa en sumarios contravencionales, multas y procedimientos de impugnación ante la DGA.' },
-          { title: 'Representación ante ARCA-DGA',desc: 'Gestiones administrativas, recursos jerárquicos y acciones contencioso-administrativas vinculadas a operaciones aduaneras.' },
         ],
       },
       {
@@ -116,12 +102,12 @@ export const legal = {
     title: 'Los socios y el equipo de asociados.',
     sub: 'Cada socio lidera una o dos áreas y coordina con el resto del equipo. El estudio suma asociados y un <a href="/contable" class="link-contable">equipo contable</a> integrado.',
     members: [
-      { key: 'maria-ines-lertora',    initials: 'ML', name: 'María Inés Lértora',     role: 'Socia',     spec: 'Tributario · Penal Económico · Aduanero',         photo: '/team/maria-ines-lertora.jpg' },
-      { key: 'matias-pantarotto',     initials: 'MP', name: 'Matías Pantarotto',      role: 'Socio',     spec: 'Tributario · Penal Económico · Aduanero',         photo: '/team/matias-pantarotto.jpg' },
+      { key: 'maria-ines-lertora',    initials: 'ML', name: 'María Inés Lértora',     role: 'Socia',     spec: 'Tributario · Penal Económico',                    photo: '/team/maria-ines-lertora.jpg' },
+      { key: 'matias-pantarotto',     initials: 'MP', name: 'Matías Pantarotto',      role: 'Socio',     spec: 'Tributario · Penal Económico',                    photo: '/team/matias-pantarotto.jpg' },
       { key: 'maria-paz-bardagi',     initials: 'MB', name: 'María Paz Bardagí',      role: 'Socia',     spec: 'Aerocomercial · Administrativo Regulatorio',      photo: '/team/maria-paz-bardagi.jpg' },
       { key: 'maria-alejandra-rivero',initials: 'MR', name: 'María Alejandra Rivero', role: 'Asociada',  spec: 'Laboral · Societario',                            photo: '/team/maria-alejandra-rivero.jpg' },
-      { key: 'german',                initials: 'G',  name: 'Germán',                 role: 'Asociado',  spec: 'Tributario · Aduanero',                           photo: '/team/german.jpg' },
-      { key: 'agustin',               initials: 'A',  name: 'Agustín',                role: 'Asociado',  spec: 'Societario · Penal Económico',                    photo: '/team/agustin.jpg' },
+      { key: 'german',                initials: 'GC', name: 'Germán Carballo',        role: 'Asociado',  spec: 'Tributario',                                      email: 'Gcarballo@pl-abogados.com',  photo: '/team/german.jpg' },
+      { key: 'agustin',               initials: 'AZ', name: 'Agustín Zaballeta',      role: 'Asociado',  spec: 'Societario · Penal Económico',                    email: 'azaballeta@pl-abogados.com', photo: '/team/agustin.jpg' },
     ],
     ctaText: '',
   },
@@ -141,6 +127,6 @@ export const legal = {
     title: 'Hablemos de',
     titleAccent: 'su caso',
     desc: 'Le ofrecemos una consulta inicial para evaluar su situación. Nuestro equipo le responderá dentro de las 24 horas hábiles.',
-    formAreas: ['Tributario', 'Aduanero', 'Laboral', 'Societario', 'Aerocomercial', 'Penal Económico', 'Otro'],
+    formAreas: ['Tributario', 'Laboral', 'Societario', 'Aerocomercial', 'Penal Económico', 'Otro'],
   },
 };

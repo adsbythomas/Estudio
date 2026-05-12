@@ -26,8 +26,8 @@ export const ES_TO_EN: Record<string, string> = {
   'Ver áreas de práctica': 'View Practice Areas',
   '→ Ir al área contable': '→ Go to Accounting Practice',
   '→ Ir al área legal': '→ Go to Legal Practice',
-  'Estudio integral de abogados y contadores públicos con sede en Buenos Aires y corresponsales en Estados Unidos y Uruguay. Tributario, aduanero, societario, laboral, aerocomercial y penal económico.':
-    'Full-service firm of attorneys and certified public accountants headquartered in Buenos Aires, with correspondents in the United States and Uruguay. Tax, customs, corporate, employment, aviation and white-collar crime.',
+  'Estudio integral de abogados y contadores públicos con sede en Buenos Aires y corresponsales en Estados Unidos y Uruguay. Tributario, societario, laboral, aerocomercial y penal económico.':
+    'Full-service firm of attorneys and certified public accountants headquartered in Buenos Aires, with correspondents in the United States and Uruguay. Tax, corporate, employment, aviation and white-collar crime.',
   'Área contable del estudio, integrada al equipo legal. Liquidación de impuestos, estados contables, auditoría, planificación fiscal y sueldos — en Argentina y en operaciones internacionales.':
     "Firm's accounting practice, fully integrated with the legal team. Tax filings, financial statements, audit, tax planning and payroll — in Argentina and across international operations.",
 
@@ -38,8 +38,8 @@ export const ES_TO_EN: Record<string, string> = {
   'Visitar área': 'Visit Practice',
   'El estudio integra un equipo propio de contadores públicos matriculados: liquidación de impuestos, estados contables, auditoría y planificación fiscal. Coordinación permanente con el área jurídica.':
     'The firm has its own team of certified public accountants: tax filings, financial statements, audit and tax planning. Ongoing coordination with the legal practice.',
-  'El estudio integra seis áreas de derecho empresarial: tributario, aduanero, societario, laboral, aerocomercial y penal económico. Coordinación permanente con el área contable.':
-    'The firm covers six areas of corporate law: tax, customs, corporate, employment, aviation and white-collar crime. Ongoing coordination with the accounting practice.',
+  'El estudio integra cinco áreas de derecho empresarial: tributario, societario, laboral, aerocomercial y penal económico. Coordinación permanente con el área contable.':
+    'The firm covers five areas of corporate law: tax, corporate, employment, aviation and white-collar crime. Ongoing coordination with the accounting practice.',
 
   // ── Counters (legal) ─────────────────────────────────
   'En cifras': 'By the numbers',
@@ -58,8 +58,8 @@ export const ES_TO_EN: Record<string, string> = {
   'Integración legal': 'Legal Integration',
   'Dos décadas asesorando a empresas en operaciones tributarias, societarias y penales económicas complejas.':
     'Two decades advising companies on complex tax, corporate and white-collar crime matters.',
-  'Tributario, aduanero, laboral, societario, aerocomercial y penal económico.':
-    'Tax, customs, employment, corporate, aviation and white-collar crime.',
+  'Tributario, laboral, societario, aerocomercial y penal económico.':
+    'Tax, employment, corporate, aviation and white-collar crime.',
   'Argentina, Estados Unidos y Uruguay, con corresponsales activos en cada mercado.':
     'Argentina, the United States and Uruguay, with active correspondents in each market.',
   'Secreto profesional y reserva estricta sobre toda la información del cliente.':
@@ -76,8 +76,8 @@ export const ES_TO_EN: Record<string, string> = {
   // ── Practice (legal) ─────────────────────────────────
   'Práctica profesional': 'Professional Practice',
   'Áreas': 'Practice Areas',
-  'Seis áreas de derecho empresarial, ejercidas con autonomía y coordinación entre sí.':
-    'Six areas of corporate law, practiced independently and in coordination with one another.',
+  'Cinco áreas de derecho empresarial, ejercidas con autonomía y coordinación entre sí.':
+    'Five areas of corporate law, practiced independently and in coordination with one another.',
   'Tributario': 'Tax',
   'Aduanero': 'Customs',
   'Laboral': 'Employment',

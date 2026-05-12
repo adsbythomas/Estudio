@@ -45,6 +45,13 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
           <h1 class="member-name">{member.name}</h1>
           {member.spec && <div class="member-spec">{member.spec}</div>}
 
+          {member.email && (
+            <div class="member-contact">
+              <span class="member-contact-label">Info</span>
+              <a href={`mailto:${member.email}`} class="member-contact-link">{member.email}</a>
+            </div>
+          )}
+
           <div class="member-bio">
             <p>Aca va la informacion de cada uno.</p>
           </div>
@@ -136,8 +143,39 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
   .member-spec {
     font-size: 1rem;
     color: var(--fg-muted);
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
     line-height: 1.5;
+  }
+  .member-contact {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    width: fit-content;
+  }
+  .member-contact-label {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 700;
+  }
+  .member-contact-link {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.95rem;
+    color: var(--brand-500);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color .25s ease;
+  }
+  .member-contact-link:hover {
+    border-bottom-color: var(--brand-500);
   }
   .member-bio {
     font-size: 1.02rem;

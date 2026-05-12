@@ -47,7 +47,6 @@ export const legalQuestions: Question[] = [
       { id: 'legal-tax', label: 'Cuestiones tributarias o fiscales', nextStep: 'legal-tax-scope' },
       { id: 'legal-corporate', label: 'Asuntos societarios o corporativos', nextStep: 'legal-corporate-scope' },
       { id: 'legal-labor', label: 'Conflictos laborales', nextStep: 'legal-labor-scope' },
-      { id: 'legal-trade', label: 'Asuntos aduaneros o de comercio exterior', nextStep: 'legal-trade-scope' },
       { id: 'legal-aviation', label: 'Derecho aerocomercial', nextStep: 'results' },
       { id: 'legal-other', label: 'Otra cuestión legal', nextStep: 'legal-other-scope' },
     ],
@@ -82,16 +81,6 @@ export const legalQuestions: Question[] = [
       { id: 'legal-labor-individual', label: 'Conflicto laboral individual', nextStep: 'results' },
       { id: 'legal-labor-collective', label: 'Negociación sindical o conflictos colectivos', nextStep: 'results' },
       { id: 'legal-labor-restructuring', label: 'Reestructuración de personal', nextStep: 'results' },
-    ],
-  },
-  {
-    id: 'legal-trade-scope',
-    practice: 'legal',
-    question: '¿Se trata de importación/exportación, penal aduanero, o infracciones?',
-    answers: [
-      { id: 'legal-trade-customs', label: 'Penal aduanero / infracciones', nextStep: 'results' },
-      { id: 'legal-trade-imex', label: 'Importación y exportación', nextStep: 'results' },
-      { id: 'legal-trade-afip', label: 'Representación ante ARCA-DGA', nextStep: 'results' },
     ],
   },
   {
@@ -139,12 +128,12 @@ export const contacts: Record<string, Contact> = {
   pantarotto: {
     name: 'Pantarotto',
     role: 'Socio',
-    specialties: ['Tributario', 'Penal Económico', 'Aduanero'],
+    specialties: ['Tributario', 'Penal Económico'],
   },
   lertora: {
     name: 'Lértora',
     role: 'Socio',
-    specialties: ['Tributario', 'Penal Económico', 'Aduanero'],
+    specialties: ['Tributario', 'Penal Económico'],
   },
   bardagi: {
     name: 'Bardagí',
@@ -180,12 +169,6 @@ export const documentsByRoute: Record<string, DocumentRequirement[]> = {
     { name: 'Recibos de sueldo y aportes', category: 'Laboral', description: 'Últimos 6 recibos de haberes' },
     { name: 'Historial de comunicaciones', category: 'Laboral', description: 'Cartas, mails, o documentos de discrepancia con el empleado', optional: true },
     { name: 'Historial de asistencia', category: 'Laboral', description: 'Registro de asistencia si es relevante', optional: true },
-  ],
-  // Legal - Aduanero
-  legal_trade: [
-    { name: 'Documentos aduaneros (DUA, facturas)', category: 'Aduanero', description: 'Documentación de operaciones de comercio exterior' },
-    { name: 'Permisos de importación/exportación', category: 'Aduanero', description: 'Licencias o autorización de comercialización si aplican' },
-    { name: 'Correspondencia con ARCA-DGA', category: 'Aduanero', description: 'Notificaciones o requerimientos de la autoridad aduanera', optional: true },
   ],
   // Legal - Aerocomercial
   legal_aviation: [
@@ -254,11 +237,6 @@ export const responseRoutes: Record<string, ResultRoute> = {
     contactKey: 'lertora',
     documents: ['legal_labor'],
     advice: 'Nuestro equipo laboral maneja conflictos individuales y colectivos. Tenga a mano los contratos y comunicaciones relevantes.',
-  },
-  'legal-trade': {
-    contactKey: 'pantarotto',
-    documents: ['legal_trade'],
-    advice: 'Asesoramos en comercio exterior y penal aduanero. Traiga documentación de operaciones y cualquier notificación de la DGA.',
   },
   'legal-aviation': {
     contactKey: 'bardagi',
@@ -362,23 +340,6 @@ export const responseRoutes: Record<string, ResultRoute> = {
     contactKey: 'lertora',
     documents: ['legal_labor'],
     advice: 'Estructuramos reducciones o reorganizaciones de personal. Traiga nómina, contratos y situación económica de la empresa.',
-  },
-
-  // Rutas del sub-paso aduanero
-  'legal-trade-customs': {
-    contactKey: 'pantarotto',
-    documents: ['legal_trade'],
-    advice: 'Defendemos en penal aduanero e infracciones. Traiga toda notificación de la DGA y documentación de las operaciones.',
-  },
-  'legal-trade-imex': {
-    contactKey: 'pantarotto',
-    documents: ['legal_trade'],
-    advice: 'Asesoramos en importación y exportación. Traiga documentos aduaneros y licencias de operación.',
-  },
-  'legal-trade-afip': {
-    contactKey: 'pantarotto',
-    documents: ['legal_trade'],
-    advice: 'Representamos ante ARCA-DGA. Traiga toda correspondencia y notificaciones de la autoridad aduanera.',
   },
 
   // Rutas del sub-paso tributario "otra"

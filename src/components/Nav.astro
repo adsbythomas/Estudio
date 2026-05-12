@@ -19,14 +19,13 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
 // Si no, va a la landing correspondiente al practice del nav.
 const anchorBase = landing ? '' : withBase(isLegal ? '/' : '/contable');
 
-// Mismas entradas en ambas páginas para que el header sea idéntico estructuralmente.
-// "Vencimientos" linkea siempre a /vencimientos (calendario ARCA) — es info útil
-// también para clientes del área legal.
+// "Vencimientos" (calendario ARCA) sólo aparece en el área contable —
+// el área legal no tiene calendario de vencimientos.
 const navLinks = [
   { href: anchorBase + '#practica',         label: 'Práctica' },
   { href: anchorBase + '#equipo',           label: 'Equipo' },
   { href: anchorBase + '#agenda',           label: 'Agenda' },
-  { href: withBase('/vencimientos'),        label: 'Vencimientos' },
+  ...(isLegal ? [] : [{ href: withBase('/vencimientos'), label: 'Vencimientos' }]),
   { href: anchorBase + '#contacto',         label: 'Contacto' },
 ];
 const altHref = isLegal ? withBase('/contable') : withBase('/');
