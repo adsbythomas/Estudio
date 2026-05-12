@@ -26,8 +26,8 @@ export const ES_TO_EN: Record<string, string> = {
   'Ver áreas de práctica': 'View Practice Areas',
   '→ Ir al área contable': '→ Go to Accounting Practice',
   '→ Ir al área legal': '→ Go to Legal Practice',
-  'Estudio integral de abogados y contadores públicos con sede en Buenos Aires y corresponsales en Estados Unidos y Uruguay. Tributario, societario, laboral, aerocomercial y penal económico.':
-    'Full-service firm of attorneys and certified public accountants headquartered in Buenos Aires, with correspondents in the United States and Uruguay. Tax, corporate, employment, aviation and white-collar crime.',
+  'Estudio de abogados con sede en Buenos Aires y corresponsalías en distintos países.':
+    'Law firm headquartered in Buenos Aires, with correspondents in various countries.',
   'Área contable del estudio, integrada al equipo legal. Liquidación de impuestos, estados contables, auditoría, planificación fiscal y sueldos — en Argentina y en operaciones internacionales.':
     "Firm's accounting practice, fully integrated with the legal team. Tax filings, financial statements, audit, tax planning and payroll — in Argentina and across international operations.",
 
@@ -60,16 +60,16 @@ export const ES_TO_EN: Record<string, string> = {
     'Two decades advising companies on complex tax, corporate and white-collar crime matters.',
   'Tributario, laboral, societario, aerocomercial y penal económico.':
     'Tax, employment, corporate, aviation and white-collar crime.',
-  'Argentina, Estados Unidos y Uruguay, con corresponsales activos en cada mercado.':
-    'Argentina, the United States and Uruguay, with active correspondents in each market.',
+  'Sede en Buenos Aires, con corresponsalías activas en distintos países.':
+    'Headquartered in Buenos Aires, with active correspondents in various countries.',
   'Secreto profesional y reserva estricta sobre toda la información del cliente.':
     'Attorney-client privilege and strict confidentiality over all client information.',
   'Dos décadas de asesoramiento contable e impositivo a empresas y grupos familiares.':
     'Two decades of accounting and tax advisory services for companies and family groups.',
   'Impuestos, estados contables, auditoría, planificación, sueldos y contabilidad internacional.':
     'Tax, financial statements, audit, planning, payroll and international accounting.',
-  'Argentina, Estados Unidos y Uruguay, con corresponsales para operaciones transfronterizas.':
-    'Argentina, the United States and Uruguay, with correspondents for cross-border operations.',
+  'Sede en Buenos Aires, con corresponsalías en distintos países para operaciones transfronterizas.':
+    'Headquartered in Buenos Aires, with correspondents in various countries for cross-border operations.',
   'Coordinación permanente con el equipo jurídico — soluciones contables y legales bajo el mismo mandato.':
     'Ongoing coordination with the legal team — accounting and legal solutions under a single engagement.',
 
@@ -159,10 +159,10 @@ export const ES_TO_EN: Record<string, string> = {
     'Pantarotto Lértora & Assocs. is founded in Buenos Aires.',
   'Se constituye Pantarotto Lértora & Asocs.':
     'Pantarotto Lértora & Assocs. is founded.',
-  'Apertura de corresponsales en Estados Unidos y Uruguay.':
-    'Correspondents established in the United States and Uruguay.',
-  'Apertura de corresponsales contables en Estados Unidos y Uruguay.':
-    'Accounting correspondents established in the United States and Uruguay.',
+  'Apertura de corresponsalías en distintos países.':
+    'Correspondents established in various countries.',
+  'Apertura de corresponsalías contables en distintos países.':
+    'Accounting correspondents established in various countries.',
   'La práctica aerocomercial se consolida como pilar del estudio.':
     "The aviation practice consolidates as one of the firm's core pillars.",
   'Incorporación de liquidación aduanera, reintegros y devolución de IVA.':
@@ -206,9 +206,11 @@ export const ES_TO_EN: Record<string, string> = {
 
   // ── Footer ───────────────────────────────────────────
   'El estudio': 'The firm',
-  'Estudio integral de abogados': 'Full-service firm of attorneys',
-  'y contadores públicos': 'and certified public accountants',
+  'Estudio de abogados': 'Law firm',
+  'con corresponsalías': 'with correspondents',
+  'en distintos países.': 'in various countries.',
   'en Buenos Aires.': 'in Buenos Aires.',
+  'En distintos países': 'In various countries',
   'Abogados & Contadores Públicos': 'Attorneys & Certified Public Accountants',
   'Navegación': 'Navigation',
   'Estudio': 'Firm',

@@ -16,7 +16,7 @@ export const accounting = {
     items: [
       { num: '20', suffix: '+',  label: 'Años de trayectoria',    desc: 'Dos décadas de asesoramiento contable e impositivo a empresas y grupos familiares.', icon: 'clock' },
       { num: '6',  suffix: '',   label: 'Servicios centrales',    desc: 'Impuestos, estados contables, auditoría, planificación, sueldos y contabilidad internacional.', icon: 'book' },
-      { num: '3',  suffix: '',   label: 'Jurisdicciones activas', desc: 'Argentina, Estados Unidos y Uruguay, con corresponsales para operaciones transfronterizas.', icon: 'globe' },
+      { num: '3',  suffix: '',   label: 'Jurisdicciones activas', desc: 'Sede en Buenos Aires, con corresponsalías en distintos países para operaciones transfronterizas.', icon: 'globe' },
       { num: '100',suffix: '%',  label: 'Integración legal',      desc: 'Coordinación permanente con el equipo jurídico — soluciones contables y legales bajo el mismo mandato.', icon: 'link' },
     ],
   },
@@ -105,7 +105,7 @@ export const accounting = {
         name: 'Contabilidad Internacional',
         desc: 'Asesoramiento para empresas con operaciones en el exterior. Consolidación NIIF y conversión de moneda.',
         meetingTopic: 'contabilidad internacional',
-        intro: 'Empresas con operaciones transfronterizas necesitan estados consolidados, conversión de moneda y reportes que cumplan con normativas locales y de la casa matriz. Trabajamos con corresponsales en Estados Unidos y Uruguay para coordinar requerimientos en cada jurisdicción.',
+        intro: 'Empresas con operaciones transfronterizas necesitan estados consolidados, conversión de moneda y reportes que cumplan con normativas locales y de la casa matriz. Trabajamos con corresponsalías en distintos países para coordinar requerimientos en cada jurisdicción.',
         services: [
           { title: 'Consolidación NIIF',              desc: 'Eliminación de operaciones intercompañía, ajustes de consolidación y armado del balance consolidado del grupo bajo IFRS.' },
           { title: 'Conversión de moneda',            desc: 'Conversión de estados contables locales a moneda funcional o de presentación, conforme NIC 21.' },
@@ -132,7 +132,7 @@ export const accounting = {
     title: 'Trayectoria',
     items: [
       { year: '2003', title: 'Fundación del estudio', desc: 'Se constituye Pantarotto Lértora & Asocs.' },
-      { year: '2010', title: 'Red internacional',     desc: 'Apertura de corresponsales contables en Estados Unidos y Uruguay.' },
+      { year: '2010', title: 'Red internacional',     desc: 'Apertura de corresponsalías contables en distintos países.' },
       { year: '2015', title: 'Servicios aduaneros',   desc: 'Incorporación de liquidación aduanera, reintegros y devolución de IVA.' },
       { year: '2020', title: 'División autónoma',     desc: 'Consolidación del área contable como práctica propia.' },
       { year: '2024', title: '20 años',               desc: 'Dos décadas de asesoramiento impositivo y contable.' },

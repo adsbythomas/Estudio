@@ -16,9 +16,9 @@ const year = new Date().getFullYear();
     <div class="max-w-4xl mb-16">
       <div class="font-mono text-tick uppercase tracking-tick mb-5" style="color: var(--brand-600)">El estudio</div>
       <p class="font-sans font-bold text-cover leading-[1.1]" style="color: var(--fg)">
-        Estudio integral de abogados<br/>
-        y contadores públicos<br/>
-        <span style="color: var(--brand-600)">en Buenos Aires.</span>
+        Estudio de abogados<br/>
+        con corresponsalías<br/>
+        <span style="color: var(--brand-600)">en distintos países.</span>
       </p>
     </div>
 
@@ -50,20 +50,19 @@ const year = new Date().getFullYear();
 
       <div>
         <h4 class="font-mono text-tick uppercase tracking-tick mb-4" style="color: var(--fg-subtle)">Estudio</h4>
-        <address class="not-italic text-sm leading-relaxed" style="color: var(--fg-muted)">
-          {site.address.line1}<br/>
-          {site.address.line2}<br/>
-          <span style="color: var(--fg-subtle)">{site.address.postalCode} · Buenos Aires</span>
+        <address class="not-italic text-sm space-y-2" style="color: var(--fg-muted)">
+          <div>{site.address.line1}</div>
+          <div>{site.address.line2}</div>
+          <div>{site.address.postalCode} · Buenos Aires</div>
+          <div class="pt-2">{site.hours}</div>
         </address>
-        <p class="mt-4 text-sm" style="color: var(--fg-subtle)">{site.hours}</p>
       </div>
 
       <div>
         <h4 class="font-mono text-tick uppercase tracking-tick mb-4" style="color: var(--fg-subtle)">Corresponsalías</h4>
         <ul class="space-y-2 text-sm" style="color: var(--fg-muted)">
           <li>Buenos Aires, AR</li>
-          <li>New York · Miami, US</li>
-          <li>Montevideo, UY</li>
+          <li>En distintos países</li>
         </ul>
         <a href={site.linkedin} target="_blank" rel="noopener"
            class="inline-flex items-center gap-2 mt-5 text-tick uppercase tracking-tick font-mono transition"

@@ -13,13 +13,13 @@ export const site = {
     country: 'Argentina',
   },
   hours: 'Lunes a viernes · 9:00 a 18:00 hs.',
-  phonePlaceholder: '+54 11 0000-0000',
+  phonePlaceholder: '+54 11 4198-4555',
   emailPlaceholder: 'contacto@pl-abogados.com',
   // WhatsApp: el número en formato internacional sin "+" ni espacios para wa.me,
   // y el formato legible para mostrar al usuario.
-  whatsappPhone: '5491100000000',
-  whatsappDisplay: '+54 9 11 0000-0000',
-  offices: ['Buenos Aires', 'Estados Unidos', 'Uruguay'],
+  whatsappPhone: '5491141984555',
+  whatsappDisplay: '+54 9 11 4198-4555',
+  offices: ['Buenos Aires'],
   linkedin: 'https://www.linkedin.com/company/pl-abogados/',
   mapsEmbed:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.9973518279826!2d-58.390031323855155!3d-34.60422847295404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccac1942fc08d%3A0x90e50a4d7964f611!2sPantarotto%20L%C3%A9rtora%20%26%20Asocs!5e0!3m2!1ses-419!2sar!4v1775170188725!5m2!1ses-419!2sar',

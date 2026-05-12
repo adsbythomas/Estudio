@@ -6,7 +6,7 @@ export const legal = {
     titleLine1: 'Derecho empresarial,',
     titleLine2: '23 años de práctica.',
     lead:
-      'Estudio integral de abogados y contadores públicos con sede en Buenos Aires y corresponsales en Estados Unidos y Uruguay.',
+      'Estudio de abogados con sede en Buenos Aires y corresponsalías en distintos países.',
     ctaPrimary: 'Solicitar consulta',
   },
   counters: {
@@ -16,7 +16,7 @@ export const legal = {
     items: [
       { num: '20', suffix: '+',  label: 'Años de trayectoria',  desc: 'Dos décadas asesorando a empresas en operaciones tributarias, societarias y penales económicas complejas.', icon: 'clock' },
       { num: '5',  suffix: '',   label: 'Áreas especializadas', desc: 'Tributario, laboral, societario, aerocomercial y penal económico.', icon: 'layers' },
-      { num: '3',  suffix: '',   label: 'Jurisdicciones',       desc: 'Argentina, Estados Unidos y Uruguay, con corresponsales activos en cada mercado.', icon: 'globe' },
+      { num: '3',  suffix: '',   label: 'Jurisdicciones',       desc: 'Sede en Buenos Aires, con corresponsalías activas en distintos países.', icon: 'globe' },
       { num: '100',suffix: '%',  label: 'Confidencialidad',     desc: 'Secreto profesional y reserva estricta sobre toda la información del cliente.', icon: 'shield' },
     ],
   },
@@ -58,7 +58,7 @@ export const legal = {
         name: 'Societario',
         desc: 'Gobierno corporativo, fusiones y adquisiciones, due diligence, acuerdos de accionistas y transformaciones societarias.',
         meetingTopic: 'derecho societario',
-        intro: 'Cubrimos todo el ciclo de vida societario: constitución, gobierno corporativo, fusiones y adquisiciones, due diligence y reorganizaciones. Asesoramos a accionistas, directores y comités en sus deberes, derechos y conflictos, y acompañamos transacciones complejas con corresponsales en Estados Unidos y Uruguay.',
+        intro: 'Cubrimos todo el ciclo de vida societario: constitución, gobierno corporativo, fusiones y adquisiciones, due diligence y reorganizaciones. Asesoramos a accionistas, directores y comités en sus deberes, derechos y conflictos, y acompañamos transacciones complejas con corresponsalías en distintos países.',
         services: [
           { title: 'Gobierno corporativo',        desc: 'Deberes fiduciarios, reglamentos internos, políticas de governance, comités de auditoría y prácticas de buen gobierno.' },
           { title: 'Fusiones y adquisiciones',    desc: 'Estructuración de transacciones, acuerdos de compraventa, garantías, cláusulas de ajuste y mecanismos de earn-out.' },
@@ -116,7 +116,7 @@ export const legal = {
     title: 'Trayectoria',
     items: [
       { year: '2003', title: 'Fundación',         desc: 'Se constituye Pantarotto Lértora & Asocs. en Buenos Aires.' },
-      { year: '2010', title: 'Red internacional', desc: 'Apertura de corresponsales en Estados Unidos y Uruguay.' },
+      { year: '2010', title: 'Red internacional', desc: 'Apertura de corresponsalías en distintos países.' },
       { year: '2015', title: 'Área aerocomercial',desc: 'La práctica aerocomercial se consolida como pilar del estudio.' },
       { year: '2020', title: 'División <a href="/contable" class="link-contable">contable</a>', desc: 'Incorporación del <a href="/contable" class="link-contable">área contable</a> integrada al servicio jurídico.' },
       { year: '2024', title: '20 años',           desc: 'Dos décadas asesorando a empresas nacionales e internacionales.' },
