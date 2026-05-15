@@ -1,13 +1,12 @@
 ---
+import { site } from '@lib/site';
 import type { Practice } from '@lib/site';
 export interface Props { practice: Practice; }
 const { practice } = Astro.props;
-// Reemplazar con el número real (código país + área + número, sin + ni espacios)
-const phone = '5491100000000';
 const msg = practice === 'legal'
   ? 'Hola, me comunico desde el sitio web y quisiera consultar sobre servicios legales.'
   : 'Hola, me comunico desde el sitio web y quisiera consultar sobre servicios contables.';
-const href = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+const href = `https://wa.me/${site.whatsappPhone}?text=${encodeURIComponent(msg)}`;
 ---
 <a href={href} target="_blank" rel="noopener noreferrer"
    class="wa-fab" aria-label="Consultar por WhatsApp" title="Consultar por WhatsApp">
