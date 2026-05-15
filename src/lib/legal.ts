@@ -4,17 +4,17 @@ export const legal = {
   eyebrow: 'Área Legal',
   hero: {
     titleLine1: 'Derecho empresarial,',
-    titleLine2: '23 años de práctica.',
+    titleLine2: '25 años de práctica.',
     lead:
-      'Estudio de abogados con sede en Buenos Aires y corresponsalías en distintos países.',
+      'Estudio de abogados y contadores. Asesoramos, defendemos y representamos en todas las áreas, con la misma exigencia dentro y fuera del país.<br/><br/>25 años de práctica desde Buenos Aires, con corresponsalías internacionales.',
     ctaPrimary: 'Solicitar consulta',
   },
   counters: {
     label: 'En cifras',
     title: 'El estudio en números',
-    sub: 'Dos décadas de trabajo continuo, con foco y método.',
+    sub: 'Veinticinco años de trabajo continuo, con foco y método.',
     items: [
-      { num: '20', suffix: '+',  label: 'Años de trayectoria',  desc: 'Dos décadas asesorando a empresas en operaciones tributarias, societarias y penales económicas complejas.', icon: 'clock' },
+      { num: '25', suffix: '',   label: 'Años de trayectoria',  desc: 'Veinticinco años asesorando y representando en operaciones tributarias, societarias y penales económicas complejas.', icon: 'clock' },
       { num: '5',  suffix: '',   label: 'Áreas especializadas', desc: 'Tributario, laboral, societario, aerocomercial y penal económico.', icon: 'layers' },
       { num: '3',  suffix: '',   label: 'Jurisdicciones',       desc: 'Sede en Buenos Aires, con corresponsalías activas en distintos países.', icon: 'globe' },
       { num: '100',suffix: '%',  label: 'Confidencialidad',     desc: 'Secreto profesional y reserva estricta sobre toda la información del cliente.', icon: 'shield' },
@@ -115,11 +115,11 @@ export const legal = {
     label: 'Trayectoria',
     title: 'Trayectoria',
     items: [
-      { year: '2003', title: 'Fundación',         desc: 'Se constituye Pantarotto Lértora & Asocs. en Buenos Aires.' },
+      { year: '2001', title: 'Fundación',         desc: 'Se constituye Pantarotto Lértora & Asocs. en Buenos Aires.' },
       { year: '2010', title: 'Red internacional', desc: 'Apertura de corresponsalías en distintos países.' },
       { year: '2015', title: 'Área aerocomercial',desc: 'La práctica aerocomercial se consolida como pilar del estudio.' },
       { year: '2020', title: 'División <a href="/contable" class="link-contable">contable</a>', desc: 'Incorporación del <a href="/contable" class="link-contable">área contable</a> integrada al servicio jurídico.' },
-      { year: '2024', title: '20 años',           desc: 'Dos décadas asesorando a empresas nacionales e internacionales.' },
+      { year: '2026', title: '25 años',           desc: 'Veinticinco años asesorando y representando en clientes nacionales e internacionales.' },
     ],
   },
   contact: {

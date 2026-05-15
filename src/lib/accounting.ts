@@ -4,7 +4,7 @@ export const accounting = {
   eyebrow: 'Área Contable',
   hero: {
     titleLine1: 'Contabilidad e impuestos,',
-    titleLine2: '23 años de oficio.',
+    titleLine2: '25 años de oficio.',
     lead:
       'Área contable del estudio, integrada al equipo legal — en Argentina y en operaciones internacionales.',
     ctaPrimary: 'Solicitar consulta',
@@ -12,9 +12,9 @@ export const accounting = {
   counters: {
     label: 'En cifras',
     title: 'El área contable en números',
-    sub: 'Dos décadas acompañando empresas con números que se sostienen.',
+    sub: 'Veinticinco años acompañando con números que se sostienen.',
     items: [
-      { num: '20', suffix: '+',  label: 'Años de trayectoria',    desc: 'Dos décadas de asesoramiento contable e impositivo a empresas y grupos familiares.', icon: 'clock' },
+      { num: '25', suffix: '',   label: 'Años de trayectoria',    desc: 'Veinticinco años de asesoramiento contable e impositivo a empresas y grupos familiares.', icon: 'clock' },
       { num: '6',  suffix: '',   label: 'Servicios centrales',    desc: 'Impuestos, estados contables, auditoría, planificación, sueldos y contabilidad internacional.', icon: 'book' },
       { num: '3',  suffix: '',   label: 'Jurisdicciones activas', desc: 'Sede en Buenos Aires, con corresponsalías en distintos países para operaciones transfronterizas.', icon: 'globe' },
       { num: '100',suffix: '%',  label: 'Integración legal',      desc: 'Coordinación permanente con el equipo jurídico — soluciones contables y legales bajo el mismo mandato.', icon: 'link' },
@@ -131,11 +131,11 @@ export const accounting = {
     label: 'Trayectoria',
     title: 'Trayectoria',
     items: [
-      { year: '2003', title: 'Fundación del estudio', desc: 'Se constituye Pantarotto Lértora & Asocs.' },
+      { year: '2001', title: 'Fundación del estudio', desc: 'Se constituye Pantarotto Lértora & Asocs.' },
       { year: '2010', title: 'Red internacional',     desc: 'Apertura de corresponsalías contables en distintos países.' },
       { year: '2015', title: 'Servicios aduaneros',   desc: 'Incorporación de liquidación aduanera, reintegros y devolución de IVA.' },
       { year: '2020', title: 'División autónoma',     desc: 'Consolidación del área contable como práctica propia.' },
-      { year: '2024', title: '20 años',               desc: 'Dos décadas de asesoramiento impositivo y contable.' },
+      { year: '2026', title: '25 años',               desc: 'Veinticinco años de asesoramiento impositivo y contable.' },
     ],
   },
   contact: {

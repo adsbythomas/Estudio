@@ -12,7 +12,7 @@ export const ES_TO_EN: Record<string, string> = {
   '→ Contable': '→ Accounting',
   '→ Legal': '→ Legal',
   'Inicio': 'Home',
-  'Desde 2003': 'Since 2003',
+  'Desde 2001': 'Since 2001',
   'Abrir menú': 'Open menu',
   'Cerrar': 'Close',
 
@@ -21,13 +21,16 @@ export const ES_TO_EN: Record<string, string> = {
   'Contadores Públicos · Buenos Aires': 'Certified Public Accountants · Buenos Aires',
   'Derecho empresarial,': 'Corporate Law,',
   'Contabilidad e impuestos,': 'Accounting & Tax,',
-  '20 años de oficio.': '20 years of practice.',
+  '25 años de oficio.': '25 years of practice.',
+  '25 años de práctica.': '25 years of practice.',
   'Solicitar consulta': 'Request a Consultation',
   'Ver áreas de práctica': 'View Practice Areas',
   '→ Ir al área contable': '→ Go to Accounting Practice',
   '→ Ir al área legal': '→ Go to Legal Practice',
-  'Estudio de abogados con sede en Buenos Aires y corresponsalías en distintos países.':
-    'Law firm headquartered in Buenos Aires, with correspondents in various countries.',
+  'Estudio de abogados y contadores. Asesoramos, defendemos y representamos en todas las áreas, con la misma exigencia dentro y fuera del país.':
+    'Law firm of attorneys and certified public accountants. We advise, defend and represent across every practice area, with the same standard at home and abroad.',
+  '25 años de práctica desde Buenos Aires, con corresponsalías internacionales.':
+    '25 years of practice from Buenos Aires, with international correspondents.',
   'Área contable del estudio, integrada al equipo legal. Liquidación de impuestos, estados contables, auditoría, planificación fiscal y sueldos — en Argentina y en operaciones internacionales.':
     "Firm's accounting practice, fully integrated with the legal team. Tax filings, financial statements, audit, tax planning and payroll — in Argentina and across international operations.",
 
@@ -45,10 +48,10 @@ export const ES_TO_EN: Record<string, string> = {
   'En cifras': 'By the numbers',
   'El estudio en números': 'The firm in numbers',
   'El área contable en números': 'The accounting practice in numbers',
-  'Dos décadas de trabajo continuo, con foco y método.':
-    'Two decades of continuous work, with focus and method.',
-  'Dos décadas acompañando empresas con números que se sostienen.':
-    'Two decades supporting companies with numbers that hold up.',
+  'Veinticinco años de trabajo continuo, con foco y método.':
+    'Twenty-five years of continuous work, with focus and method.',
+  'Veinticinco años acompañando con números que se sostienen.':
+    'Twenty-five years supporting clients with numbers that hold up.',
   'Años de trayectoria': 'Years of Practice',
   'Áreas especializadas': 'Specialized Practices',
   'Servicios centrales': 'Core Services',
@@ -56,16 +59,16 @@ export const ES_TO_EN: Record<string, string> = {
   'Jurisdicciones activas': 'Active Jurisdictions',
   'Confidencialidad': 'Confidentiality',
   'Integración legal': 'Legal Integration',
-  'Dos décadas asesorando a empresas en operaciones tributarias, societarias y penales económicas complejas.':
-    'Two decades advising companies on complex tax, corporate and white-collar crime matters.',
+  'Veinticinco años asesorando y representando en operaciones tributarias, societarias y penales económicas complejas.':
+    'Twenty-five years advising and representing in complex tax, corporate and white-collar crime matters.',
   'Tributario, laboral, societario, aerocomercial y penal económico.':
     'Tax, employment, corporate, aviation and white-collar crime.',
   'Sede en Buenos Aires, con corresponsalías activas en distintos países.':
     'Headquartered in Buenos Aires, with active correspondents in various countries.',
   'Secreto profesional y reserva estricta sobre toda la información del cliente.':
     'Attorney-client privilege and strict confidentiality over all client information.',
-  'Dos décadas de asesoramiento contable e impositivo a empresas y grupos familiares.':
-    'Two decades of accounting and tax advisory services for companies and family groups.',
+  'Veinticinco años de asesoramiento contable e impositivo a empresas y grupos familiares.':
+    'Twenty-five years of accounting and tax advisory services for companies and family groups.',
   'Impuestos, estados contables, auditoría, planificación, sueldos y contabilidad internacional.':
     'Tax, financial statements, audit, planning, payroll and international accounting.',
   'Sede en Buenos Aires, con corresponsalías en distintos países para operaciones transfronterizas.':
@@ -152,7 +155,7 @@ export const ES_TO_EN: Record<string, string> = {
   'Servicios aduaneros': 'Customs Services',
   'División contable': 'Accounting Division',
   'División autónoma': 'Autonomous Division',
-  '20 años': '20 Years',
+  '25 años': '25 Years',
   'Anterior': 'Previous',
   'Siguiente': 'Next',
   'Se constituye Pantarotto Lértora & Asocs. en Buenos Aires.':
@@ -171,10 +174,10 @@ export const ES_TO_EN: Record<string, string> = {
     'Integration of the accounting practice with the legal service.',
   'Consolidación del área contable como práctica propia.':
     'Consolidation of the accounting practice as an independent division.',
-  'Dos décadas asesorando a empresas nacionales e internacionales.':
-    'Two decades advising domestic and international companies.',
-  'Dos décadas de asesoramiento impositivo y contable.':
-    'Two decades of tax and accounting advisory services.',
+  'Veinticinco años asesorando y representando en clientes nacionales e internacionales.':
+    'Twenty-five years advising and representing domestic and international clients.',
+  'Veinticinco años de asesoramiento impositivo y contable.':
+    'Twenty-five years of tax and accounting advisory services.',
 
   // ── Contact ──────────────────────────────────────────
   'Hablemos de': "Let's discuss",
@@ -250,10 +253,10 @@ export const ES_TO_EN: Record<string, string> = {
     'This summary is for informational purposes only and does not replace professional advice. For an analysis of how this rule affects your company,',
 
   // ── Page titles ──────────────────────────────────────
-  'PL Abogados — Derecho empresarial · Buenos Aires · 20 años':
-    'PL Attorneys — Corporate Law · Buenos Aires · 20 years',
-  'PL Contable — Contabilidad & Impuestos · Buenos Aires · 20 años':
-    'PL Accounting — Accounting & Tax · Buenos Aires · 20 years',
+  'PL Abogados — Derecho empresarial · Buenos Aires · 25 años':
+    'PL Attorneys — Corporate Law · Buenos Aires · 25 years',
+  'PL Contable — Contabilidad & Impuestos · Buenos Aires · 25 años':
+    'PL Accounting — Accounting & Tax · Buenos Aires · 25 years',
   'Novedades — PL Abogados': 'News — PL Attorneys',
   'Novedades — PL Contable': 'News — PL Accounting',
 

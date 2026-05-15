@@ -3,8 +3,8 @@ export const site = {
   firmName: 'Pantarotto Lértora & Asocs.',
   firmShort: 'PL & Asocs.',
   abbr: { a: 'P', b: 'L' },
-  foundingYear: 2003,
-  yearsOfExperience: 23,
+  foundingYear: 2001,
+  yearsOfExperience: 25,
   address: {
     line1: 'Av. Corrientes 1464',
     line2: 'Piso 16 · Oficina 1605',
