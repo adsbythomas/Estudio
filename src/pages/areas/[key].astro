@@ -68,18 +68,15 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
           ¿Necesita asesoramiento en {area.meetingTopic || `derecho ${area.name.toLowerCase()}`}?
         </h2>
         <p class="area-cta-desc">
-          Coordinamos una primera reunión para evaluar su caso. Confidencial,
-          dentro de las 24 horas hábiles.
+          Escríbanos para evaluar su caso. Confidencial,
+          respondemos dentro de las 24 horas hábiles.
         </p>
         <div class="area-cta-actions">
-          <a href={withBase('/#agenda')} class="area-cta-primary">
-            <span>Solicitar reunión sobre {area.meetingTopic || `derecho ${area.name.toLowerCase()}`}</span>
+          <a href={withBase('/#contacto')} class="area-cta-primary">
+            <span>Consultar sobre {area.meetingTopic || `derecho ${area.name.toLowerCase()}`}</span>
             <svg width="14" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.6">
               <path d="M1 5h14M11 1l4 4-4 4"/>
             </svg>
-          </a>
-          <a href={withBase('/#contacto')} class="area-cta-secondary">
-            O escribir al estudio
           </a>
         </div>
       </div>

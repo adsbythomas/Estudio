@@ -15,14 +15,12 @@ export const site = {
   hours: 'Lunes a viernes · 9:00 a 18:00 hs.',
   phonePlaceholder: '+54 11 0000-0000',
   emailPlaceholder: 'contacto@pl-abogados.com',
-  // Teléfono del estudio. `phone` es el formato para tel: (sin "+" ni espacios),
-  // `phoneDisplay` es el formato legible que se muestra al usuario.
+  // Teléfono y WhatsApp del estudio — mismo número, dos canales.
+  // Formato para tel:/wa.me (sin "+" ni espacios) y formato legible.
   phone: '5491178212945',
   phoneDisplay: '+54 9 11 7821-2945',
-  // WhatsApp: el número en formato internacional sin "+" ni espacios para wa.me,
-  // y el formato legible para mostrar al usuario.
-  whatsappPhone: '5491141984555',
-  whatsappDisplay: '+54 9 11 4198-4555',
+  whatsappPhone: '5491178212945',
+  whatsappDisplay: '+54 9 11 7821-2945',
   offices: ['Buenos Aires'],
   linkedin: 'https://www.linkedin.com/company/pl-abogados/',
   mapsEmbed:

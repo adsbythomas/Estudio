@@ -65,18 +65,15 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
           ¿Necesita asesoramiento en {service.meetingTopic || service.name.toLowerCase()}?
         </h2>
         <p class="service-cta-desc">
-          Coordinamos una primera reunión para evaluar su situación contable e impositiva.
-          Confidencial, dentro de las 24 horas hábiles.
+          Escríbanos para evaluar su situación contable e impositiva.
+          Confidencial, respondemos dentro de las 24 horas hábiles.
         </p>
         <div class="service-cta-actions">
-          <a href={withBase('/contable#agenda')} class="service-cta-primary">
-            <span>Solicitar reunión sobre {service.meetingTopic || service.name.toLowerCase()}</span>
+          <a href={withBase('/contable#contacto')} class="service-cta-primary">
+            <span>Consultar sobre {service.meetingTopic || service.name.toLowerCase()}</span>
             <svg width="14" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.6">
               <path d="M1 5h14M11 1l4 4-4 4"/>
             </svg>
-          </a>
-          <a href={withBase('/contable#contacto')} class="service-cta-secondary">
-            O escribir al estudio
           </a>
         </div>
       </div>

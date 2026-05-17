@@ -24,7 +24,6 @@ const anchorBase = landing ? '' : withBase(isLegal ? '/' : '/contable');
 const navLinks = [
   { href: anchorBase + '#practica',         label: 'Práctica' },
   { href: anchorBase + '#equipo',           label: 'Equipo' },
-  { href: anchorBase + '#agenda',           label: 'Agenda' },
   ...(isLegal ? [] : [{ href: withBase('/vencimientos'), label: 'Vencimientos' }]),
   { href: anchorBase + '#contacto',         label: 'Contacto' },
 ];
