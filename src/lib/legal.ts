@@ -57,6 +57,8 @@ export const legal = {
         key: 'societario',
         name: 'Societario',
         desc: 'Gobierno corporativo, fusiones y adquisiciones, due diligence, acuerdos de accionistas y transformaciones societarias.',
+        // El área societaria tiene micrositio propio con trámites y formulario online.
+        href: '/societario',
         meetingTopic: 'derecho societario',
         intro: 'Cubrimos todo el ciclo de vida societario: constitución, gobierno corporativo, fusiones y adquisiciones, due diligence y reorganizaciones. Asesoramos a accionistas, directores y comités en sus deberes, derechos y conflictos, y acompañamos transacciones complejas con corresponsalías en distintos países.',
         services: [

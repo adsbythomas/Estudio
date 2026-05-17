@@ -1,0 +1,347 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { societario, tramites } from '@data/societario';
+
+const base = import.meta.env.BASE_URL;
+const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
+---
+<BaseLayout
+  practice="legal"
+  title="Área societaria — PL Abogados · IGJ y DPPJ"
+  description="Trámites societarios ante IGJ y DPPJ: constitución, reformas, designación de autoridades, cesiones, cumplimiento anual y atención a profesionales. Cada expediente asignado a un abogado del estudio."
+  landing={false}
+>
+  <!-- HERO -->
+  <section class="societario-hero">
+    <div class="shell">
+      <a href={withBase('/#practica')} class="societario-back">
+        <span aria-hidden="true">←</span> Volver a áreas
+      </a>
+
+      <div class="societario-hero-kicker">{societario.hero.eyebrow}</div>
+
+      <h1 class="societario-hero-title">{societario.hero.title}</h1>
+
+      <p class="societario-hero-lead">{societario.hero.lead}</p>
+
+      <div class="societario-hero-actions">
+        <a href="#tramites" class="societario-btn societario-btn--primary">
+          {societario.hero.ctaPrimary}
+          <svg width="14" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 5h14M11 1l4 4-4 4"/></svg>
+        </a>
+        <a href={withBase('/#contacto')} class="societario-btn societario-btn--secondary">
+          {societario.hero.ctaSecondary}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- EN CIFRAS -->
+  <section class="societario-cifras">
+    <div class="shell">
+      <span class="societario-section-kicker">{societario.cifras.label}</span>
+      <h2 class="societario-section-title">{societario.cifras.title}</h2>
+
+      <div class="societario-cifras-grid">
+        {societario.cifras.items.map((c) => (
+          <div class="societario-cifra">
+            <div class="societario-cifra-num">{c.num}<span class="societario-cifra-suffix">{c.suffix}</span></div>
+            <div class="societario-cifra-label">{c.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 TRÁMITES -->
+  <section id="tramites" class="societario-tramites">
+    <div class="shell">
+      <span class="societario-section-kicker">{societario.practica.label}</span>
+      <h2 class="societario-section-title">{societario.practica.title}</h2>
+      <p class="societario-section-sub">{societario.practica.sub}</p>
+
+      <div class="societario-tramites-grid">
+        {tramites.map((t) => (
+          <a href={withBase(`/societario/${t.key}`)} class="societario-tramite-card">
+            <div class="societario-tramite-num">{t.num} <span>/ de {String(tramites.length).padStart(2, '0')}</span></div>
+            <h3 class="societario-tramite-name">{t.name}</h3>
+            <p class="societario-tramite-desc">{t.shortDesc}</p>
+            <span class="societario-tramite-arrow">Ver detalle e iniciar →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / CONTACTO -->
+  <section class="societario-cta">
+    <div class="shell">
+      <div class="societario-cta-card">
+        <span class="societario-cta-label">Próximo paso</span>
+        <h2 class="societario-cta-title">¿No sabe qué trámite necesita?</h2>
+        <p class="societario-cta-desc">
+          Escríbanos describiendo brevemente su situación. Un abogado del estudio le
+          responde dentro de las 48 hs hábiles para orientarlo sin compromiso.
+        </p>
+        <a href={withBase('/#contacto')} class="societario-btn societario-btn--primary">
+          Consultar al estudio
+          <svg width="14" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 5h14M11 1l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ── Hero ───────────────────────────────────────────────── */
+  .societario-hero {
+    padding: 8rem 0 4rem;
+    background: var(--bg);
+  }
+  .societario-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 2.5rem;
+    transition: color .25s ease;
+  }
+  .societario-back:hover { color: var(--brand-500); }
+  .societario-hero-kicker {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--brand-500);
+    margin-bottom: 1.25rem;
+    font-weight: 700;
+  }
+  .societario-hero-title {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin: 0 0 1.5rem;
+    max-width: 18ch;
+  }
+  .societario-hero-lead {
+    font-size: clamp(1rem, 1.4vw, 1.12rem);
+    line-height: 1.65;
+    color: var(--fg-muted);
+    max-width: 65ch;
+    margin: 0 0 2.5rem;
+  }
+  .societario-hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .societario-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.4rem;
+    border-radius: 6px;
+    font-family: 'Montserrat', system-ui;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .societario-btn--primary {
+    background: var(--brand-500);
+    color: var(--bg);
+    border: 1.5px solid var(--brand-500);
+  }
+  .societario-btn--primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px color-mix(in srgb, var(--brand-500) 35%, transparent);
+  }
+  .societario-btn--secondary {
+    background: transparent;
+    color: var(--fg);
+    border: 1.5px solid var(--border);
+  }
+  .societario-btn--secondary:hover {
+    border-color: var(--brand-500);
+    color: var(--brand-500);
+  }
+
+  /* ── Secciones ──────────────────────────────────────────── */
+  .societario-section-kicker {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.85rem;
+  }
+  .societario-section-title {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--fg);
+    margin: 0 0 0.8rem;
+  }
+  .societario-section-sub {
+    color: var(--fg-muted);
+    line-height: 1.6;
+    max-width: 60ch;
+    margin: 0 0 2.5rem;
+  }
+
+  /* ── En cifras ──────────────────────────────────────────── */
+  .societario-cifras {
+    padding: 3.5rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .societario-cifras-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  .societario-cifra {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem 1.25rem;
+  }
+  .societario-cifra-num {
+    font-family: 'Montserrat', system-ui;
+    font-size: clamp(2rem, 3.5vw, 2.6rem);
+    font-weight: 300;
+    color: var(--fg);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .societario-cifra-suffix {
+    color: var(--brand-500);
+    font-weight: 400;
+  }
+  .societario-cifra-label {
+    margin-top: 0.7rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--fg-muted);
+  }
+
+  /* ── Trámites grid ─────────────────────────────────────── */
+  .societario-tramites { padding: 4rem 0; }
+  .societario-tramites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .societario-tramite-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.5rem 1.5rem 1.75rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .societario-tramite-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: var(--brand-500);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .35s ease;
+  }
+  .societario-tramite-card:hover {
+    border-color: color-mix(in srgb, var(--brand-500) 50%, var(--border));
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--fg) 8%, transparent);
+  }
+  .societario-tramite-card:hover::before { transform: scaleX(1); }
+  .societario-tramite-num {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--brand-500);
+  }
+  .societario-tramite-num span { color: var(--fg-subtle); }
+  .societario-tramite-name {
+    font-family: 'Montserrat', system-ui;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--fg);
+    line-height: 1.3;
+    margin: 0;
+  }
+  .societario-tramite-desc {
+    color: var(--fg-muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    margin: 0;
+    flex: 1;
+  }
+  .societario-tramite-arrow {
+    margin-top: 0.5rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    transition: color .25s ease, transform .25s ease;
+  }
+  .societario-tramite-card:hover .societario-tramite-arrow {
+    color: var(--brand-500);
+    transform: translateX(4px);
+  }
+
+  /* ── CTA ────────────────────────────────────────────────── */
+  .societario-cta { padding: 3rem 0 6rem; }
+  .societario-cta-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .societario-cta-label {
+    font-family: ui-monospace, monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--brand-500);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .societario-cta-title {
+    font-family: 'Montserrat', system-ui;
+    font-size: clamp(1.4rem, 2.6vw, 1.8rem);
+    font-weight: 700;
+    color: var(--fg);
+    margin: 0 0 1rem;
+    line-height: 1.2;
+  }
+  .societario-cta-desc {
+    color: var(--fg-muted);
+    line-height: 1.6;
+    margin: 0 auto 1.75rem;
+    max-width: 55ch;
+  }
+</style>

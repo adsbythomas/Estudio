@@ -3,10 +3,14 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import { legal } from '@lib/legal';
 
 export function getStaticPaths() {
-  return legal.practice.items.map((area) => ({
-    params: { key: area.key },
-    props: { area },
-  }));
+  // Áreas con micrositio propio (href absoluto) no se generan acá
+  // — viven en su propia ruta dedicada (ej. Societario → /societario).
+  return legal.practice.items
+    .filter((area) => !(area as any).href)
+    .map((area) => ({
+      params: { key: area.key },
+      props: { area },
+    }));
 }
 
 const { area } = Astro.props;

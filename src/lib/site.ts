@@ -23,6 +23,12 @@ export const site = {
   whatsappDisplay: '+54 9 11 7821-2945',
   offices: ['Buenos Aires'],
   linkedin: 'https://www.linkedin.com/company/pl-abogados/',
+  // Clave gratis para Web3Forms (https://web3forms.com). Reemplazá el string
+  // vacío por tu access key para activar el envío de formularios del micrositio
+  // de Societario. Mientras esté vacía, el form muestra una nota y no envía.
+  web3formsKey: '',
+  // Email de fallback para mostrar/abrir mailto si el form no está activado.
+  contactEmail: 'contacto@pl-abogados.com',
   mapsEmbed:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.9973518279826!2d-58.390031323855155!3d-34.60422847295404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccac1942fc08d%3A0x90e50a4d7964f611!2sPantarotto%20L%C3%A9rtora%20%26%20Asocs!5e0!3m2!1ses-419!2sar!4v1775170188725!5m2!1ses-419!2sar',
 } as const;

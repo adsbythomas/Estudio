@@ -6,17 +6,19 @@ export interface Area {
   meetingTopic?: string;
   intro?: string;
   services?: Array<{ title: string; desc: string }>;
+  /** Si se define, sobrescribe el link por defecto (`${subpagePrefix}/${key}`). */
+  href?: string;
 }
 export interface Props {
   label: string;
   title: string;
   sub: string;
   items: Area[];
-  /** Si se pasa, cada área linkea a `${subpagePrefix}/${a.key}`. Si no, a #contacto. */
+  /** Si se pasa, cada área linkea a `${subpagePrefix}/${a.key}` (salvo override por `area.href`). */
   subpagePrefix?: string;
 }
 const { label, title, sub, items, subpagePrefix } = Astro.props;
-const linkFor = (key: string) => subpagePrefix ? `${subpagePrefix}/${key}` : '#contacto';
+const linkFor = (a: Area) => a.href ?? (subpagePrefix ? `${subpagePrefix}/${a.key}` : '#contacto');
 ---
 <section id="practica" class="relative py-16 md:py-20 reveal">
   <div class="shell grid md:grid-cols-[1fr_1.8fr] gap-12 md:gap-20">
@@ -48,7 +50,7 @@ const linkFor = (key: string) => subpagePrefix ? `${subpagePrefix}/${key}` : '#c
     <!-- Lista de áreas -->
     <div class="space-y-0" data-index>
       {items.map((a, i) => (
-        <a href={linkFor(a.key)}
+        <a href={linkFor(a)}
            class="block index-row group"
            data-index-item
            data-area-key={a.key}
@@ -58,7 +60,7 @@ const linkFor = (key: string) => subpagePrefix ? `${subpagePrefix}/${key}` : '#c
             <span class="index-name">{a.name}</span>
             <p class="index-desc">{a.desc}</p>
           </div>
-          <span class="index-arrow">{subpagePrefix ? 'Ver área →' : 'Consultar →'}</span>
+          <span class="index-arrow">{subpagePrefix || a.href ? 'Ver área →' : 'Consultar →'}</span>
         </a>
       ))}
     </div>
