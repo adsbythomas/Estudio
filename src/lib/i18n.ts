@@ -41,8 +41,8 @@ export const ES_TO_EN: Record<string, string> = {
   'Visitar área': 'Visit Practice',
   'El estudio integra un equipo propio de contadores públicos matriculados: liquidación de impuestos, estados contables, auditoría y planificación fiscal. Coordinación permanente con el área jurídica.':
     'The firm has its own team of certified public accountants: tax filings, financial statements, audit and tax planning. Ongoing coordination with the legal practice.',
-  'El estudio integra cinco áreas de derecho empresarial: tributario, societario, laboral, aerocomercial y penal económico. Coordinación permanente con el área contable.':
-    'The firm covers five areas of corporate law: tax, corporate, employment, aviation and white-collar crime. Ongoing coordination with the accounting practice.',
+  'El estudio integra seis áreas de práctica: tributario, societario, laboral, aerocomercial, penal económico y ciudadanía. Coordinación permanente con el área contable.':
+    'The firm covers six practice areas: tax, corporate, employment, aviation, white-collar crime and citizenship. Ongoing coordination with the accounting practice.',
 
   // ── Counters (legal) ─────────────────────────────────
   'En cifras': 'By the numbers',
@@ -61,8 +61,8 @@ export const ES_TO_EN: Record<string, string> = {
   'Integración legal': 'Legal Integration',
   'Veinticinco años asesorando y representando en operaciones tributarias, societarias y penales económicas complejas.':
     'Twenty-five years advising and representing in complex tax, corporate and white-collar crime matters.',
-  'Tributario, laboral, societario, aerocomercial y penal económico.':
-    'Tax, employment, corporate, aviation and white-collar crime.',
+  'Tributario, laboral, societario, aerocomercial, penal económico y ciudadanía.':
+    'Tax, employment, corporate, aviation, white-collar crime and citizenship.',
   'Sede en Buenos Aires, con corresponsalías activas en distintos países.':
     'Headquartered in Buenos Aires, with active correspondents in various countries.',
   'Secreto profesional y reserva estricta sobre toda la información del cliente.':
@@ -79,8 +79,7 @@ export const ES_TO_EN: Record<string, string> = {
   // ── Practice (legal) ─────────────────────────────────
   'Práctica profesional': 'Professional Practice',
   'Áreas': 'Practice Areas',
-  'Cinco áreas de derecho empresarial, ejercidas con autonomía y coordinación entre sí.':
-    'Five areas of corporate law, practiced independently and in coordination with one another.',
+  'Ciudadanía': 'Citizenship',
   'Tributario': 'Tax',
   'Aduanero': 'Customs',
   'Laboral': 'Employment',

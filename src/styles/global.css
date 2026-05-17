@@ -391,6 +391,21 @@
     color: #242b42 !important;
   }
 
+  /* Link inline a un área legal con micrositio propio (societario, ciudadanía).
+     Usa el brand color y un underline editorial. */
+  .link-area {
+    color: var(--brand-500);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: opacity .25s ease, text-decoration-thickness .25s ease;
+  }
+  .link-area:hover {
+    opacity: 0.8;
+    text-decoration-thickness: 2px;
+  }
+
   /* Botón cross-link en el nav. En tema legal apunta a contable y usa el color
      de fondo de la página contable (Ice Grey #e9e9f2) — fondo sólido #e9e9f2
      con texto navy. En tema contable apunta a legal y queda en navy con texto

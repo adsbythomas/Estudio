@@ -15,7 +15,7 @@ export const legal = {
     sub: 'Veinticinco años de trabajo continuo, con foco y método.',
     items: [
       { num: '25', suffix: '',   label: 'Años de trayectoria',  desc: 'Veinticinco años asesorando y representando en operaciones tributarias, societarias y penales económicas complejas.', icon: 'clock' },
-      { num: '5',  suffix: '',   label: 'Áreas especializadas', desc: 'Tributario, laboral, societario, aerocomercial y penal económico.', icon: 'layers' },
+      { num: '6',  suffix: '',   label: 'Áreas especializadas', desc: 'Tributario, laboral, societario, aerocomercial, penal económico y ciudadanía.', icon: 'layers' },
       { num: '3',  suffix: '',   label: 'Jurisdicciones',       desc: 'Sede en Buenos Aires, con corresponsalías activas en distintos países.', icon: 'globe' },
       { num: '100',suffix: '%',  label: 'Confidencialidad',     desc: 'Secreto profesional y reserva estricta sobre toda la información del cliente.', icon: 'shield' },
     ],
@@ -23,7 +23,7 @@ export const legal = {
   practice: {
     label: 'Práctica profesional',
     title: 'Áreas',
-    sub: 'Cinco áreas de derecho empresarial, ejercidas con autonomía y coordinación entre sí.',
+    sub: 'Seis áreas de práctica, ejercidas con autonomía y coordinación entre sí. Dos cuentan con micrositio propio y formulario online: <a href="/societario" class="link-area">Societario</a> y <a href="/ciudadania" class="link-area">Ciudadanía</a>.',
     items: [
       {
         key: 'tributario',
@@ -97,6 +97,14 @@ export const legal = {
           { title: 'Compliance penal preventivo', desc: 'Diseño e implementación de programas de cumplimiento, capacitación, canales de denuncia, investigaciones internas y auditorías de integridad.' },
         ],
       },
+      {
+        key: 'ciudadania',
+        name: 'Ciudadanía',
+        desc: 'Ciudadanía argentina (naturalización y opción), italiana, española, residencias migratorias y trámites consulares.',
+        // El área de ciudadanía tiene micrositio propio con trámites y formulario online.
+        href: '/ciudadania',
+        meetingTopic: 'ciudadanía y residencias',
+      },
     ],
   },
   team: {
@@ -129,6 +137,6 @@ export const legal = {
     title: 'Hablemos de',
     titleAccent: 'su caso',
     desc: 'Le ofrecemos una consulta inicial para evaluar su situación. Nuestro equipo le responderá dentro de las 24 horas hábiles.',
-    formAreas: ['Tributario', 'Laboral', 'Societario', 'Aerocomercial', 'Penal Económico', 'Otro'],
+    formAreas: ['Tributario', 'Laboral', 'Societario', 'Aerocomercial', 'Penal Económico', 'Ciudadanía', 'Otro'],
   },
 };

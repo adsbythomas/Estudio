@@ -28,7 +28,7 @@ const linkFor = (a: Area) => a.href ?? (subpagePrefix ? `${subpagePrefix}/${a.ke
       <h2 class="font-sans font-bold text-cover leading-[1.05] mb-6" style="color: var(--fg);">
         <span class="stack-line inline-block" data-stack-line><span>{title}</span></span>
       </h2>
-      <p class="leading-relaxed max-w-md mb-10" style="color: var(--fg-muted);">{sub}</p>
+      <p class="leading-relaxed max-w-md mb-10" style="color: var(--fg-muted);" set:html={sub}></p>
 
       <!-- Contador gigante + área activa -->
       <div class="hidden md:flex items-baseline gap-5 pt-5 border-t" style="border-color: var(--border);">

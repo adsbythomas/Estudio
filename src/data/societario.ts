@@ -1,53 +1,8 @@
 // Contenido del micrositio del área societaria.
 // Fuente inicial: propuesta interna PDF · 2026. Editar y ampliar acá.
+import type { Tramite, MicrositioLanding } from './types';
 
-export interface DocItem {
-  name: string;
-  desc?: string;
-  optional?: boolean;
-}
-
-export interface ComparativoRow {
-  aspecto: string;
-  srl: string;
-  sa: string;
-  sas: string;
-}
-
-export interface FormField {
-  name: string;
-  label: string;
-  type: 'text' | 'email' | 'tel' | 'textarea' | 'select';
-  required?: boolean;
-  placeholder?: string;
-  options?: string[];
-  fullWidth?: boolean;
-}
-
-export interface Tramite {
-  key: string;
-  num: string;       // "01", "02", ...
-  name: string;      // Título corto para cards
-  shortDesc: string; // Sub en cards
-  hero: {
-    eyebrow: string;
-    title: string;
-    lead: string;
-    plazo?: string;
-  };
-  cuando: string[];        // Bullets "cuándo conviene"
-  documentos: DocItem[];   // Documentación requerida
-  comparativo?: {          // Opcional — sólo trámites donde aplique
-    title: string;
-    note?: string;
-    headers: { label: string; key: 'srl' | 'sa' | 'sas' }[];
-    rows: ComparativoRow[];
-  };
-  /** Campos extra que el form sumará para este trámite. */
-  extraFields?: FormField[];
-}
-
-export const societario = {
+export const societario: MicrositioLanding = {
   hero: {
     eyebrow: 'Área societaria',
     title: 'Trámites societarios, 25 años de oficio.',
@@ -70,7 +25,7 @@ export const societario = {
     title: 'Servicios',
     sub: 'Seis líneas de trabajo, ejercidas con autonomía y coordinación con el resto del estudio.',
   },
-} as const;
+};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 6 TRÁMITES

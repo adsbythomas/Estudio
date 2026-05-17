@@ -1,0 +1,411 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import TramiteForm from '@components/TramiteForm.astro';
+import { tramites } from '@data/ciudadania';
+
+export function getStaticPaths() {
+  return tramites.map((t) => ({
+    params: { tramite: t.key },
+    props: { tramite: t },
+  }));
+}
+
+const { tramite } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
+---
+<BaseLayout
+  practice="legal"
+  title={`${tramite.name} — PL Abogados · Área de ciudadanía`}
+  description={tramite.hero.lead}
+  landing={false}
+>
+  <!-- HERO + breadcrumb -->
+  <section class="ficha-hero">
+    <div class="shell">
+      <nav class="ficha-breadcrumb" aria-label="Breadcrumb">
+        <a href={withBase('/ciudadania')}>Ciudadanía</a>
+        <span aria-hidden="true">/</span>
+        <span>{tramite.name}</span>
+      </nav>
+
+      <div class="ficha-hero-kicker">{tramite.hero.eyebrow}</div>
+
+      <h1 class="ficha-hero-title">{tramite.hero.title}</h1>
+
+      <p class="ficha-hero-lead">{tramite.hero.lead}</p>
+
+      {tramite.hero.plazo && (
+        <p class="ficha-hero-plazo">
+          <strong>Plazo estimado:</strong> {tramite.hero.plazo}
+        </p>
+      )}
+    </div>
+  </section>
+
+  <!-- ¿Cuándo conviene? -->
+  <section class="ficha-cuando">
+    <div class="shell">
+      <div class="ficha-section-head">
+        <span class="ficha-section-kicker">Cuándo aplica</span>
+        <h2 class="ficha-section-title">¿En qué casos corresponde este trámite?</h2>
+      </div>
+      <ul class="ficha-cuando-list">
+        {tramite.cuando.map((c) => (
+          <li>
+            <span class="ficha-cuando-bullet" aria-hidden="true">·</span>
+            <span>{c}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Comparativo (sólo si existe) -->
+  {tramite.comparativo && (
+    <section class="ficha-comparativo">
+      <div class="shell">
+        <div class="ficha-section-head">
+          <span class="ficha-section-kicker">Comparativo</span>
+          <h2 class="ficha-section-title">{tramite.comparativo.title}</h2>
+        </div>
+
+        <div class="ficha-table-wrap">
+          <table class="ficha-table">
+            <thead>
+              <tr>
+                <th>Aspecto</th>
+                {tramite.comparativo.headers.map((h) => <th>{h.label}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {tramite.comparativo.rows.map((r) => (
+                <tr>
+                  <td><strong>{r.aspecto}</strong></td>
+                  {tramite.comparativo!.headers.map((h) => <td>{r[h.key]}</td>)}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {tramite.comparativo.note && (
+          <p class="ficha-table-note">{tramite.comparativo.note}</p>
+        )}
+      </div>
+    </section>
+  )}
+
+  <!-- Documentación requerida -->
+  <section class="ficha-docs">
+    <div class="shell">
+      <div class="ficha-section-head">
+        <span class="ficha-section-kicker">Documentación</span>
+        <h2 class="ficha-section-title">Qué información necesitamos</h2>
+      </div>
+
+      <div class="ficha-docs-grid">
+        {tramite.documentos.map((d, i) => (
+          <article class="ficha-doc">
+            <span class="ficha-doc-num">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 class="ficha-doc-name">
+                {d.name}
+                {d.optional && <span class="ficha-doc-opt">opcional</span>}
+              </h3>
+              {d.desc && <p class="ficha-doc-desc">{d.desc}</p>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Banner "Iniciar trámite" -->
+  <section class="ficha-banner">
+    <div class="shell">
+      <div class="ficha-banner-card">
+        <div>
+          <h3 class="ficha-banner-title">¿Tiene los datos a mano?</h3>
+          <p class="ficha-banner-desc">
+            Cargue la información por la web. Le asignamos un abogado del estudio
+            dentro de las 48 hs hábiles.
+          </p>
+        </div>
+        <a href="#iniciar" class="ficha-banner-cta">
+          Iniciar trámite online
+          <svg width="14" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 5h14M11 1l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formulario -->
+  <TramiteForm tramite={tramite} />
+</BaseLayout>
+
+<style>
+  /* Reutilizamos las clases `ficha-*` del micrositio de societario para mantener
+     consistencia visual entre las dos fichas de trámites. */
+
+  /* ── Hero ───────────────────────────────────────────────── */
+  .ficha-hero {
+    padding: 7rem 0 3rem;
+    background: var(--bg);
+  }
+  .ficha-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 2rem;
+  }
+  .ficha-breadcrumb a {
+    color: var(--fg-muted);
+    transition: color .25s ease;
+  }
+  .ficha-breadcrumb a:hover { color: var(--brand-500); }
+  .ficha-breadcrumb span[aria-hidden] { opacity: 0.5; }
+  .ficha-breadcrumb > span:not([aria-hidden]) { color: var(--fg); }
+
+  .ficha-hero-kicker {
+    font-family: ui-monospace, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--brand-500);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  .ficha-hero-title {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin: 0 0 1.25rem;
+    max-width: 28ch;
+  }
+  .ficha-hero-lead {
+    font-size: clamp(0.98rem, 1.3vw, 1.08rem);
+    line-height: 1.65;
+    color: var(--fg-muted);
+    max-width: 70ch;
+    margin: 0 0 1rem;
+  }
+  .ficha-hero-plazo {
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+    margin: 0;
+    padding: 0.6rem 0.9rem;
+    background: color-mix(in srgb, var(--brand-500) 7%, var(--bg));
+    border-left: 3px solid var(--brand-500);
+    display: inline-block;
+    border-radius: 0 4px 4px 0;
+  }
+  .ficha-hero-plazo strong { color: var(--fg); }
+
+  /* ── Section heads ──────────────────────────────────────── */
+  .ficha-section-head { margin-bottom: 1.75rem; }
+  .ficha-section-kicker {
+    font-family: ui-monospace, monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+  .ficha-section-title {
+    font-family: 'Montserrat', system-ui;
+    font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+    font-weight: 700;
+    color: var(--fg);
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Cuándo conviene ────────────────────────────────────── */
+  .ficha-cuando { padding: 3rem 0; border-top: 1px solid var(--border); }
+  .ficha-cuando-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.9rem 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .ficha-cuando-list li {
+    display: flex;
+    gap: 0.7rem;
+    color: var(--fg);
+    font-size: 0.98rem;
+    line-height: 1.6;
+    padding-left: 0;
+  }
+  .ficha-cuando-bullet {
+    color: var(--brand-500);
+    font-weight: 900;
+    font-size: 1.3rem;
+    line-height: 1;
+    margin-top: 4px;
+  }
+
+  /* ── Comparativo ────────────────────────────────────────── */
+  .ficha-comparativo {
+    padding: 3rem 0;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .ficha-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+  }
+  .ficha-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    min-width: 560px;
+  }
+  .ficha-table thead {
+    background: color-mix(in srgb, var(--brand-500) 8%, var(--surface));
+  }
+  .ficha-table th,
+  .ficha-table td {
+    padding: 0.85rem 1.1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .ficha-table th {
+    font-family: ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 700;
+  }
+  .ficha-table td { color: var(--fg-muted); }
+  .ficha-table tr:last-child td { border-bottom: none; }
+  .ficha-table td strong { color: var(--fg); font-weight: 600; }
+  .ficha-table-note {
+    margin-top: 0.85rem;
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--fg-subtle);
+  }
+
+  /* ── Documentación ──────────────────────────────────────── */
+  .ficha-docs {
+    padding: 3rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .ficha-docs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1rem 1.25rem;
+  }
+  .ficha-doc {
+    display: flex;
+    gap: 1rem;
+    padding: 1.1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: border-color .25s ease;
+  }
+  .ficha-doc:hover { border-color: color-mix(in srgb, var(--brand-500) 35%, var(--border)); }
+  .ficha-doc-num {
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--brand-500);
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+  .ficha-doc-name {
+    font-family: 'Montserrat', system-ui;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--fg);
+    margin: 0 0 0.25rem;
+    line-height: 1.35;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .ficha-doc-opt {
+    font-family: ui-monospace, monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    background: var(--bg);
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    font-weight: 700;
+  }
+  .ficha-doc-desc {
+    color: var(--fg-muted);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ── Banner ─────────────────────────────────────────────── */
+  .ficha-banner { padding: 1.5rem 0; }
+  .ficha-banner-card {
+    background: var(--brand-500);
+    color: var(--bg);
+    border-radius: 10px;
+    padding: 1.75rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .ficha-banner-title {
+    font-family: 'Montserrat', system-ui;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--bg);
+    margin: 0 0 0.3rem;
+  }
+  .ficha-banner-desc {
+    color: color-mix(in srgb, var(--bg) 80%, transparent);
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .ficha-banner-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: var(--bg);
+    color: var(--brand-500);
+    padding: 0.75rem 1.3rem;
+    border-radius: 6px;
+    font-family: 'Montserrat', system-ui;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: transform .2s ease, box-shadow .2s ease;
+    flex-shrink: 0;
+  }
+  .ficha-banner-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px color-mix(in srgb, #000 18%, transparent);
+  }
+</style>
