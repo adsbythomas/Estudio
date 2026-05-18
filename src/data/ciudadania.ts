@@ -1,7 +1,8 @@
 // Contenido del micrositio del área de ciudadanía y residencias.
-// Trámites de ciudadanía argentina (naturalización y opción), ciudadanías
-// europeas más demandadas (italiana y española), residencias migratorias ante
-// la Dirección Nacional de Migraciones y gestiones consulares.
+// Trámites de ciudadanía argentina (naturalización y opción), residencias
+// migratorias ante la Dirección Nacional de Migraciones y gestiones consulares
+// (apostillado, traducción pública). El estudio NO tramita ciudadanías
+// extranjeras (italiana, española, etc.) — sólo ciudadanía argentina.
 //
 // Las referencias normativas y plazos pueden variar — verificar a la fecha
 // de presentación de cada expediente.
@@ -10,8 +11,8 @@ import type { Tramite, MicrositioLanding } from './types';
 export const ciudadania: MicrositioLanding = {
   hero: {
     eyebrow: 'Área de ciudadanía y migraciones',
-    title: 'Ciudadanías, residencias y trámites consulares.',
-    lead: 'Asesoramiento y representación en ciudadanía argentina (naturalización y opción), ciudadanías italiana y española por descendencia, residencias migratorias ante la Dirección Nacional de Migraciones y gestiones consulares. Cada expediente, con un abogado asignado del estudio.',
+    title: 'Ciudadanía argentina, residencias y trámites consulares.',
+    lead: 'Asesoramiento y representación en ciudadanía argentina (naturalización y opción), residencias migratorias ante la Dirección Nacional de Migraciones y gestiones consulares —apostilla, traducción pública y trámites con o sin poder—. Cada expediente, con un abogado asignado del estudio.',
     ctaPrimary: 'Iniciar trámite online',
     ctaSecondary: 'Hablar con un abogado',
   },
@@ -19,21 +20,21 @@ export const ciudadania: MicrositioLanding = {
     label: 'En cifras',
     title: 'El área de ciudadanía en números',
     items: [
-      { num: '25', suffix: '+', label: 'Años de oficio en derecho de extranjería' },
-      { num: '6',  suffix: '',  label: 'Líneas de trámite con flujo digital propio' },
-      { num: '4',  suffix: '',  label: 'Jurisdicciones — Argentina, Italia, España y consulares' },
+      { num: '25', suffix: '+', label: 'Años de oficio en derecho de extranjería y migratorio' },
+      { num: '4',  suffix: '',  label: 'Líneas de trámite con flujo digital propio' },
+      { num: '48', suffix: 'h', label: 'Asignación de abogado tras cargar el expediente' },
       { num: '100',suffix: '%', label: 'Confidencialidad y secreto profesional' },
     ],
   },
   practica: {
     label: 'Práctica de ciudadanía',
     title: 'Servicios',
-    sub: 'Seis líneas de trabajo en ciudadanía, residencias y gestiones consulares, integradas al resto del estudio.',
+    sub: 'Cuatro líneas de trabajo en ciudadanía argentina, residencias y gestiones consulares, integradas al resto del estudio.',
   },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 6 TRÁMITES
+// 4 TRÁMITES
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const tramites: Tramite[] = [
@@ -43,7 +44,7 @@ export const tramites: Tramite[] = [
     name: 'Ciudadanía argentina por naturalización',
     shortDesc: 'Extranjeros con residencia continua en el país · Trámite judicial federal.',
     hero: {
-      eyebrow: 'Naturalización · 01 / de 06',
+      eyebrow: 'Naturalización · 01 / de 04',
       title: 'Ciudadanía argentina por naturalización',
       lead: 'Trámite judicial ante el Juzgado Federal con competencia en el domicilio del solicitante, conforme a la Ley 346 y normas modificatorias. Requiere acreditar residencia continua mínima de dos años en el país, medios honestos de vida y antecedentes penales.',
       plazo: '6 a 18 meses según juzgado interviniente y carga de trabajo.',
@@ -80,7 +81,7 @@ export const tramites: Tramite[] = [
     name: 'Ciudadanía argentina por opción',
     shortDesc: 'Hijos de argentinos nacidos en el exterior · Trámite ante RENAPER o consulados.',
     hero: {
-      eyebrow: 'Opción · 02 / de 06',
+      eyebrow: 'Opción · 02 / de 04',
       title: 'Ciudadanía argentina por opción',
       lead: 'Reconocimiento de ciudadanía para hijos de argentinos nativos nacidos en el extranjero, conforme al art. 75 inc. 12 de la Constitución Nacional y la Ley 346. El trámite puede iniciarse ante el RENAPER (en el país) o ante los consulados argentinos en el exterior.',
       plazo: '3 a 6 meses según jurisdicción y completitud de la documentación.',
@@ -109,83 +110,12 @@ export const tramites: Tramite[] = [
   },
 
   {
-    key: 'ciudadania-italiana',
-    num: '03',
-    name: 'Ciudadanía italiana por descendencia',
-    shortDesc: 'Jure sanguinis · Vía consular en Argentina o vía judicial en Italia.',
-    hero: {
-      eyebrow: 'Italiana · 03 / de 06',
-      title: 'Ciudadanía italiana por descendencia (jure sanguinis)',
-      lead: 'Reconocimiento de ciudadanía italiana por descendencia, sin límite generacional cuando la línea de transmisión está sin interrupciones. Trabajamos las dos vías: consular —turno ante el consulado italiano competente en Argentina— y judicial en Italia, particularmente útil ante backlog consular o casos con línea materna anterior a 1948.',
-      plazo: 'Vía consular: 2 a 5 años desde el otorgamiento del turno. Vía judicial en Italia: 12 a 24 meses.',
-    },
-    cuando: [
-      'Tiene un ascendiente italiano y la línea de transmisión está documentada y sin renuncia.',
-      'Quiere obtener pasaporte de la Unión Europea para vivir, trabajar o estudiar en el espacio Schengen.',
-      'Su línea incluye una mujer transmisora antes de 1948 ("línea materna 1948"): la vía judicial en Italia es la habitual.',
-      'Está cansado de la espera consular y quiere evaluar costos y plazos de la vía judicial.',
-    ],
-    documentos: [
-      { name: 'Partida de nacimiento del solicitante', desc: 'Reciente, apostillada y traducida al italiano por traductor público.' },
-      { name: 'Línea ascendente completa', desc: 'Nacimiento, matrimonio y defunción de cada ascendiente, hasta el italiano de origen — todas apostilladas y traducidas.' },
-      { name: 'Certificado de no naturalización', desc: 'Del ascendiente italiano: acredita que no perdió la ciudadanía italiana antes del nacimiento del siguiente en la línea.' },
-      { name: 'Partida italiana del ascendiente', desc: 'Solicitada al comune de origen en Italia.' },
-      { name: 'Certificados de antecedentes', desc: 'Para residentes en Argentina, según requiera el consulado.', optional: true },
-    ],
-    extraFields: [
-      { name: 'via',           label: '¿Qué vía le interesa?', type: 'select', required: true,
-        options: ['Consular (Argentina)', 'Judicial en Italia', 'No estoy seguro · pido orientación'] },
-      { name: 'linea_materna', label: '¿Su línea incluye una mujer transmisora antes de 1948?', type: 'select', required: true,
-        options: ['Sí', 'No', 'No estoy seguro'] },
-      { name: 'generaciones',  label: '¿Cuántas generaciones lo separan del italiano de origen?', type: 'select',
-        options: ['1 (hijo)', '2 (nieto)', '3 (bisnieto)', '4 o más'] },
-      { name: 'tiene_partidas',label: '¿Cuenta con las partidas en línea ascendente?', type: 'select',
-        options: ['Sí, completas', 'Parcial', 'No, necesito ayuda para conseguirlas'] },
-    ],
-  },
-
-  {
-    key: 'ciudadania-espanola',
-    num: '04',
-    name: 'Ciudadanía española',
-    shortDesc: 'Por opción, descendencia o residencia · Asesoramiento sobre la vía aplicable.',
-    hero: {
-      eyebrow: 'Española · 04 / de 06',
-      title: 'Ciudadanía española por descendencia o residencia',
-      lead: 'Asesoramos las distintas vías de acceso a la nacionalidad española: la Ley de Memoria Democrática (Ley de Nietos), opción para hijos de españoles de origen, residencia abreviada por descendencia (dos años) y residencia general (diez años). Cada caso requiere analizar la vía aplicable y la documentación específica.',
-      plazo: '6 meses a 3 años según vía, consulado y completitud documental.',
-    },
-    cuando: [
-      'Es hijo o nieto de español/a y quiere evaluar las vías por opción o por descendencia.',
-      'Tiene ascendiente español originario y la línea de descendencia está documentada.',
-      'Reside en España y cumple plazos para residencia abreviada (2 años) o general (10 años).',
-      'Necesita analizar si su caso aún encuadra en la Ley de Memoria Democrática.',
-    ],
-    documentos: [
-      { name: 'Partida de nacimiento del solicitante', desc: 'Apostillada y vigente.' },
-      { name: 'Documentación del ascendiente español', desc: 'Partida de nacimiento y, si corresponde, certificado de nacionalidad española.' },
-      { name: 'Certificado de antecedentes penales argentinos', desc: 'Apostillado, vigencia según consulado.' },
-      { name: 'Certificado de antecedentes penales españoles', desc: 'Si residió en España.', optional: true },
-      { name: 'DNI o pasaporte argentino', desc: 'Vigente.' },
-      { name: 'Certificación de inscripción consular', desc: 'Si los padres se inscribieron en el consulado.', optional: true },
-    ],
-    extraFields: [
-      { name: 'via_aplicable',  label: '¿Por cuál vía cree que aplica?', type: 'select', required: true,
-        options: ['Ley de Memoria Democrática (Ley de Nietos)', 'Opción (hijo de español)', 'Residencia abreviada (2 años en España)', 'Residencia general (10 años)', 'No estoy seguro · pido orientación'] },
-      { name: 'vinculo',        label: 'Vínculo con el ascendiente español', type: 'select',
-        options: ['Hijo/a', 'Nieto/a', 'Bisnieto/a', 'Otro'] },
-      { name: 'reside_espana',  label: '¿Reside actualmente en España?', type: 'select',
-        options: ['Sí, con residencia legal', 'Sí, sin residencia', 'No, vivo en Argentina', 'Vivo en otro país'] },
-    ],
-  },
-
-  {
     key: 'residencias-migratorias',
-    num: '05',
+    num: '03',
     name: 'Residencias migratorias',
     shortDesc: 'Mercosur y no-Mercosur · Temporaria y permanente · Ante DNM.',
     hero: {
-      eyebrow: 'Residencias · 05 / de 06',
+      eyebrow: 'Residencias · 03 / de 04',
       title: 'Residencias migratorias en Argentina',
       lead: 'Tramitamos residencias ante la Dirección Nacional de Migraciones (DNM): transitoria, temporaria y permanente, en los criterios de Mercosur y no-Mercosur. Cubrimos renovaciones, cambios de categoría, regularización migratoria y trámites por arraigo familiar, laboral o estudiantil.',
       plazo: 'Mercosur: 3 a 6 meses. No-Mercosur: 6 a 12 meses según categoría y completitud.',
@@ -217,11 +147,11 @@ export const tramites: Tramite[] = [
 
   {
     key: 'tramites-consulares',
-    num: '06',
+    num: '04',
     name: 'Trámites consulares y apostillado',
     shortDesc: 'Apostilla de La Haya · Traducciones públicas · Gestión ante consulados.',
     hero: {
-      eyebrow: 'Consulares · 06 / de 06',
+      eyebrow: 'Consulares · 04 / de 04',
       title: 'Apostillado, traducciones y trámites consulares',
       lead: 'Servicios complementarios a los trámites de ciudadanía y residencia: legalización y apostilla de documentos públicos para su uso en el exterior, traducción pública certificada por traductor matriculado, y gestiones ante consulados argentinos o extranjeros con o sin poder.',
       plazo: 'Apostilla: 1 a 5 días hábiles. Traducciones: 3 a 10 días según extensión.',
@@ -241,7 +171,7 @@ export const tramites: Tramite[] = [
       { name: 'tipo_servicio', label: 'Tipo de servicio', type: 'select', required: true,
         options: ['Apostilla de La Haya', 'Legalización consular', 'Traducción pública', 'Trámite consular con poder', 'Combinación de los anteriores'] },
       { name: 'pais_destino',  label: 'País de destino del trámite', type: 'text' },
-      { name: 'idiomas',       label: 'Si es traducción, idioma de origen y destino', type: 'text', placeholder: 'Ej. español → italiano' },
+      { name: 'idiomas',       label: 'Si es traducción, idioma de origen y destino', type: 'text', placeholder: 'Ej. inglés → español' },
       { name: 'cantidad',      label: 'Cantidad aproximada de documentos', type: 'text', placeholder: 'Ej. 5 partidas + 2 antecedentes' },
     ],
   },

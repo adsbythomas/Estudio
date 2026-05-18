@@ -100,10 +100,10 @@ export const legal = {
       {
         key: 'ciudadania',
         name: 'Ciudadanía',
-        desc: 'Ciudadanía argentina (naturalización y opción), italiana, española, residencias migratorias y trámites consulares.',
+        desc: 'Ciudadanía argentina (naturalización y opción), residencias migratorias ante la Dirección Nacional de Migraciones y trámites consulares.',
         // El área de ciudadanía tiene micrositio propio con trámites y formulario online.
         href: '/ciudadania',
-        meetingTopic: 'ciudadanía y residencias',
+        meetingTopic: 'ciudadanía argentina y residencias',
       },
     ],
   },
