@@ -117,7 +117,7 @@ export const legal = {
       { key: 'maria-paz-bardagi',     initials: 'MB', name: 'María Paz Bardagí',      role: 'Socia',     spec: 'Aerocomercial · Administrativo Regulatorio',      photo: '/team/maria-paz-bardagi.jpg' },
       { key: 'maria-alejandra-rivero',initials: 'MR', name: 'María Alejandra Rivero', role: 'Asociada',  spec: 'Laboral · Societario',                            photo: '/team/maria-alejandra-rivero.jpg' },
       { key: 'german',                initials: 'GC', name: 'Germán Carballo',        role: 'Asociado',  spec: 'Tributario',                                      email: 'Gcarballo@pl-abogados.com',  photo: '/team/german.jpg' },
-      { key: 'agustin',               initials: 'AZ', name: 'Agustín Zabaleta',       role: 'Asociado',  spec: 'Societario · Penal Económico',                    email: 'azaballeta@pl-abogados.com', photo: '/team/agustin.jpg' },
+      { key: 'agustin',               initials: 'AZ', name: 'Agustín Zabaleta',       role: 'Asociado',  spec: 'Societario · Penal Económico',                    email: 'azabaleta@pl-abogados.com',  photo: '/team/agustin.jpg' },
     ],
     ctaText: '',
   },
