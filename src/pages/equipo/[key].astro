@@ -35,6 +35,7 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
             <img
               src={withBase(member.photo)}
               alt={`Foto de ${member.name}`}
+              style={`object-position: ${member.photoFocal ?? 'center top'};`}
               onerror="this.style.display='none'"
             />
           )}

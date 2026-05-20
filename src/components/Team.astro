@@ -10,6 +10,9 @@ export interface Member {
   photo?: string;
   /** Email de contacto directo (opcional, p.ej. asociados). */
   email?: string;
+  /** Foco vertical de la foto (cualquier valor válido para CSS object-position).
+   *  Default: 'center top'. Subir el % baja el recorte (muestra más cara). */
+  photoFocal?: string;
 }
 export interface Props {
   label: string;
@@ -47,6 +50,7 @@ const linkFor = (m: Member) => (subpagePrefix && m.key) ? `${subpagePrefix}/${m.
                 src={withBase(m.photo)}
                 alt={`Foto de ${m.name}`}
                 loading="lazy"
+                style={`object-position: ${m.photoFocal ?? 'center top'};`}
                 onerror="this.style.display='none'"
               />
             )}
