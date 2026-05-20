@@ -35,7 +35,7 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
             <img
               src={withBase(member.photo)}
               alt={`Foto de ${member.name}`}
-              style={`object-position: ${member.photoFocal ?? 'center top'};`}
+              style={`object-position: ${member.photoFocal ?? 'center top'}; --photo-scale: ${member.photoScale ?? 1};`}
               onerror="this.style.display='none'"
             />
           )}
@@ -123,6 +123,9 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     object-fit: cover;
     /* Anclamos al top para no recortar la cabeza en retratos. */
     object-position: center top;
+    /* Soporte para photoScale (< 1) cuando una foto vino más cerca que las otras. */
+    transform: scale(var(--photo-scale, 1));
+    transform-origin: top center;
     z-index: 1;
   }
 
