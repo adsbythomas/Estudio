@@ -48,7 +48,10 @@ const linkFor = (m: Member) => (subpagePrefix && m.key) ? `${subpagePrefix}/${m.
     <div class="team-grid">
       {members.map((m) => (
         <a href={linkFor(m)} class="team-card reveal" data-team-row>
-          <div class="team-photo">
+          <div
+            class="team-photo"
+            style={m.photo ? `--photo-url: url('${withBase(m.photo)}');` : undefined}
+          >
             {m.photo ? (
               <img
                 src={withBase(m.photo)}
@@ -118,6 +121,23 @@ const linkFor = (m: Member) => (subpagePrefix && m.key) ? `${subpagePrefix}/${m.
     background: linear-gradient(135deg,
       color-mix(in oklab, var(--brand-500) 22%, var(--surface-2)),
       var(--surface-2));
+  }
+  /* Backdrop borroso: cuando hay foto (--photo-url seteada), se renderiza
+     una copia desenfocada de la misma foto detrás de la imagen real.
+     Cuando la imagen tiene photoScale < 1 y queda un "marco" alrededor,
+     ese marco se confunde con el fondo natural de la foto en vez de
+     mostrar el gradiente del placeholder. Sin foto, el background-image
+     es 'none' y queda visible el gradiente original. */
+  .team-photo::before {
+    content: '';
+    position: absolute;
+    inset: -6%;
+    background-image: var(--photo-url, none);
+    background-size: cover;
+    background-position: center;
+    filter: blur(22px) brightness(0.85);
+    z-index: 0;
+    pointer-events: none;
   }
   .team-photo-fallback {
     position: absolute;

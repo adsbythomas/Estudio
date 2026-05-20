@@ -29,7 +29,10 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
       </a>
 
       <div class="member-grid">
-        <div class="member-photo">
+        <div
+          class="member-photo"
+          style={member.photo ? `--photo-url: url('${withBase(member.photo)}');` : undefined}
+        >
           {member.photo ? (
             <img
               src={withBase(member.photo)}
@@ -102,6 +105,20 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
       color-mix(in oklab, var(--brand-500) 22%, var(--surface-2)),
       var(--surface-2));
     border: 1px solid var(--border);
+  }
+  /* Backdrop borroso de la misma foto — disimula el "marco" cuando la
+     imagen está al photoScale < 1. Si no hay --photo-url (placeholder),
+     queda el gradiente original. */
+  .member-photo::before {
+    content: '';
+    position: absolute;
+    inset: -6%;
+    background-image: var(--photo-url, none);
+    background-size: cover;
+    background-position: center;
+    filter: blur(28px) brightness(0.85);
+    z-index: 0;
+    pointer-events: none;
   }
   .member-photo-fallback {
     position: absolute;

@@ -121,8 +121,11 @@ export const legal = {
       { key: 'maria-ines-lertora',    initials: 'ML', name: 'María Inés Lértora',     role: 'Socia',     spec: 'Tributario · Penal Económico',                    photo: '/team/maria-ines-lertora.jpg',     photoFocal: 'center 14%', photoScale: 0.85 },
       { key: 'maria-alejandra-rivero',initials: 'MR', name: 'María Alejandra Rivero', role: 'Asociada',  spec: 'Laboral · Societario',                            photo: '/team/maria-alejandra-rivero.jpg', photoFocal: 'center 26%' },
       { key: 'agustin',               initials: 'AZ', name: 'Agustín Zabaleta',       role: 'Asociado',  spec: 'Societario · Penal Económico',                    email: 'azabaleta@pl-abogados.com',  photo: '/team/agustin.jpg',                photoFocal: 'center 20%' },
-      { key: 'maria-paz-bardagi',     initials: 'MB', name: 'María Paz Bardagí',      role: 'Socia',     spec: 'Aerocomercial · Administrativo Regulatorio',      photo: '/team/maria-paz-bardagi.jpg' },
-      { key: 'german',                initials: 'GC', name: 'Germán Carballo',        role: 'Asociado',  spec: 'Tributario',                                      email: 'Gcarballo@pl-abogados.com',  photo: '/team/german.jpg' },
+      // Sin photo cargada todavía → muestran sólo el placeholder de iniciales.
+      // Cuando lleguen las fotos, restituir el campo `photo` con su ruta y
+      // calibrar photoFocal/photoScale como el resto del equipo.
+      { key: 'maria-paz-bardagi',     initials: 'MB', name: 'María Paz Bardagí',      role: 'Socia',     spec: 'Aerocomercial · Administrativo Regulatorio' },
+      { key: 'german',                initials: 'GC', name: 'Germán Carballo',        role: 'Asociado',  spec: 'Tributario',                                      email: 'Gcarballo@pl-abogados.com' },
     ],
     ctaText: '',
   },
