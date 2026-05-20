@@ -127,17 +127,17 @@ export const accountingQuestions: Question[] = [
 export const contacts: Record<string, Contact> = {
   pantarotto: {
     name: 'Pantarotto',
-    role: 'Socio',
+    role: 'Socio Director',
     specialties: ['Tributario', 'Penal Económico'],
   },
   lertora: {
     name: 'Lértora',
-    role: 'Socio',
+    role: 'Asociada',
     specialties: ['Tributario', 'Penal Económico'],
   },
   bardagi: {
     name: 'Bardagí',
-    role: 'Socio',
+    role: 'Asociada',
     specialties: ['Aerocomercial', 'Administrativo Regulatorio'],
   },
   accounting: {

@@ -137,6 +137,10 @@ export const ES_TO_EN: Record<string, string> = {
   'Cada cliente tiene un contador responsable que conoce la operación en detalle, en coordinación permanente con el área legal.':
     'Each client has a dedicated accountant who knows the operation in detail, in ongoing coordination with the legal practice.',
   'Socio': 'Partner',
+  'Socia': 'Partner',
+  'Socio Director': 'Managing Partner',
+  'Asociado': 'Associate',
+  'Asociada': 'Associate',
   'Responsable del Área': 'Practice Lead',
   'Especialista Impositivo': 'Tax Specialist',
   'Equipo completo de asociados y contadores públicos especializados por sector.':
