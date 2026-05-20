@@ -113,15 +113,16 @@ export const legal = {
     sub: 'Cada socio lidera una o dos áreas y coordina con el resto del equipo. El estudio suma asociados y un <a href="/contable" class="link-contable">equipo contable</a> integrado.',
     members: [
       // photoFocal: valor CSS object-position. Sube el % (Y) para "bajar" el recorte
-      // y mostrar más cara. Cabeza pegada al top → 'center top'. Cabeza más abajo en
-      // la foto → 'center 20%' / 'center 40%' / etc. Calibrado para alinear cabezas
-      // entre cards. Si cambia una foto, recalibrar la que cambió.
-      { key: 'maria-ines-lertora',    initials: 'ML', name: 'María Inés Lértora',     role: 'Socia',     spec: 'Tributario · Penal Económico',                    photo: '/team/maria-ines-lertora.jpg',     photoFocal: 'center top' },
-      { key: 'matias-pantarotto',     initials: 'MP', name: 'Matías Pantarotto',      role: 'Socio',     spec: 'Tributario · Penal Económico',                    photo: '/team/matias-pantarotto.jpg',      photoFocal: 'center 22%' },
+      // y mostrar más torso / menos espacio arriba de la cabeza. Calibrado para
+      // alinear los ojos a ~35% desde arriba del cuadrado en todas las cards.
+      // Si cambia una foto, recalibrar SÓLO la que cambió.
+      // Orden: primero los que tienen foto (4), después los placeholders (2).
+      { key: 'maria-ines-lertora',    initials: 'ML', name: 'María Inés Lértora',     role: 'Socia',     spec: 'Tributario · Penal Económico',                    photo: '/team/maria-ines-lertora.jpg',     photoFocal: 'center 14%' },
+      { key: 'matias-pantarotto',     initials: 'MP', name: 'Matías Pantarotto',      role: 'Socio',     spec: 'Tributario · Penal Económico',                    photo: '/team/matias-pantarotto.jpg',      photoFocal: 'center 8%'  },
+      { key: 'maria-alejandra-rivero',initials: 'MR', name: 'María Alejandra Rivero', role: 'Asociada',  spec: 'Laboral · Societario',                            photo: '/team/maria-alejandra-rivero.jpg', photoFocal: 'center 26%' },
+      { key: 'agustin',               initials: 'AZ', name: 'Agustín Zabaleta',       role: 'Asociado',  spec: 'Societario · Penal Económico',                    email: 'azabaleta@pl-abogados.com',  photo: '/team/agustin.jpg',                photoFocal: 'center 20%' },
       { key: 'maria-paz-bardagi',     initials: 'MB', name: 'María Paz Bardagí',      role: 'Socia',     spec: 'Aerocomercial · Administrativo Regulatorio',      photo: '/team/maria-paz-bardagi.jpg' },
-      { key: 'maria-alejandra-rivero',initials: 'MR', name: 'María Alejandra Rivero', role: 'Asociada',  spec: 'Laboral · Societario',                            photo: '/team/maria-alejandra-rivero.jpg', photoFocal: 'center 40%' },
       { key: 'german',                initials: 'GC', name: 'Germán Carballo',        role: 'Asociado',  spec: 'Tributario',                                      email: 'Gcarballo@pl-abogados.com',  photo: '/team/german.jpg' },
-      { key: 'agustin',               initials: 'AZ', name: 'Agustín Zabaleta',       role: 'Asociado',  spec: 'Societario · Penal Económico',                    email: 'azabaleta@pl-abogados.com',  photo: '/team/agustin.jpg',                photoFocal: 'center top' },
     ],
     ctaText: '',
   },
