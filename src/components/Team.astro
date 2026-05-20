@@ -13,6 +13,11 @@ export interface Member {
   /** Foco vertical de la foto (cualquier valor válido para CSS object-position).
    *  Default: 'center top'. Subir el % baja el recorte (muestra más cara). */
   photoFocal?: string;
+  /** Escala visual de la foto en la grilla, entre 0 y 1. Útil cuando la foto
+   *  original se encuadró más de cerca que las demás y la cara se ve más grande
+   *  que el resto. Ej. 0.85 = la foto se renderiza al 85%, queda algo de
+   *  espacio del fondo (gradiente) alrededor. Default: 1 (sin escalar). */
+  photoScale?: number;
 }
 export interface Props {
   label: string;
@@ -50,7 +55,7 @@ const linkFor = (m: Member) => (subpagePrefix && m.key) ? `${subpagePrefix}/${m.
                 src={withBase(m.photo)}
                 alt={`Foto de ${m.name}`}
                 loading="lazy"
-                style={`object-position: ${m.photoFocal ?? 'center top'};`}
+                style={`object-position: ${m.photoFocal ?? 'center top'}; --photo-scale: ${m.photoScale ?? 1};`}
                 onerror="this.style.display='none'"
               />
             )}
@@ -136,10 +141,22 @@ const linkFor = (m: Member) => (subpagePrefix && m.key) ? `${subpagePrefix}/${m.
        recortamos desde abajo si la foto original es más ancha que alta. */
     object-position: center top;
     z-index: 1;
+    /* Si el miembro define photoScale (< 1), la foto se renderiza más chica
+       y queda fondo alrededor. Default 1 = sin zoom out. El hover suma un
+       1.04× sobre la escala base. transform-origin: top centra el anclaje
+       arriba para no separar la cabeza del borde superior. */
+    transform: scale(var(--photo-scale, 1));
+    transform-origin: top center;
     transition: transform .6s cubic-bezier(0.2, 0.6, 0.2, 1);
   }
   .team-card:hover .team-photo img {
-    transform: scale(1.04);
+    transform: scale(calc(var(--photo-scale, 1) * 1.04));
+  }
+  /* Cuando hay foto cargada, ocultamos las iniciales placeholder para que
+     el fondo del .team-photo (gradiente brand) sea lo único visible si
+     photoScale < 1 y queda espacio alrededor de la imagen. */
+  .team-photo:has(img) .team-photo-fallback {
+    display: none;
   }
 
   .team-card-meta {
