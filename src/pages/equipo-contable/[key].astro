@@ -19,7 +19,7 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
 <BaseLayout
   practice="accounting"
   title={`${member.name} — PL Contable`}
-  description={`Perfil profesional de ${member.name}, ${member.role} del área contable del estudio Pantarotto Lértora.`}
+  description={`Perfil profesional de ${member.name}, ${member.role} del estudio Pantarotto Lértora.`}
   landing={false}
 >
   <section class="member-hero">
@@ -29,14 +29,18 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
       </a>
 
       <div class="member-grid">
-        <div class="member-photo">
-          <span class="member-photo-fallback" aria-hidden="true">{member.initials}</span>
-          {member.photo && (
+        <div
+          class="member-photo"
+          style={member.photo ? `--photo-url: url('${withBase(member.photo)}');` : undefined}
+        >
+          {member.photo ? (
             <img
               src={withBase(member.photo)}
               alt={`Foto de ${member.name}`}
-              onerror="this.style.display='none'"
+              style={`object-position: ${member.photoFocal ?? 'center top'}; --photo-scale: ${member.photoScale ?? 1};`}
             />
+          ) : (
+            <span class="member-photo-fallback" aria-hidden="true">{member.initials}</span>
           )}
         </div>
 
@@ -44,6 +48,13 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
           <div class="member-role">{member.role}</div>
           <h1 class="member-name">{member.name}</h1>
           {member.spec && <div class="member-spec">{member.spec}</div>}
+
+          {member.email && (
+            <div class="member-contact">
+              <span class="member-contact-label">Info</span>
+              <a href={`mailto:${member.email}`} class="member-contact-link">{member.email}</a>
+            </div>
+          )}
 
           <div class="member-bio">
             <p>Aca va la informacion de cada uno.</p>
@@ -93,6 +104,20 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
       var(--surface-2));
     border: 1px solid var(--border);
   }
+  /* Backdrop borroso de la misma foto — disimula el "marco" cuando la
+     imagen está al photoScale < 1. Si no hay --photo-url (placeholder),
+     queda el gradiente original. */
+  .member-photo::before {
+    content: '';
+    position: absolute;
+    inset: -6%;
+    background-image: var(--photo-url, none);
+    background-size: cover;
+    background-position: center;
+    filter: blur(28px) brightness(0.85);
+    z-index: 0;
+    pointer-events: none;
+  }
   .member-photo-fallback {
     position: absolute;
     inset: 0;
@@ -111,6 +136,11 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Anclamos al top para no recortar la cabeza en retratos. */
+    object-position: center top;
+    /* Soporte para photoScale (< 1) cuando una foto vino más cerca que las otras. */
+    transform: scale(var(--photo-scale, 1));
+    transform-origin: top center;
     z-index: 1;
   }
 
@@ -134,8 +164,39 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
   .member-spec {
     font-size: 1rem;
     color: var(--fg-muted);
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
     line-height: 1.5;
+  }
+  .member-contact {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    width: fit-content;
+  }
+  .member-contact-label {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 700;
+  }
+  .member-contact-link {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.95rem;
+    color: var(--brand-500);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color .25s ease;
+  }
+  .member-contact-link:hover {
+    border-bottom-color: var(--brand-500);
   }
   .member-bio {
     font-size: 1.02rem;

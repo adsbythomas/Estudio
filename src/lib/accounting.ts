@@ -1,4 +1,6 @@
 // Contenido del área contable.
+import { legal } from './legal';
+
 export const accounting = {
   slug: 'contable',
   eyebrow: 'Área Contable',
@@ -118,13 +120,13 @@ export const accounting = {
     ],
   },
   team: {
-    label: 'Equipo contable',
-    title: 'Contadores públicos matriculados.',
-    sub: 'Cada cliente tiene un contador responsable que conoce la operación en detalle, en coordinación permanente con el área legal.',
-    members: [
-      { key: 'responsable-contable',    initials: 'CP', name: 'Responsable contable',     role: 'Responsable del Área',    spec: 'Impuestos · Auditoría · Estados Contables',          photo: '/team-contable/responsable.jpg' },
-      { key: 'especialista-impositivo', initials: 'EI', name: 'Especialista impositivo',  role: 'Especialista Impositivo', spec: 'Planificación Fiscal · Precios de Transferencia',    photo: '/team-contable/especialista.jpg' },
-    ],
+    label: 'Equipo',
+    title: 'Los socios y el equipo de asociados.',
+    sub: 'El estudio trabaja con un único equipo de abogados y contadores. Los mismos profesionales que llevan los expedientes jurídicos coordinan los servicios contables, en función de la especialidad de cada uno.',
+    // Reusamos la misma lista de personas que el área legal — un solo
+    // equipo, dos áreas de práctica. Si cambia un dato (rol, email, foto)
+    // se edita en legal.ts y se refleja acá automáticamente.
+    members: legal.team.members,
     ctaText: '',
   },
   timeline: {
