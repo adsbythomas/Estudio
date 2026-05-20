@@ -49,15 +49,15 @@ const linkFor = (m: Member) => (subpagePrefix && m.key) ? `${subpagePrefix}/${m.
       {members.map((m) => (
         <a href={linkFor(m)} class="team-card reveal" data-team-row>
           <div class="team-photo">
-            <span class="team-photo-fallback" aria-hidden="true">{m.initials}</span>
-            {m.photo && (
+            {m.photo ? (
               <img
                 src={withBase(m.photo)}
                 alt={`Foto de ${m.name}`}
                 loading="lazy"
                 style={`object-position: ${m.photoFocal ?? 'center top'}; --photo-scale: ${m.photoScale ?? 1};`}
-                onerror="this.style.display='none'"
               />
+            ) : (
+              <span class="team-photo-fallback" aria-hidden="true">{m.initials}</span>
             )}
           </div>
           <div class="team-card-meta">
