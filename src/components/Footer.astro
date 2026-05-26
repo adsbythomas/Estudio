@@ -11,18 +11,18 @@ const isoSrc = withBase(practice === 'legal' ? '/brand/isotipo-white.svg' : '/br
 const year = new Date().getFullYear();
 ---
 <footer class="relative border-t overflow-hidden" style="border-color: var(--border)">
-  <div class="shell relative z-10 pt-24 pb-14">
+  <div class="shell relative z-10 pt-16 md:pt-24 pb-10 md:pb-14">
     <!-- Cierre -->
-    <div class="max-w-4xl mb-16">
-      <div class="font-mono text-tick uppercase tracking-tick mb-5" style="color: var(--brand-600)">El estudio</div>
-      <p class="font-sans font-bold text-cover leading-[1.1]" style="color: var(--fg)">
+    <div class="max-w-4xl mb-10 md:mb-16">
+      <div class="font-mono text-tick uppercase tracking-tick mb-4 md:mb-5" style="color: var(--brand-600)">El estudio</div>
+      <p class="font-sans font-bold leading-[1.1]" style="color: var(--fg); font-size: clamp(1.5rem, 5vw, 3.4rem);">
         Estudio de abogados<br/>
         con corresponsalías<br/>
         <span style="color: var(--brand-600)">en distintos países.</span>
       </p>
     </div>
 
-    <div class="grid md:grid-cols-4 gap-10 pt-14 border-t" style="border-color: var(--border)">
+    <div class="grid md:grid-cols-4 gap-8 md:gap-10 pt-10 md:pt-14 border-t" style="border-color: var(--border)">
       <div>
         <div class="flex items-center gap-3 mb-3">
           <img src={isoSrc} alt="" width="36" height="36" />
@@ -73,7 +73,7 @@ const year = new Date().getFullYear();
       </div>
     </div>
 
-    <div class="mt-16 pt-8 border-t flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs font-mono uppercase tracking-tick"
+    <div class="mt-10 md:mt-16 pt-6 md:pt-8 border-t flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-4 text-[0.65rem] md:text-xs font-mono uppercase tracking-tick"
          style="border-color: var(--border); color: var(--fg-subtle)">
       <span>© {year} {site.firmName}</span>
       <span>Buenos Aires · {year}</span>

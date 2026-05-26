@@ -386,6 +386,13 @@ const allData = JSON.stringify(vencimientos2026);
     position: relative;
     min-height: 56px;
   }
+  /* En mobile: padding más chico para que el número quepa cómodo y los dots
+     no fuerzen el ancho. */
+  @media (max-width: 480px) {
+    .cal-cell { padding: 0.25rem; min-height: 44px; }
+    .cal-num { font-size: 0.78rem; }
+    .cal-dot { width: 5px; height: 5px; }
+  }
   .cal-cell:hover:not(.cal-cell--empty) { background: color-mix(in srgb, var(--brand-500) 7%, var(--bg)); }
   .cal-cell--empty { cursor: default; background: transparent; }
   .cal-num {
@@ -461,8 +468,11 @@ const allData = JSON.stringify(vencimientos2026);
     border-radius: 4px;
     background: color-mix(in srgb, var(--brand-500) 3%, transparent);
     align-self: start;
-    position: sticky;
-    top: 5.5rem;
+  }
+  /* Sticky sólo en desktop, donde la columna detail está al lado del
+     calendario. En mobile (1 columna) queda en el flujo natural debajo. */
+  @media (min-width: 960px) {
+    .cal-detail { position: sticky; top: 5.5rem; }
   }
   .cal-detail-kicker {
     font-size: 0.6rem;

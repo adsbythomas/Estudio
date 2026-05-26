@@ -226,6 +226,9 @@ const extra = tramite.extraFields ?? [];
     background: var(--surface);
     border-top: 1px solid var(--border);
   }
+  @media (max-width: 640px) {
+    .tramite-form-section { padding: 2.5rem 0 4rem; }
+  }
   .tramite-form-label {
     font-family: ui-monospace, 'SF Mono', Menlo, monospace;
     font-size: 0.66rem;
@@ -262,6 +265,9 @@ const extra = tramite.extraFields ?? [];
     border-radius: 10px;
     padding: 1.5rem 1.5rem 1.75rem;
     background: var(--bg);
+  }
+  @media (max-width: 640px) {
+    .tramite-form-fieldset { padding: 1.1rem 1rem 1.3rem; }
   }
   .tramite-form-fieldset legend {
     padding: 0 0.6rem;
@@ -395,10 +401,14 @@ const extra = tramite.extraFields ?? [];
     justify-content: space-between;
     gap: 1rem;
     flex-wrap: wrap;
-    padding-top: 0.5rem;
+    padding-top: 1.5rem;
     border-top: 1px solid var(--border);
     margin-top: 0.5rem;
-    padding-top: 1.5rem;
+  }
+  @media (max-width: 640px) {
+    .tramite-form-actions { flex-direction: column-reverse; align-items: stretch; }
+    .tramite-form-submit  { justify-content: center; padding: 1rem 1.4rem; }
+    .tramite-form-secure  { justify-content: center; }
   }
   .tramite-form-secure {
     display: inline-flex;

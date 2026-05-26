@@ -211,9 +211,17 @@
 
   /* Índice numerado de áreas */
   .index-row {
-    @apply grid items-baseline gap-6 py-7 md:py-8 border-b transition;
-    grid-template-columns: 64px 1fr auto;
+    @apply grid items-baseline gap-4 md:gap-6 py-6 md:py-8 border-b transition;
+    grid-template-columns: 44px 1fr auto;
     border-color: var(--border);
+  }
+  @media (min-width: 768px) {
+    .index-row { grid-template-columns: 64px 1fr auto; }
+  }
+  /* En mobile (sin hover) mostramos la flecha siempre para indicar que es
+     un link tocable. */
+  @media (max-width: 767px) {
+    .index-row .index-arrow { opacity: 0.6; transform: none; }
   }
   .index-row .index-num {
     @apply font-mono text-tick uppercase tracking-tick pt-2;

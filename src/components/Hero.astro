@@ -206,6 +206,18 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     position: relative;
     overflow: hidden;
   }
+  /* En mobile reducimos padding y dejamos que cada botón ocupe el ancho
+     disponible (flex: 1 1 auto) en lugar del min-width fijo. Así no
+     quedan dos botones agigantados en pantallas chicas. */
+  @media (max-width: 640px) {
+    .btn-hero {
+      min-width: 0;
+      flex: 1 1 auto;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.76rem;
+      letter-spacing: 0.14em;
+    }
+  }
   .btn-hero span {
     position: relative;
     z-index: 1;

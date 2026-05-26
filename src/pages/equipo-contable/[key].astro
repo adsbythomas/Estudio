@@ -67,6 +67,9 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
 
 <style>
   .member-hero { padding: 8rem 0 6rem; }
+  @media (max-width: 768px) {
+    .member-hero { padding: 6rem 0 3rem; }
+  }
   .member-back {
     display: inline-flex;
     align-items: center;
@@ -83,15 +86,25 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
 
   .member-grid {
     display: grid;
-    gap: 2.5rem;
+    gap: 2rem;
     grid-template-columns: 1fr;
     align-items: start;
+    justify-items: center;
+  }
+  .member-grid > .member-photo {
+    width: 100%;
+    max-width: 280px;
+  }
+  .member-grid > .member-info {
+    width: 100%;
   }
   @media (min-width: 768px) {
     .member-grid {
       grid-template-columns: minmax(260px, 360px) 1fr;
       gap: 4rem;
+      justify-items: stretch;
     }
+    .member-grid > .member-photo { max-width: none; }
   }
 
   .member-photo {
