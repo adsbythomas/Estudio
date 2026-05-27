@@ -41,8 +41,12 @@ const faviconHref = (base.endsWith('/') ? base.slice(0, -1) : base) + '/brand/is
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={(base.endsWith('/') ? base.slice(0, -1) : base) + '/og.svg'} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="es_AR" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={(base.endsWith('/') ? base.slice(0, -1) : base) + '/og.svg'} />
 
     <!-- Setear data-lang en <html> ASAP para evitar flicker del toggle -->
     <script is:inline>
@@ -60,9 +64,10 @@ const faviconHref = (base.endsWith('/') ? base.slice(0, -1) : base) + '/brand/is
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Tipografías oficiales del brandbook: Montserrat (primaria) + Lora (secundaria).
-         PT Sans se usa como mono/técnica para detalles de tipo tick. -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=PT+Sans:wght@400;700&display=swap" />
+    <!-- Sólo dos familias: Lora (serif) para títulos y Montserrat (sans)
+         para todo lo demás. Cargamos los pesos de Lora que efectivamente
+         se usan: 400/500 normales + 400/500 italic. -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" />
 
     <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',
@@ -204,18 +209,147 @@ const faviconHref = (base.endsWith('/') ? base.slice(0, -1) : base) + '/brand/is
       }));
 
       // ═══════════════════════════════════════════════
-      // Form feedback
+      // Form feedback + validation en tiempo real
+      //   · email: validación regex on blur
+      //   · teléfono: autoformato AR (+54 9 11 1234-5678)
+      //   · textarea: contador de caracteres
+      //   · submit: estado loading → success
       // ═══════════════════════════════════════════════
       document.querySelectorAll('form[data-contact]').forEach((form) => {
+        const emailEl = form.querySelector('input[type="email"]');
+        const telEl   = form.querySelector('input[type="tel"]');
+        const msgEl   = form.querySelector('textarea');
+
+        // Helper: marcar un campo con error visible + mensaje breve
+        const setError = (el, msg) => {
+          el.classList.add('field-error');
+          const wrap = el.closest('.letter-field');
+          if (!wrap) return;
+          let err = wrap.querySelector('.field-error-msg');
+          if (!err) {
+            err = document.createElement('span');
+            err.className = 'field-error-msg';
+            wrap.appendChild(err);
+          }
+          err.textContent = msg;
+        };
+        const clearError = (el) => {
+          el.classList.remove('field-error');
+          const wrap = el.closest('.letter-field');
+          if (!wrap) return;
+          wrap.querySelector('.field-error-msg')?.remove();
+        };
+
+        // Email
+        if (emailEl) {
+          emailEl.addEventListener('blur', () => {
+            const v = emailEl.value.trim();
+            if (!v) { clearError(emailEl); return; }
+            const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+            if (!ok) setError(emailEl, 'Formato de email inválido');
+            else clearError(emailEl);
+          });
+          emailEl.addEventListener('input', () => {
+            if (emailEl.classList.contains('field-error')) clearError(emailEl);
+          });
+        }
+
+        // Teléfono — autoformato simple para AR
+        if (telEl) {
+          telEl.addEventListener('input', () => {
+            let d = telEl.value.replace(/\D/g, '');
+            if (d.length === 0) return;
+            // Si empieza con 54 lo mantenemos, sino lo agregamos para formato AR
+            let s = '+';
+            if (d.startsWith('54')) {
+              s += '54';
+              d = d.slice(2);
+            } else if (d.startsWith('9') || d.length >= 10) {
+              s += '54 ';
+            } else {
+              telEl.value = d; return;
+            }
+            if (d.length > 0) s += ' ' + d.slice(0, 1);                                        // 9 / código
+            if (d.length > 1) s += ' ' + d.slice(1, 3);                                        // área
+            if (d.length > 3) s += ' ' + d.slice(3, 7);                                        // mid
+            if (d.length > 7) s += '-' + d.slice(7, 11);                                       // last
+            telEl.value = s.trim();
+          });
+        }
+
+        // Textarea contador
+        if (msgEl) {
+          const wrap = msgEl.closest('.letter-field');
+          let counter = null;
+          if (wrap) {
+            counter = document.createElement('span');
+            counter.className = 'field-counter';
+            counter.textContent = '0 / 600';
+            wrap.appendChild(counter);
+          }
+          msgEl.setAttribute('maxlength', '600');
+          msgEl.addEventListener('input', () => {
+            const n = msgEl.value.length;
+            if (counter) counter.textContent = `${n} / 600`;
+            if (counter && n > 540) counter.classList.add('field-counter-warn');
+            else counter?.classList.remove('field-counter-warn');
+          });
+        }
+
         form.addEventListener('submit', (e) => {
           e.preventDefault();
+          // Validación final
+          let valid = true;
+          if (emailEl && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
+            setError(emailEl, 'Formato de email inválido');
+            valid = false;
+          }
+          if (!valid) {
+            form.querySelector('.field-error')?.focus();
+            return;
+          }
+
           const btn = form.querySelector('button[type="submit"]');
           if (!btn) return;
-          btn.querySelector('span').textContent = 'Consulta enviada · gracias';
+          const span = btn.querySelector('span');
+          if (span) span.textContent = 'Enviando…';
           btn.setAttribute('disabled', 'true');
-          btn.style.background = '#2f5d38';
+          btn.style.opacity = '0.7';
+          setTimeout(() => {
+            if (span) span.textContent = '✓  Consulta enviada · gracias';
+            btn.style.background = '#2f5d38';
+            btn.style.opacity = '1';
+          }, 600);
         });
       });
+
+      // ═══════════════════════════════════════════════
+      // Magnetic buttons — el botón se mueve sutilmente hacia el cursor
+      // cuando está cerca. Sólo en pantallas grandes con puntero fino
+      // (no en touch) y respetando prefers-reduced-motion.
+      // ═══════════════════════════════════════════════
+      const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (supportsHover && !prefersReducedMotion) {
+        const magneticEls = document.querySelectorAll('[data-magnetic]');
+        const RANGE = 90;   // distancia en px hasta la que reacciona
+        const PULL = 0.22;  // intensidad: 0 = nada, 1 = sigue al cursor
+        magneticEls.forEach((el) => {
+          el.style.transition = 'transform .35s cubic-bezier(0.16, 0.84, 0.2, 1)';
+          el.style.willChange = 'transform';
+          const reset = () => { el.style.transform = ''; };
+          el.addEventListener('mouseleave', reset);
+          el.addEventListener('mousemove', (e) => {
+            const r = el.getBoundingClientRect();
+            const cx = r.left + r.width / 2;
+            const cy = r.top + r.height / 2;
+            const dx = e.clientX - cx;
+            const dy = e.clientY - cy;
+            const dist = Math.hypot(dx, dy);
+            if (dist > RANGE) { reset(); return; }
+            el.style.transform = `translate3d(${dx * PULL}px, ${dy * PULL}px, 0)`;
+          });
+        });
+      }
 
       // ═══════════════════════════════════════════════
       // Índice de prácticas — contador activo al hover

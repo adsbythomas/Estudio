@@ -1,0 +1,239 @@
+---
+/**
+ * Sección "Lo que dicen nuestros clientes".
+ *
+ * 3 testimonios PLACEHOLDER. Reemplazar con citas reales del estudio.
+ * El nombre, cargo y empresa son ejemplos plausibles — quitar el
+ * atributo data-placeholder o reescribir el array `testimonios`
+ * cuando lleguen los reales.
+ *
+ * Tradeoff considerado: poner placeholders puede mostrarse "vacío"
+ * si el cliente se olvida de reemplazarlos. Decisión: dejar 3 placeholders
+ * con tono creíble pero genéricos, marcados visualmente con un eyebrow
+ * "(ejemplo)" para que se note. Se quita ese flag editando el array.
+ */
+interface Testimonio {
+  cita: string;
+  nombre: string;
+  cargo: string;
+  organizacion: string;
+  isPlaceholder?: boolean;
+}
+
+// EDITAR: reemplazar con testimonios reales y eliminar isPlaceholder.
+const testimonios: Testimonio[] = [
+  {
+    cita: 'Manejaron una reorganización societaria sensible con la discreción y el rigor técnico que esperábamos. Cumplieron los plazos sin sacrificar el detalle.',
+    nombre: 'Director Financiero',
+    cargo: 'CFO',
+    organizacion: 'Grupo industrial · Argentina',
+    isPlaceholder: true,
+  },
+  {
+    cita: 'La capacidad de leer un caso complejo y proponer una hoja de ruta clara fue lo que terminó de convencernos. El estudio entiende la urgencia del negocio.',
+    nombre: 'Responsable Legal',
+    cargo: 'General Counsel',
+    organizacion: 'Holding familiar · Buenos Aires',
+    isPlaceholder: true,
+  },
+  {
+    cita: 'Que abogados y contadores trabajen bajo el mismo techo cambia la dinámica. Los temas no se "pasan" de un asesor a otro: se resuelven juntos.',
+    nombre: 'Socio',
+    cargo: 'Managing Partner',
+    organizacion: 'Empresa tecnológica · Internacional',
+    isPlaceholder: true,
+  },
+];
+---
+<section class="testim reveal" aria-labelledby="testim-title">
+  <div class="shell">
+    <header class="testim-head">
+      <div class="testim-label">
+        <span class="testim-num">— 04</span>
+        <span class="testim-kicker">Voz del cliente</span>
+      </div>
+      <h2 id="testim-title" class="testim-title">
+        Lo que dicen quienes nos eligen<span style="color: var(--brand-500)">.</span>
+      </h2>
+    </header>
+
+    <div class="testim-grid">
+      {testimonios.map((t, i) => (
+        <article class="testim-card reveal" style={`--card-i: ${i};`}>
+          <span class="testim-mark" aria-hidden="true">“</span>
+          <blockquote class="testim-cita">{t.cita}</blockquote>
+          <footer class="testim-attr">
+            <span class="testim-attr-line" aria-hidden="true"></span>
+            <div>
+              <div class="testim-cargo">{t.cargo}</div>
+              <div class="testim-org">{t.organizacion}</div>
+            </div>
+            {t.isPlaceholder && (
+              <span class="testim-placeholder-flag" title="Reemplazar con testimonio real">
+                ejemplo
+              </span>
+            )}
+          </footer>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testim {
+    padding: 5rem 0 6rem;
+    background: var(--bg);
+  }
+  @media (min-width: 768px) {
+    .testim { padding: 7rem 0 8rem; }
+  }
+  .testim-head {
+    max-width: 720px;
+    margin-bottom: 3rem;
+  }
+  @media (min-width: 768px) {
+    .testim-head { margin-bottom: 4rem; }
+  }
+  .testim-label {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+  .testim-num {
+    font-family: 'Lora', Georgia, serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--bronze-500);
+    letter-spacing: 0.04em;
+  }
+  .testim-kicker {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 700;
+  }
+  .testim-title {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(1.9rem, 3.8vw, 2.8rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin: 0;
+  }
+
+  /* Grid: 3 cards en desktop, 1 en mobile */
+  .testim-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  @media (min-width: 900px) {
+    .testim-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .testim-card {
+    background: color-mix(in srgb, var(--brand-500) 4%, var(--surface));
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    position: relative;
+    transition: transform .4s cubic-bezier(0.16, 0.84, 0.2, 1),
+                border-color .4s ease,
+                box-shadow .4s ease;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .testim-card.in {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: calc(var(--card-i, 0) * 130ms);
+  }
+  .testim-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--bronze-500) 50%, var(--border));
+    box-shadow: 0 14px 32px -16px color-mix(in srgb, var(--brand-500) 35%, transparent);
+  }
+
+  .testim-mark {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 3.2rem;
+    line-height: 0.3;
+    color: var(--bronze-500);
+    opacity: 0.6;
+    user-select: none;
+  }
+  .testim-cita {
+    font-family: 'Lora', Georgia, serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: var(--fg);
+    margin: 0;
+    flex: 1;
+  }
+
+  .testim-attr {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+  .testim-attr-line {
+    display: inline-block;
+    width: 18px;
+    height: 1px;
+    background: var(--bronze-500);
+    margin-top: 0.7rem;
+    flex: 0 0 18px;
+  }
+  .testim-cargo {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--fg);
+    line-height: 1.3;
+  }
+  .testim-org {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-top: 0.3rem;
+    line-height: 1.4;
+  }
+  .testim-placeholder-flag {
+    position: absolute;
+    top: 0.75rem;
+    right: 0;
+    font-family: ui-monospace, monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    background: var(--surface);
+    border: 1px dashed color-mix(in srgb, var(--fg) 25%, transparent);
+    padding: 0.18rem 0.45rem;
+    border-radius: 3px;
+    font-weight: 700;
+    opacity: 0.7;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .testim-card { opacity: 1; transform: none; transition: none; }
+    .testim-card:hover { transform: none; }
+  }
+</style>

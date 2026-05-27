@@ -72,11 +72,14 @@ export default {
         },
       },
       fontFamily: {
-        // Tipografía oficial del brandbook.
-        // Montserrat (primary) · Lora (secondary) — ambas OFL desde Google Fonts.
+        // Tipografía oficial del brandbook — sólo 2 familias.
+        // · Lora (serif)        → títulos h1/h2/h3 y momentos editoriales
+        // · Montserrat (sans)   → body, subtítulos, kickers y labels
+        // font-mono mapeado a Montserrat para que el "feeling" técnico
+        // se logre con uppercase + tracking, sin sumar otra familia.
         sans:  ['Montserrat', 'Arial', 'Helvetica', 'sans-serif'],
         serif: ['Lora', 'Georgia', 'serif'],
-        mono:  ['"PT Sans"', 'ui-monospace', 'monospace'],
+        mono:  ['Montserrat', 'Arial', 'Helvetica', 'sans-serif'],
       },
       fontSize: {
         'tick': ['0.72rem', { lineHeight: '1', letterSpacing: '0.18em' }],

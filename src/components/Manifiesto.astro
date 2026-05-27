@@ -1,0 +1,210 @@
+---
+/**
+ * Sección editorial "Manifiesto" — 4 principios del estudio.
+ *
+ * Se usa entre Practice y Team. Diseño tipográfico, números grandes
+ * serif, mucho whitespace y línea dorada animada que recorre la
+ * sección de izquierda a derecha cuando entra en viewport.
+ */
+
+const principios = [
+  {
+    num: '01',
+    titulo: 'Confidencialidad',
+    cuerpo:
+      'Secreto profesional sobre toda la información del cliente. Procedimientos internos de reserva, archivos cifrados y acceso restringido por expediente.',
+  },
+  {
+    num: '02',
+    titulo: 'Excelencia técnica',
+    cuerpo:
+      'Cada escrito, contrato y dictamen es revisado por un socio. Apoyo permanente en doctrina actualizada, jurisprudencia y normativa vigente.',
+  },
+  {
+    num: '03',
+    titulo: 'Compromiso',
+    cuerpo:
+      'Abogado asignado por expediente: una sola cara, plazos comunicados con claridad y disponibilidad real cuando la decisión no admite demora.',
+  },
+  {
+    num: '04',
+    titulo: 'Trayectoria',
+    cuerpo:
+      'Veinticinco años de práctica continua en derecho empresarial y contabilidad. Memoria institucional que se traslada a cada nuevo caso.',
+  },
+];
+---
+<section id="manifiesto" class="manifiesto reveal" aria-labelledby="manifiesto-title">
+  <div class="shell">
+    <!-- Encabezado editorial: label + número de sección + línea dorada animada -->
+    <header class="manifiesto-head">
+      <div class="manifiesto-label">
+        <span class="manifiesto-num">— 02</span>
+        <span class="manifiesto-kicker">Filosofía</span>
+      </div>
+      <h2 id="manifiesto-title" class="manifiesto-title">
+        Cómo trabajamos<span style="color: var(--brand-500)">.</span>
+      </h2>
+      <p class="manifiesto-sub">
+        Cuatro principios que sostienen cada expediente, cada reunión y cada
+        firma. No son slogans: son las reglas internas del estudio.
+      </p>
+    </header>
+
+    <!-- Lista de principios — grandes números serif + texto editorial -->
+    <ol class="manifiesto-list">
+      {principios.map((p) => (
+        <li class="manifiesto-item reveal" data-manifiesto-item>
+          <div class="manifiesto-item-num" aria-hidden="true">{p.num}</div>
+          <div class="manifiesto-item-body">
+            <h3 class="manifiesto-item-title">{p.titulo}</h3>
+            <p class="manifiesto-item-cuerpo">{p.cuerpo}</p>
+          </div>
+          <span class="manifiesto-item-line" aria-hidden="true"></span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .manifiesto {
+    padding: 6rem 0 5rem;
+    position: relative;
+    border-top: 1px solid var(--border);
+  }
+  @media (min-width: 768px) {
+    .manifiesto { padding: 8rem 0 7rem; }
+  }
+
+  /* Header editorial */
+  .manifiesto-head {
+    max-width: 760px;
+    margin-bottom: 4rem;
+  }
+  @media (min-width: 768px) {
+    .manifiesto-head { margin-bottom: 5rem; }
+  }
+  .manifiesto-label {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  .manifiesto-num {
+    font-family: 'Lora', Georgia, serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--bronze-500);
+    letter-spacing: 0.04em;
+  }
+  .manifiesto-kicker {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 700;
+  }
+  .manifiesto-title {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2.1rem, 4.5vw, 3.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin: 0 0 1.5rem;
+  }
+  .manifiesto-sub {
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    line-height: 1.6;
+    color: var(--fg-muted);
+    max-width: 56ch;
+    margin: 0;
+  }
+
+  /* Lista de principios — cada item con número gigante a la izquierda */
+  .manifiesto-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .manifiesto-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    column-gap: 1.5rem;
+    padding: 2rem 0;
+    align-items: baseline;
+  }
+  @media (min-width: 768px) {
+    .manifiesto-item {
+      grid-template-columns: 160px 1fr;
+      column-gap: 3rem;
+      padding: 2.5rem 0;
+    }
+  }
+  /* Línea dorada divisoria: scaleX animado de 0 a 1 al entrar en viewport */
+  .manifiesto-item-line {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(to right,
+      color-mix(in srgb, var(--bronze-500) 70%, transparent) 0%,
+      var(--border) 35%,
+      var(--border) 100%);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform .9s cubic-bezier(0.16, 0.84, 0.2, 1);
+  }
+  .manifiesto-item.in .manifiesto-item-line {
+    transform: scaleX(1);
+  }
+
+  .manifiesto-item-num {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(2.5rem, 5.5vw, 4.2rem);
+    line-height: 0.9;
+    color: var(--brand-500);
+    letter-spacing: -0.04em;
+    opacity: 0.85;
+    font-variant-numeric: tabular-nums;
+  }
+  .manifiesto-item-title {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--fg);
+    margin: 0 0 0.6rem;
+  }
+  .manifiesto-item-cuerpo {
+    font-size: clamp(0.95rem, 1.15vw, 1.05rem);
+    line-height: 1.65;
+    color: var(--fg-muted);
+    margin: 0;
+    max-width: 56ch;
+  }
+
+  /* Reveal por ítem con un poco de stagger cuando la lista entra en viewport */
+  .manifiesto-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .8s cubic-bezier(0.2, 0.7, 0.2, 1),
+                transform .8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .manifiesto-item.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .manifiesto-item       { opacity: 1; transform: none; transition: none; }
+    .manifiesto-item-line  { transform: scaleX(1); transition: none; }
+  }
+</style>

@@ -8,7 +8,7 @@ const { label, title, items } = Astro.props;
     <div class="section-kicker"><span>{label}</span></div>
 
     <div class="flex flex-wrap items-end justify-between gap-6 mb-8">
-      <h2 class="font-sans font-bold text-cover text-ink-900 leading-[1.05]">
+      <h2 class="font-serif text-cover text-ink-900 leading-[1.05]" style="font-weight: 500;">
         <span class="stack-line inline-block" data-stack-line><span>{title}</span></span>
       </h2>
 
@@ -32,7 +32,7 @@ const { label, title, items } = Astro.props;
         <article class="timeline-card">
           <div class="pt-10 pr-2">
             <div class="font-mono text-tick uppercase tracking-tick mb-3" style="color: var(--brand-700)">{it.year}</div>
-            <div class="font-sans font-bold text-[1.5rem] md:text-[1.7rem] leading-tight text-ink-900 mb-3" set:html={it.title}>
+            <div class="font-serif text-[1.5rem] md:text-[1.7rem] leading-tight text-ink-900 mb-3" style="font-weight: 500;" set:html={it.title}>
             </div>
             <p class="text-ink-600 leading-relaxed text-[0.95rem]" set:html={it.desc}></p>
           </div>

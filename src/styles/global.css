@@ -20,7 +20,15 @@
     background: var(--slate-700);
     color: #e9e9f2;
   }
-  h1, h2, h3, h4, h5 { font-weight: 700; letter-spacing: -0.02em; }
+  /* Jerarquía tipográfica: títulos en Lora (serif editorial), peso 500
+     para gravitas sin sentirse pesado. Subtítulos y body en Montserrat
+     (sans). Sólo 2 familias en todo el sitio. */
+  h1, h2, h3 {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  h4, h5 { font-weight: 700; letter-spacing: -0.01em; }
 }
 
 @layer components {
@@ -287,6 +295,76 @@
   .blueprint { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 2s ease; }
   .blueprint.in { opacity: 0.18; }
   .theme-accounting .blueprint.in { opacity: 0.12; }
+
+  /* ─── Micro-interacciones premium ───────────────────────────
+     Subtle scale-on-press para botones grandes (efecto material).
+     Respeta prefers-reduced-motion automáticamente (los transforms
+     se desactivan vía media query global más abajo). */
+  .btn-hero,
+  .btn-editorial,
+  .societario-btn,
+  .ficha-banner-cta,
+  .tramite-form-submit {
+    transform: translate3d(0, 0, 0);
+    transition-property: transform, background, color, border-color, box-shadow;
+    transition-duration: .35s;
+    transition-timing-function: cubic-bezier(0.16, 0.84, 0.2, 1);
+  }
+  .btn-hero:active,
+  .btn-editorial:active,
+  .societario-btn:active,
+  .ficha-banner-cta:active,
+  .tramite-form-submit:active {
+    transform: scale(0.97);
+    transition-duration: .12s;
+  }
+
+  /* Scroll-margin-top para que los anchors no queden pegados al nav fijo. */
+  [id] { scroll-margin-top: 6rem; }
+
+  /* Selección de texto: usa color brand en lugar del slate-700 hard-coded
+     que choca con el tema contable (fondo claro). */
+  ::selection {
+    background: color-mix(in srgb, var(--brand-500) 80%, var(--fg));
+    color: var(--bg);
+  }
+
+  /* Reduced motion: suspendemos todas las animaciones decorativas. Las
+     animations cinematográficas del Hero ya tienen su propio override
+     dentro de Hero.astro. */
+  @media (prefers-reduced-motion: reduce) {
+    .btn-hero:active,
+    .btn-editorial:active,
+    .societario-btn:active,
+    .ficha-banner-cta:active,
+    .tramite-form-submit:active {
+      transform: none;
+    }
+  }
+
+  /* ── Form: error inline + contador ───────────────────────── */
+  .field-error {
+    border-color: #c84747 !important;
+    background: color-mix(in srgb, #c84747 4%, transparent) !important;
+  }
+  .field-error-msg {
+    display: block;
+    margin-top: 0.4rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    color: #c84747;
+  }
+  .field-counter {
+    display: block;
+    margin-top: 0.4rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: var(--fg-subtle);
+    text-align: right;
+  }
+  .field-counter-warn { color: #c87a47; }
   .blueprint svg { width: 100%; height: 100%; }
   .blueprint .bp-line {
     stroke-dasharray: 1200; stroke-dashoffset: 1200;
@@ -487,10 +565,54 @@
     transition: opacity .7s ease, visibility .7s;
   }
   .preloader.done { opacity: 0; visibility: hidden; }
-  .preloader svg { width: 96px; height: 96px; opacity: 0; animation: fadeIn .8s ease .15s forwards; }
+  .preloader svg { width: 110px; height: 110px; }
+  /* Stroke-draw animation: el isotipo se dibuja como contorno (1.4s)
+     y luego se rellena con fade-in para revelar el sólido. Sensación
+     premium tipo apertura de marca de estudio. */
   .preloader .pre-stroke {
     fill: #e9e9f2;
-    stroke: none;
+    fill-opacity: 0;
+    stroke: #e9e9f2;
+    stroke-width: 6;
+    stroke-linejoin: miter;
+    stroke-linecap: square;
+    stroke-dasharray: 6500;
+    stroke-dashoffset: 6500;
+    animation:
+      pre-draw 1.4s cubic-bezier(0.65, 0, 0.35, 1) .25s forwards,
+      pre-fill 0.9s ease-out 1.5s forwards;
+  }
+  @keyframes pre-draw {
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes pre-fill {
+    from { fill-opacity: 0; stroke-opacity: 1; }
+    to   { fill-opacity: 1; stroke-opacity: 0; }
+  }
+  /* Una línea fina dorada que aparece debajo del logo cuando termina
+     el trazo. Acento editorial. */
+  .preloader::after {
+    content: '';
+    position: absolute;
+    top: calc(50% + 75px);
+    left: 50%;
+    width: 0;
+    height: 1px;
+    background: #c19a4f;
+    transform: translateX(-50%);
+    animation: pre-line 0.6s cubic-bezier(0.16, 0.84, 0.2, 1) 1.8s forwards;
+  }
+  @keyframes pre-line {
+    to { width: 60px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .preloader .pre-stroke {
+      animation: none;
+      stroke-dashoffset: 0;
+      fill-opacity: 1;
+      stroke-opacity: 0;
+    }
+    .preloader::after { animation: none; width: 60px; }
   }
   .preloader .pre-label {
     position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);

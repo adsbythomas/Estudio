@@ -3,7 +3,10 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
 import Counters from '@components/Counters.astro';
 import Practice from '@components/Practice.astro';
+import Manifiesto from '@components/Manifiesto.astro';
+import PullQuote from '@components/PullQuote.astro';
 import Team from '@components/Team.astro';
+import RecentMatters from '@components/RecentMatters.astro';
 import Timeline from '@components/Timeline.astro';
 import News from '@components/News.astro';
 import CrossLink from '@components/CrossLink.astro';
@@ -35,6 +38,8 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     subpagePrefix={withBase('/areas')}
   />
 
+  <Manifiesto />
+
   <CrossLink practice="legal" />
 
   <Team
@@ -46,11 +51,15 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     subpagePrefix={withBase('/equipo')}
   />
 
+  <PullQuote />
+
   <Timeline
     label={legal.timeline.label}
     title={legal.timeline.title}
     items={legal.timeline.items}
   />
+
+  <RecentMatters />
 
   <News practice="legal" label="Novedades" title="Radar normativo" />
 

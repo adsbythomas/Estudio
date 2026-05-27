@@ -2,6 +2,7 @@
 import { site } from '@lib/site';
 import type { Practice } from '@lib/site';
 import LangToggle from '@components/LangToggle.astro';
+import Search from '@components/Search.astro';
 
 export interface Props {
   practice: Practice;
@@ -49,10 +50,11 @@ const isoSrc = withBase(isLegal ? '/brand/isotipo-white.svg' : '/brand/isotipo.s
     </a>
     </div>
 
-    <ul class="hidden md:flex items-center gap-9 text-[0.95rem]">
+    <ul class="hidden md:flex items-center gap-7 text-[0.95rem]">
       {navLinks.map((l) => (
         <li><a href={l.href} class="nav-link">{l.label}</a></li>
       ))}
+      <li><Search /></li>
       <li>
         <a href={altHref} class="nav-link font-mono link-accounting">{altLabel}</a>
       </li>

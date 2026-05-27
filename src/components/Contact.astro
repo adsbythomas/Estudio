@@ -16,8 +16,8 @@ const { label, title, titleAccent, desc, formAreas, formAreaLabel } = Astro.prop
     <div class="max-w-3xl mb-12 md:mb-16">
       <div class="section-kicker"><span>{label}</span></div>
 
-      <h2 class="font-sans font-bold leading-[1.05] mb-6 tracking-tight"
-          style="font-size: clamp(1.7rem, 3.8vw, 2.6rem); color: var(--fg);">
+      <h2 class="font-serif leading-[1.05] mb-6 tracking-tight"
+          style="font-size: clamp(1.7rem, 3.8vw, 2.6rem); color: var(--fg); font-weight: 500;">
         <span class="stack-line inline-block" data-stack-line>
           <span>{title} <span style="color: var(--bronze-500)">{titleAccent}</span>.</span>
         </span>
@@ -307,7 +307,7 @@ const { label, title, titleAccent, desc, formAreas, formAreaLabel } = Astro.prop
   }
 
   .contact-card-label {
-    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-family: 'Montserrat', system-ui, sans-serif;
     font-size: 0.65rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -394,7 +394,7 @@ const { label, title, titleAccent, desc, formAreas, formAreaLabel } = Astro.prop
     align-items: center;
     gap: 0.6rem;
     padding: 0.7rem 1.2rem;
-    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-family: 'Montserrat', system-ui, sans-serif;
     font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.18em;

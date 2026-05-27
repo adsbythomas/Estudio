@@ -1,0 +1,284 @@
+---
+/**
+ * Recent Matters / Operaciones destacadas.
+ *
+ * PLACEHOLDER: operaciones anonimizadas plausibles para mostrar
+ * el tipo de trabajo del estudio sin violar confidencialidad.
+ * Editar el array `operaciones` con casos reales (siempre sin
+ * identificar al cliente — sólo industria, magnitud y año).
+ *
+ * Pieza fundamental de un sitio de abogados premium: el visitante
+ * quiere ver volumen + complejidad antes de levantar el teléfono.
+ */
+interface Operacion {
+  area: string;
+  resumen: string;
+  monto?: string;
+  jurisdiccion?: string;
+  anio: string;
+  isPlaceholder?: boolean;
+}
+
+// EDITAR con operaciones reales — anonimizadas pero específicas.
+const operaciones: Operacion[] = [
+  {
+    area: 'Societario',
+    resumen: 'Reorganización societaria de un grupo industrial argentino con escisión de unidades de negocio y rediseño de la estructura accionaria.',
+    monto: 'USD 80M',
+    anio: '2024',
+    isPlaceholder: true,
+  },
+  {
+    area: 'Penal Económico',
+    resumen: 'Defensa en investigación por presunta evasión tributaria agravada. Sentencia favorable luego de tres años de proceso.',
+    jurisdiccion: 'Fuero Federal · CABA',
+    anio: '2024',
+    isPlaceholder: true,
+  },
+  {
+    area: 'Tributario',
+    resumen: 'Estructuración fiscal de un fondo de inversión internacional con operaciones EE.UU.-Argentina, incluyendo precios de transferencia.',
+    monto: 'USD 45M',
+    anio: '2025',
+    isPlaceholder: true,
+  },
+  {
+    area: 'Aerocomercial',
+    resumen: 'Asesoramiento en operación M&A transfronteriza del sector aerocomercial. Due diligence completo + cierre regulatorio ante ANAC.',
+    monto: 'USD 30M',
+    anio: '2025',
+    isPlaceholder: true,
+  },
+  {
+    area: 'Laboral',
+    resumen: 'Reestructuración de plantel en operación de adquisición. Negociación con tres sindicatos y diseño de programa de retiros voluntarios.',
+    jurisdiccion: '450 trabajadores',
+    anio: '2023',
+    isPlaceholder: true,
+  },
+  {
+    area: 'Ciudadanía',
+    resumen: 'Programa de naturalización empresarial: trámites de ciudadanía argentina por opción para 18 ejecutivos extranjeros y sus familias.',
+    jurisdiccion: '12 nacionalidades',
+    anio: '2024',
+    isPlaceholder: true,
+  },
+];
+---
+<section class="rm reveal" aria-labelledby="rm-title">
+  <div class="shell">
+    <header class="rm-head">
+      <div class="rm-label">
+        <span class="rm-num">— 05</span>
+        <span class="rm-kicker">Operaciones destacadas</span>
+      </div>
+      <h2 id="rm-title" class="rm-title">
+        Una selección de los casos<br/>
+        <span style="color: var(--brand-500)">que llevamos.</span>
+      </h2>
+      <p class="rm-sub">
+        Operaciones anonimizadas por confidencialidad profesional. Cada
+        caso menciona el área, el alcance y el año, sin identificar al
+        cliente.
+      </p>
+    </header>
+
+    <div class="rm-grid">
+      {operaciones.map((o, i) => (
+        <article class="rm-card reveal" style={`--card-i: ${i};`}>
+          <header class="rm-card-head">
+            <span class="rm-card-area">{o.area}</span>
+            <span class="rm-card-year">{o.anio}</span>
+          </header>
+          <p class="rm-card-resumen">{o.resumen}</p>
+          <footer class="rm-card-foot">
+            {o.monto && <span class="rm-card-pill rm-card-pill--monto">{o.monto}</span>}
+            {o.jurisdiccion && <span class="rm-card-pill">{o.jurisdiccion}</span>}
+            {o.isPlaceholder && (
+              <span class="rm-placeholder-flag" title="Reemplazar con caso real">ejemplo</span>
+            )}
+          </footer>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .rm {
+    padding: 5rem 0 6rem;
+    border-top: 1px solid var(--border);
+    background: color-mix(in srgb, var(--fg) 1.5%, var(--bg));
+  }
+  @media (min-width: 768px) {
+    .rm { padding: 7rem 0 8rem; }
+  }
+  .rm-head {
+    max-width: 720px;
+    margin-bottom: 3.5rem;
+  }
+  @media (min-width: 768px) {
+    .rm-head { margin-bottom: 4.5rem; }
+  }
+  .rm-label {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  .rm-num {
+    font-family: 'Lora', Georgia, serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--bronze-500);
+    letter-spacing: 0.04em;
+  }
+  .rm-kicker {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 700;
+  }
+  .rm-title {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(1.9rem, 3.8vw, 2.8rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin: 0 0 1.25rem;
+  }
+  .rm-sub {
+    font-size: clamp(0.96rem, 1.2vw, 1.05rem);
+    line-height: 1.6;
+    color: var(--fg-muted);
+    max-width: 56ch;
+    margin: 0;
+  }
+
+  /* Grid de 6 cards: 3 columnas en desktop, 2 en tablet, 1 en mobile */
+  .rm-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 640px)  { .rm-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; } }
+  @media (min-width: 1024px) { .rm-grid { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; } }
+
+  .rm-card {
+    position: relative;
+    padding: 1.75rem 1.5rem 1.5rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform .4s cubic-bezier(0.16, 0.84, 0.2, 1),
+                border-color .4s ease,
+                box-shadow .4s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    overflow: hidden;
+  }
+  .rm-card.in {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: calc(var(--card-i, 0) * 80ms);
+  }
+  /* Acento dorado fino en el borde superior — se anima en hover */
+  .rm-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--bronze-500);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform .5s cubic-bezier(0.16, 0.84, 0.2, 1);
+  }
+  .rm-card:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--bronze-500) 35%, var(--border));
+    box-shadow: 0 12px 28px -16px color-mix(in srgb, var(--fg) 25%, transparent);
+  }
+  .rm-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .rm-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .rm-card-area {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--brand-500);
+    font-weight: 700;
+  }
+  .rm-card-year {
+    font-family: 'Lora', Georgia, serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--fg-subtle);
+    font-variant-numeric: tabular-nums;
+  }
+  .rm-card-resumen {
+    font-size: 0.96rem;
+    line-height: 1.55;
+    color: var(--fg);
+    margin: 0;
+    flex: 1;
+  }
+  .rm-card-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--border);
+    align-items: center;
+  }
+  .rm-card-pill {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    background: color-mix(in srgb, var(--fg) 5%, transparent);
+    padding: 0.3rem 0.6rem;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+  .rm-card-pill--monto {
+    color: var(--bronze-500);
+    background: color-mix(in srgb, var(--bronze-500) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--bronze-500) 30%, transparent);
+  }
+  .rm-placeholder-flag {
+    margin-left: auto;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    background: var(--surface);
+    border: 1px dashed color-mix(in srgb, var(--fg) 25%, transparent);
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    font-weight: 700;
+    opacity: 0.6;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rm-card { opacity: 1; transform: none; transition: none; }
+    .rm-card:hover { transform: none; }
+    .rm-card::before { transform: scaleX(1); }
+  }
+</style>

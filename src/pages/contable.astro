@@ -3,7 +3,10 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
 import Counters from '@components/Counters.astro';
 import Practice from '@components/Practice.astro';
+import Manifiesto from '@components/Manifiesto.astro';
+import PullQuote from '@components/PullQuote.astro';
 import Team from '@components/Team.astro';
+import RecentMatters from '@components/RecentMatters.astro';
 import Timeline from '@components/Timeline.astro';
 import News from '@components/News.astro';
 import CrossLink from '@components/CrossLink.astro';
@@ -36,6 +39,8 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     subpagePrefix={withBase('/servicios')}
   />
 
+  <Manifiesto />
+
   <CrossLink practice="accounting" />
 
   <Team
@@ -47,11 +52,18 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     subpagePrefix={withBase('/equipo-contable')}
   />
 
+  <PullQuote
+    quote="Cuando el caso es complejo, la diferencia la hace el equipo: abogados y contadores leyendo el mismo expediente al mismo tiempo."
+    attribution="Filosofía del estudio"
+  />
+
   <Timeline
     label={accounting.timeline.label}
     title={accounting.timeline.title}
     items={accounting.timeline.items}
   />
+
+  <RecentMatters />
 
   <News practice="accounting" label="Novedades" title="Radar impositivo" />
 

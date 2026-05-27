@@ -1,0 +1,457 @@
+---
+/**
+ * Búsqueda global con shortcut Cmd-K / Ctrl-K.
+ *
+ * Modal con input + lista filtrada en vivo. Indexa al render:
+ *   - Áreas legales (incluye micrositios societario / ciudadanía)
+ *   - Servicios contables
+ *   - Trámites societarios y de ciudadanía (todos los items)
+ *   - Miembros del equipo
+ *   - Páginas top-level (vencimientos, novedades, contacto)
+ *
+ * Plus: tecla "/" también lo abre. Esc o overlay cierra.
+ */
+import { legal } from '@lib/legal';
+import { accounting } from '@lib/accounting';
+import { tramites as societarioTramites } from '@data/societario';
+import { tramites as ciudadaniaTramites } from '@data/ciudadania';
+
+const base = import.meta.env.BASE_URL;
+const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
+
+type Entry = { title: string; href: string; kind: string; hint?: string };
+
+const entries: Entry[] = [
+  // ── Áreas legales ──
+  ...legal.practice.items.map((a) => ({
+    title: a.name,
+    href: (a as any).href ? withBase((a as any).href) : withBase(`/areas/${a.key}`),
+    kind: 'Área legal',
+    hint: a.desc,
+  })),
+  // ── Servicios contables ──
+  ...accounting.practice.items.map((s) => ({
+    title: s.name,
+    href: withBase(`/servicios/${s.key}`),
+    kind: 'Servicio contable',
+    hint: s.desc,
+  })),
+  // ── Trámites societarios ──
+  ...societarioTramites.map((t) => ({
+    title: `${t.name}`,
+    href: withBase(`/societario/${t.key}`),
+    kind: 'Trámite societario',
+    hint: t.shortDesc,
+  })),
+  // ── Trámites ciudadanía ──
+  ...ciudadaniaTramites.map((t) => ({
+    title: `${t.name}`,
+    href: withBase(`/ciudadania/${t.key}`),
+    kind: 'Trámite ciudadanía',
+    hint: t.shortDesc,
+  })),
+  // ── Equipo ──
+  ...legal.team.members.filter((m) => !!m.key).map((m) => ({
+    title: m.name,
+    href: withBase(`/equipo/${m.key}`),
+    kind: m.role,
+    hint: m.spec,
+  })),
+  // ── Páginas principales ──
+  { title: 'Área legal',     href: withBase('/'),             kind: 'Página' },
+  { title: 'Área contable',  href: withBase('/contable'),     kind: 'Página' },
+  { title: 'Societario',     href: withBase('/societario'),   kind: 'Micrositio' },
+  { title: 'Ciudadanía',     href: withBase('/ciudadania'),   kind: 'Micrositio' },
+  { title: 'Vencimientos',   href: withBase('/vencimientos'), kind: 'Calendario' },
+  { title: 'Novedades',      href: withBase('/novedades'),    kind: 'Radar' },
+  { title: 'Contacto',       href: withBase('/#contacto'),    kind: 'Página' },
+];
+
+const entriesJSON = JSON.stringify(entries);
+---
+<!-- Botón flotante de búsqueda en el nav (lo agregamos vía CSS hook) y atajo K -->
+<button class="search-trigger" data-search-open aria-label="Abrir búsqueda (Cmd/Ctrl + K)">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </svg>
+  <span class="search-trigger-label">Buscar</span>
+  <kbd class="search-trigger-kbd"><span class="kbd-mac">⌘</span><span class="kbd-pc">Ctrl</span> K</kbd>
+</button>
+
+<!-- Modal -->
+<div class="search-modal" data-search-modal role="dialog" aria-modal="true" aria-label="Búsqueda global" hidden>
+  <div class="search-backdrop" data-search-close></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input
+        type="text"
+        class="search-input"
+        data-search-input
+        placeholder="Buscar áreas, trámites, equipo…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <kbd class="search-esc">ESC</kbd>
+    </div>
+    <ul class="search-results" data-search-results role="listbox" aria-label="Resultados">
+      <!-- llenado por JS -->
+    </ul>
+    <div class="search-foot">
+      <span class="search-foot-key"><kbd>↑</kbd><kbd>↓</kbd> navegar</span>
+      <span class="search-foot-key"><kbd>↵</kbd> abrir</span>
+      <span class="search-foot-key"><kbd>esc</kbd> cerrar</span>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ entriesJSON }}>
+  (() => {
+    const ENTRIES = JSON.parse(entriesJSON);
+
+    const modal     = document.querySelector('[data-search-modal]');
+    const input     = document.querySelector('[data-search-input]');
+    const resultsEl = document.querySelector('[data-search-results]');
+    if (!modal || !input || !resultsEl) return;
+
+    let activeIdx = 0;
+    let currentResults = ENTRIES.slice(0, 8);
+
+    const norm = (s) => s
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '');
+
+    function score(q, e) {
+      const text = norm(e.title + ' ' + (e.hint || '') + ' ' + e.kind);
+      const qNorm = norm(q);
+      if (!qNorm) return 0;
+      const tokens = qNorm.split(/\s+/).filter(Boolean);
+      let s = 0;
+      for (const tk of tokens) {
+        const idx = text.indexOf(tk);
+        if (idx === -1) return -1;
+        s += 100 - Math.min(idx, 50);  // prefiere matches temprano
+        if (norm(e.title).startsWith(tk)) s += 50;
+      }
+      return s;
+    }
+
+    function render(items) {
+      currentResults = items;
+      activeIdx = 0;
+      if (items.length === 0) {
+        resultsEl.innerHTML = '<li class="search-empty">Sin resultados para esa búsqueda.</li>';
+        return;
+      }
+      resultsEl.innerHTML = items.map((e, i) =>
+        `<li class="search-result" data-idx="${i}">
+           <a href="${e.href}" data-search-link>
+             <span class="search-kind">${e.kind}</span>
+             <span class="search-title">${e.title}</span>
+             ${e.hint ? `<span class="search-hint">${e.hint}</span>` : ''}
+             <svg class="search-arrow" width="14" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 5h14M11 1l4 4-4 4"/></svg>
+           </a>
+         </li>`
+      ).join('');
+      updateActive();
+    }
+
+    function updateActive() {
+      const lis = resultsEl.querySelectorAll('.search-result');
+      lis.forEach((li, i) => {
+        li.classList.toggle('is-active', i === activeIdx);
+      });
+      const el = lis[activeIdx];
+      if (el) el.scrollIntoView({ block: 'nearest' });
+    }
+
+    function open() {
+      modal.removeAttribute('hidden');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => input.focus(), 50);
+      input.value = '';
+      render(ENTRIES.slice(0, 8));
+    }
+    function close() {
+      modal.setAttribute('hidden', '');
+      document.body.style.overflow = '';
+    }
+
+    // Triggers
+    document.querySelectorAll('[data-search-open]').forEach((b) => b.addEventListener('click', open));
+    document.querySelectorAll('[data-search-close]').forEach((b) => b.addEventListener('click', close));
+
+    // Cmd/Ctrl+K y /
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (modal.hasAttribute('hidden')) open(); else close();
+      }
+      if (e.key === '/' && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        open();
+      }
+      if (!modal.hasAttribute('hidden')) {
+        if (e.key === 'Escape') { close(); return; }
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          activeIdx = Math.min(activeIdx + 1, currentResults.length - 1);
+          updateActive();
+        }
+        if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          activeIdx = Math.max(activeIdx - 1, 0);
+          updateActive();
+        }
+        if (e.key === 'Enter' && currentResults[activeIdx]) {
+          e.preventDefault();
+          window.location.href = currentResults[activeIdx].href;
+        }
+      }
+    });
+
+    input.addEventListener('input', (e) => {
+      const q = e.target.value.trim();
+      if (!q) { render(ENTRIES.slice(0, 8)); return; }
+      const scored = ENTRIES
+        .map((e) => ({ e, s: score(q, e) }))
+        .filter((x) => x.s > 0)
+        .sort((a, b) => b.s - a.s)
+        .slice(0, 12)
+        .map((x) => x.e);
+      render(scored);
+    });
+  })();
+</script>
+
+<style>
+  /* ── Trigger button (visible en nav) ───────────────────── */
+  .search-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.65rem;
+    background: transparent;
+    color: var(--fg-muted);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Montserrat', system-ui;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color .25s ease, color .25s ease, background .25s ease;
+  }
+  .search-trigger:hover {
+    color: var(--fg);
+    border-color: color-mix(in srgb, var(--bronze-500) 50%, var(--border));
+    background: color-mix(in srgb, var(--fg) 4%, transparent);
+  }
+  .search-trigger-label { line-height: 1; }
+  .search-trigger-kbd {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.62rem;
+    padding: 0.12rem 0.35rem;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--fg-subtle);
+    background: var(--bg);
+    letter-spacing: 0.05em;
+  }
+  .search-trigger-kbd .kbd-mac { display: none; }
+  .search-trigger-kbd .kbd-pc  { display: inline; }
+  @media (max-width: 767px) {
+    .search-trigger-label, .search-trigger-kbd { display: none; }
+  }
+
+  /* En Mac mostramos ⌘ en lugar de Ctrl */
+  @supports (-webkit-touch-callout: none) { /* fallback iOS */
+    .search-trigger-kbd .kbd-mac { display: inline; }
+    .search-trigger-kbd .kbd-pc  { display: none; }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    /* macOS hint: el navegador en macOS expone la plataforma — mejor detectar por JS,
+       pero esto sirve como aproximación visual. Sin Mac, queda Ctrl K. */
+  }
+
+  /* ── Modal ───────────────────────────────────────────── */
+  .search-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: clamp(3rem, 10vh, 8rem);
+    pointer-events: none;
+  }
+  .search-modal[hidden] { display: none; }
+  .search-backdrop {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--fg) 35%, transparent);
+    backdrop-filter: blur(8px);
+    pointer-events: auto;
+    animation: search-fade-in .2s ease;
+  }
+  @keyframes search-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+  .search-panel {
+    position: relative;
+    width: min(580px, calc(100vw - 2rem));
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,.5);
+    overflow: hidden;
+    pointer-events: auto;
+    animation: search-pop-in .25s cubic-bezier(0.16, 0.84, 0.2, 1);
+  }
+  @keyframes search-pop-in {
+    from { opacity: 0; transform: translateY(-12px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .search-input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--fg-muted);
+  }
+  .search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Montserrat', system-ui;
+    font-size: 1rem;
+    color: var(--fg);
+  }
+  .search-input::placeholder { color: var(--fg-subtle); }
+  .search-esc {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    padding: 0.18rem 0.4rem;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--fg-subtle);
+    background: var(--surface);
+  }
+
+  .search-results {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+  .search-result a {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    column-gap: 0.85rem;
+    align-items: center;
+    padding: 0.7rem 0.85rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--fg);
+    transition: background .15s ease;
+  }
+  .search-result.is-active a,
+  .search-result a:hover {
+    background: color-mix(in srgb, var(--bronze-500) 8%, transparent);
+  }
+  .search-kind {
+    grid-column: 1;
+    grid-row: 1;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bronze-500);
+    padding: 0.18rem 0.4rem;
+    border: 1px solid color-mix(in srgb, var(--bronze-500) 35%, transparent);
+    border-radius: 3px;
+    white-space: nowrap;
+    font-weight: 700;
+  }
+  .search-title {
+    grid-column: 2;
+    grid-row: 1;
+    font-family: 'Montserrat', system-ui;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--fg);
+  }
+  .search-hint {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 0.78rem;
+    color: var(--fg-muted);
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  .search-arrow {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    color: var(--fg-subtle);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .search-result.is-active .search-arrow,
+  .search-result a:hover .search-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--bronze-500);
+  }
+  .search-empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  .search-foot {
+    display: flex;
+    gap: 1.25rem;
+    padding: 0.7rem 1.2rem;
+    border-top: 1px solid var(--border);
+    background: color-mix(in srgb, var(--fg) 3%, var(--bg));
+    font-size: 0.7rem;
+    color: var(--fg-subtle);
+  }
+  .search-foot kbd {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.65rem;
+    padding: 0.1rem 0.35rem;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--bg);
+    color: var(--fg-muted);
+    margin-right: 0.2rem;
+  }
+  @media (max-width: 640px) {
+    .search-foot { flex-wrap: wrap; gap: 0.6rem 1rem; font-size: 0.65rem; }
+  }
+</style>
+
+<script>
+  // Detectar Mac y mostrar ⌘ en lugar de Ctrl en el trigger
+  if (navigator.platform?.toUpperCase().indexOf('MAC') >= 0 ||
+      navigator.userAgent.includes('Mac OS')) {
+    document.querySelectorAll('.kbd-mac').forEach((el) => (el.style.display = 'inline'));
+    document.querySelectorAll('.kbd-pc').forEach((el)  => (el.style.display = 'none'));
+  }
+</script>

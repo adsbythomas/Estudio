@@ -1,0 +1,135 @@
+---
+/**
+ * Cursor custom sutil — punto pequeño que sigue al mouse + anillo
+ * que se agranda sobre links/buttons. Sólo desktop con pointer fine.
+ * Respeta prefers-reduced-motion.
+ *
+ * Pieza de polish: muchos usuarios no la verán conscientemente pero
+ * eleva la sensación de "sitio cuidado" en el inconsciente.
+ */
+---
+<div class="cursor" data-cursor aria-hidden="true">
+  <div class="cursor-dot" data-cursor-dot></div>
+  <div class="cursor-ring" data-cursor-ring></div>
+</div>
+
+<script>
+  (() => {
+    const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!supportsHover || reduced) return;
+
+    const wrap = document.querySelector('[data-cursor]') as HTMLElement;
+    const dot  = document.querySelector('[data-cursor-dot]') as HTMLElement;
+    const ring = document.querySelector('[data-cursor-ring]') as HTMLElement;
+    if (!wrap || !dot || !ring) return;
+
+    wrap.classList.add('active');
+
+    // Posiciones target (cursor real) y current (lerp para suavidad)
+    let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+    let dx = tx, dy = ty;
+    let rx = tx, ry = ty;
+
+    window.addEventListener('mousemove', (e) => {
+      tx = e.clientX; ty = e.clientY;
+    }, { passive: true });
+
+    const HOVERABLE = 'a, button, [role="button"], input, textarea, select, [data-cursor-link]';
+    document.addEventListener('mouseover', (e) => {
+      const t = e.target as HTMLElement;
+      if (t.closest(HOVERABLE)) wrap.classList.add('over');
+    });
+    document.addEventListener('mouseout', (e) => {
+      const t = e.target as HTMLElement;
+      if (t.closest(HOVERABLE)) wrap.classList.remove('over');
+    });
+    document.addEventListener('mousedown', () => wrap.classList.add('press'));
+    document.addEventListener('mouseup',   () => wrap.classList.remove('press'));
+    document.addEventListener('mouseleave', () => wrap.classList.remove('active'));
+    document.addEventListener('mouseenter', () => wrap.classList.add('active'));
+
+    const tick = () => {
+      // Dot sigue casi instantáneo, ring sigue con lag (lerp)
+      dx += (tx - dx) * 0.55;
+      dy += (ty - dy) * 0.55;
+      rx += (tx - rx) * 0.18;
+      ry += (ty - ry) * 0.18;
+      dot.style.transform  = `translate3d(${dx - 4}px, ${dy - 4}px, 0)`;
+      ring.style.transform = `translate3d(${rx - 18}px, ${ry - 18}px, 0)`;
+      requestAnimationFrame(tick);
+    };
+    tick();
+  })();
+</script>
+
+<style>
+  .cursor {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+  }
+  .cursor.active { display: block; }
+
+  .cursor-dot {
+    position: absolute;
+    top: 0; left: 0;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--bronze-500);
+    will-change: transform;
+  }
+  .cursor-ring {
+    position: absolute;
+    top: 0; left: 0;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--bronze-500) 60%, transparent);
+    will-change: transform;
+    transition: width .25s cubic-bezier(0.16, 0.84, 0.2, 1),
+                height .25s cubic-bezier(0.16, 0.84, 0.2, 1),
+                border-color .25s ease,
+                opacity .25s ease;
+  }
+
+  /* Estado over: ring se agranda y se intensifica */
+  .cursor.over .cursor-ring {
+    width: 50px;
+    height: 50px;
+    border-color: var(--bronze-500);
+    border-width: 1.5px;
+  }
+  .cursor.over .cursor-dot {
+    opacity: 0;
+  }
+  .cursor-dot {
+    transition: opacity .2s ease;
+  }
+  .cursor.press .cursor-ring {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* Mantener el cursor del sistema sutilmente disponible — usamos
+     cursor:none sólo si efectivamente está activo (hover-capable). */
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    html.cursor-ready,
+    html.cursor-ready * {
+      cursor: none;
+    }
+    html.cursor-ready input,
+    html.cursor-ready textarea {
+      cursor: text;
+    }
+  }
+</style>
+<script>
+  // Marcar el html con cursor-ready sólo cuando el JS confirma que
+  // se activó el cursor custom (evita ocultar el cursor en mobile/etc).
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('cursor-ready');
+  }
+</script>

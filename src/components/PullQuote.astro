@@ -1,0 +1,96 @@
+---
+/**
+ * Pull-quote editorial: cita serif grande con atribución sutil.
+ * Pieza tipográfica que descansa entre secciones para darle ritmo
+ * al scroll y reforzar el carácter institucional del estudio.
+ *
+ * Props opcionales (con defaults sobrios y atemporales):
+ *   - quote: el texto de la cita (sin comillas, las pone el componente)
+ *   - attribution: línea breve abajo a la derecha
+ */
+export interface Props {
+  quote?: string;
+  attribution?: string;
+}
+const {
+  quote = 'El secreto de un buen asesoramiento es el oficio: leer el caso, escuchar al cliente y elegir la herramienta exacta.',
+  attribution = 'Filosofía del estudio',
+} = Astro.props;
+---
+<section class="pullquote reveal" aria-label="Cita editorial">
+  <div class="shell">
+    <figure class="pullquote-figure">
+      <span class="pullquote-mark" aria-hidden="true">“</span>
+      <blockquote class="pullquote-text">
+        {quote}
+      </blockquote>
+      <figcaption class="pullquote-attr">
+        <span class="pullquote-attr-line" aria-hidden="true"></span>
+        <span class="pullquote-attr-text">{attribution}</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .pullquote {
+    padding: 5rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--brand-500) 3%, var(--bg));
+  }
+  @media (min-width: 768px) {
+    .pullquote { padding: 7rem 0; }
+  }
+
+  .pullquote-figure {
+    max-width: 880px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    padding: 0 1rem;
+  }
+  .pullquote-mark {
+    display: block;
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(4rem, 8vw, 6rem);
+    line-height: 0.4;
+    color: var(--bronze-500);
+    margin-bottom: 1.5rem;
+    user-select: none;
+    opacity: 0.55;
+  }
+
+  .pullquote-text {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(1.4rem, 2.8vw, 2.1rem);
+    line-height: 1.4;
+    letter-spacing: -0.005em;
+    color: var(--fg);
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .pullquote-attr {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 2.2rem;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 600;
+  }
+  .pullquote-attr-line {
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--bronze-500);
+    opacity: 0.7;
+  }
+</style>

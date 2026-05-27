@@ -38,7 +38,7 @@ const linkFor = (m: Member) => (subpagePrefix && m.key) ? `${subpagePrefix}/${m.
 <section id="equipo" class="relative py-16 md:py-20 reveal">
   <div class="shell">
     <div class="section-kicker"><span>{label}</span></div>
-    <h2 class="font-sans font-bold text-cover text-ink-900 mb-4 max-w-[900px] leading-[1.1]">
+    <h2 class="font-serif text-cover text-ink-900 mb-4 max-w-[900px] leading-[1.1]" style="font-weight: 500;">
       <span class="stack-line inline-block" data-stack-line><span>{title}</span></span>
     </h2>
     <p class="reader text-ink-600 leading-relaxed mb-12" set:html={sub}></p>
@@ -193,7 +193,7 @@ const linkFor = (m: Member) => (subpagePrefix && m.key) ? `${subpagePrefix}/${m.
     line-height: 1.3;
   }
   .team-card-role {
-    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-family: 'Montserrat', system-ui, sans-serif;
     font-size: 0.7rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -203,7 +203,7 @@ const linkFor = (m: Member) => (subpagePrefix && m.key) ? `${subpagePrefix}/${m.
   .team-card-cta {
     margin-top: auto;
     padding: 0 0.25rem 0.25rem;
-    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-family: 'Montserrat', system-ui, sans-serif;
     font-size: 0.68rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;

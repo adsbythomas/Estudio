@@ -1,0 +1,144 @@
+---
+/**
+ * "Reconocimientos" / Trust signals.
+ *
+ * Placeholder: hoy muestra slots vacíos estilizados para que el cliente
+ * los reemplace por logos reales (Chambers, Legal500, IFLR, IDEA, etc.)
+ * cuando los tenga. Sin esos logos un sitio de abogados grandes se ve
+ * incompleto, por eso dejamos la sección reservada con un mensaje
+ * sobrio en lugar de inventar reconocimientos.
+ *
+ * Cómo reemplazar:
+ *   1. Poné los SVG / PNG de los logos en /public/awards/
+ *   2. Editá el array `reconocimientos` abajo con name + src
+ *   3. Borrá las clases `is-placeholder` que aplican el look "vacío"
+ */
+interface Reconocimiento {
+  name: string;
+  src?: string;     // Ruta a /public (ej. '/awards/chambers.svg')
+  placeholder?: boolean;
+}
+
+// EDITAR: reemplazar con reconocimientos reales del estudio.
+const reconocimientos: Reconocimiento[] = [
+  { name: 'Chambers Latin America', placeholder: true },
+  { name: 'Legal 500', placeholder: true },
+  { name: 'IFLR1000', placeholder: true },
+  { name: 'Latin Lawyer', placeholder: true },
+  { name: 'IDEA', placeholder: true },
+  { name: 'LACCA Approved', placeholder: true },
+];
+
+const base = import.meta.env.BASE_URL;
+const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
+---
+<section class="recon reveal" aria-labelledby="recon-title">
+  <div class="shell">
+    <header class="recon-head">
+      <span class="recon-eyebrow">— Reconocimientos</span>
+      <h2 id="recon-title" class="recon-title">
+        Confianza institucional<span style="color: var(--brand-500)">.</span>
+      </h2>
+    </header>
+
+    <div class="recon-grid">
+      {reconocimientos.map((r) => (
+        <div class={`recon-logo ${r.placeholder ? 'is-placeholder' : ''}`} title={r.name}>
+          {r.src
+            ? <img src={withBase(r.src)} alt={r.name} loading="lazy" />
+            : <span class="recon-logo-label">{r.name}</span>
+          }
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .recon {
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--fg) 2%, var(--bg));
+  }
+  @media (min-width: 768px) {
+    .recon { padding: 5rem 0; }
+  }
+  .recon-head {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .recon-eyebrow {
+    font-family: 'Lora', Georgia, serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--bronze-500);
+    letter-spacing: 0.04em;
+    display: block;
+    margin-bottom: 0.7rem;
+  }
+  .recon-title {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--fg);
+    margin: 0;
+  }
+
+  /* Grid de logos — flex con wrap para que se acomode bien según ancho */
+  .recon-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem 3.5rem;
+  }
+  @media (max-width: 640px) {
+    .recon-grid { gap: 1.5rem 2.25rem; }
+  }
+
+  .recon-logo {
+    flex: 0 0 auto;
+    min-width: 140px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.78;
+    transition: opacity .3s ease;
+  }
+  .recon-logo:hover {
+    opacity: 1;
+  }
+  .recon-logo img {
+    max-height: 100%;
+    max-width: 180px;
+    object-fit: contain;
+    filter: grayscale(1);
+    transition: filter .35s ease;
+  }
+  .recon-logo:hover img {
+    filter: grayscale(0);
+  }
+
+  /* Estado placeholder — caja con borde discreto y nombre escrito,
+     pensada para que el cliente vea dónde irá cada logo. */
+  .recon-logo.is-placeholder {
+    border: 1px dashed color-mix(in srgb, var(--fg) 25%, transparent);
+    border-radius: 4px;
+    padding: 0.6rem 1.2rem;
+    background: var(--surface);
+    opacity: 0.55;
+  }
+  .recon-logo-label {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    text-align: center;
+    line-height: 1.2;
+  }
+</style>
