@@ -41,7 +41,7 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
   </div>
 
   <!-- Contenido centrado -->
-  <div class="shell relative z-10 py-8 md:py-12 w-full text-center">
+  <div class:list={['shell relative z-10 w-full text-center hero-content', { 'hero-content--ticker': isLegal }]}>
     <!-- Tagline editorial: acento dorado fino + kicker + línea -->
     <div class="hero-kicker-wrap mb-7 md:mb-9 inline-flex flex-col items-center">
       <span class="hero-kicker-accent" aria-hidden="true"></span>
@@ -292,6 +292,28 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     align-items: center;
     gap: 2.5rem;
     z-index: 5;
+  }
+  /* El contenido reserva arriba el alto del nav y abajo el de la faja de
+     cifras (y del banner de novedades), para que en pantallas bajas el hero
+     crezca en lugar de encimar los números sobre los botones. */
+  .hero-content { padding-top: 7rem; padding-bottom: 7.5rem; }
+  .hero-content--ticker { padding-bottom: 10.5rem; }
+  /* Pantallas bajas (notebooks 720-820px): compactamos para que botones,
+     cifras y banner entren en el primer pantallazo. */
+  @media (min-width: 641px) and (max-height: 820px) {
+    .hero-content { padding-top: 5.5rem; padding-bottom: 6.5rem; }
+    .hero-content--ticker { padding-bottom: 8.75rem; }
+    .hero-kicker-accent { display: none; }
+    .hero-kicker-wrap { margin-bottom: 1.25rem; }
+    .hero-title { font-size: 2.6rem !important; margin-bottom: 1.25rem; }
+    .hero-content p { max-width: 820px; font-size: 0.95rem; margin-bottom: 1.5rem; }
+    .hero-stats { bottom: 1rem; }
+    .hero-stats--ticker { bottom: 3.75rem; }
+    .hero-stat-num { font-size: 1.7rem; }
+  }
+  @media (max-width: 640px) {
+    .hero-content { padding-top: 5.5rem; padding-bottom: 6rem; }
+    .hero-content--ticker { padding-bottom: 9rem; }
   }
   /* Con el banner de novedades al pie, la faja de cifras sube. */
   .hero-stats--ticker { bottom: 4.5rem; }

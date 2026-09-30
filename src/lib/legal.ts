@@ -6,7 +6,7 @@ export const legal = {
     titleLine1: 'Derecho empresarial,',
     titleLine2: '25 años de práctica.',
     lead:
-      'Estudio de abogados y contadores. Asesoramos, defendemos y representamos en todas las áreas, con la misma exigencia dentro y fuera del país.<br/><br/>25 años de práctica desde Buenos Aires, con corresponsalías internacionales.',
+      'Con más de 25 años de trayectoria en el derecho empresarial, representamos y asesoramos a compañías nacionales e internacionales en el desarrollo y protección de sus negocios en el país. Nuestro equipo brinda soluciones estratégicas e integrales en materia de inversiones, derecho societario, tributario, laboral y cumplimiento regulatorio, combinando un sólido respaldo legal con una visión orientada a los negocios.',
     ctaPrimary: 'Solicitar consulta',
   },
   counters: {
@@ -132,15 +132,15 @@ export const legal = {
         key: 'salud',
         name: 'Derecho de la Salud',
         heading: 'Derecho de la <span style="color: var(--brand-500)">salud</span>',
-        desc: 'Amparos de salud, reclamos a obras sociales y prepagas, cobertura de discapacidad, responsabilidad profesional médica y regulación sanitaria.',
+        desc: 'Asesoramiento regulatorio y contractual especializado a instituciones médicas y empresas del sector salud; gestión de autorizaciones y habilitaciones ante el Ministerio de Salud y la Superintendencia de Servicios de Salud; y representación en litigios.',
         meetingTopic: 'derecho de la salud',
-        intro: 'Representamos a pacientes, familias, profesionales e instituciones en conflictos vinculados con la salud: acceso a prestaciones y medicamentos, cobertura de obras sociales y empresas de medicina prepaga, responsabilidad médica y cumplimiento de la regulación sanitaria.',
+        intro: 'Brindamos asesoramiento regulatorio y contractual especializado a instituciones médicas y empresas del sector salud, gestionamos autorizaciones y habilitaciones ante el Ministerio de Salud y la Superintendencia de Servicios de Salud, y representamos a nuestros clientes en litigios.',
         services: [
-          { title: 'Amparos de salud',            desc: 'Acciones urgentes para obtener tratamientos, medicamentos, cirugías y prestaciones negadas o demoradas.' },
-          { title: 'Obras sociales y prepagas',   desc: 'Reclamos por cobertura, aumentos de cuotas, rescisiones de contratos y exclusión de preexistencias.' },
-          { title: 'Discapacidad',                desc: 'Cobertura integral bajo la Ley 24.901, certificado único de discapacidad, prestaciones educativas y terapéuticas.' },
-          { title: 'Responsabilidad médica',      desc: 'Defensa de profesionales e instituciones y representación de pacientes en reclamos por mala praxis.' },
-          { title: 'Regulación sanitaria',        desc: 'Habilitaciones, trámites ante ANMAT y autoridades sanitarias, y cumplimiento normativo de establecimientos de salud.' },
+          { title: 'Asesoramiento regulatorio',   desc: 'Cumplimiento de la normativa sanitaria aplicable a instituciones médicas, prestadores y empresas del sector salud.' },
+          { title: 'Contratos del sector salud',  desc: 'Redacción y negociación de contratos entre prestadores, financiadores, obras sociales y prepagas, profesionales y proveedores.' },
+          { title: 'Autorizaciones y habilitaciones', desc: 'Gestión de autorizaciones y habilitaciones de establecimientos y actividades ante el Ministerio de Salud.' },
+          { title: 'Superintendencia de Servicios de Salud', desc: 'Inscripciones, registros y trámites ante la Superintendencia de Servicios de Salud.' },
+          { title: 'Litigios',                    desc: 'Representación de instituciones y empresas del sector salud en litigios judiciales y administrativos.' },
         ],
       },
       {

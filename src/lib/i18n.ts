@@ -27,6 +27,8 @@ export const ES_TO_EN: Record<string, string> = {
   'Ver áreas de práctica': 'View Practice Areas',
   '→ Ir al área contable': '→ Go to Accounting Practice',
   '→ Ir al área legal': '→ Go to Legal Practice',
+  'Con más de 25 años de trayectoria en el derecho empresarial, representamos y asesoramos a compañías nacionales e internacionales en el desarrollo y protección de sus negocios en el país. Nuestro equipo brinda soluciones estratégicas e integrales en materia de inversiones, derecho societario, tributario, laboral y cumplimiento regulatorio, combinando un sólido respaldo legal con una visión orientada a los negocios.':
+    'With more than 25 years of experience in business law, we represent and advise domestic and international companies in developing and protecting their businesses in Argentina. Our team delivers strategic, comprehensive solutions in investments, corporate, tax, employment and regulatory compliance, combining solid legal backing with a business-oriented approach.',
   'Estudio de abogados y contadores. Asesoramos, defendemos y representamos en todas las áreas, con la misma exigencia dentro y fuera del país.':
     'Law firm of attorneys and certified public accountants. We advise, defend and represent across every practice area, with the same standard at home and abroad.',
   '25 años de práctica desde Buenos Aires, con corresponsalías internacionales.':
@@ -99,8 +101,8 @@ export const ES_TO_EN: Record<string, string> = {
     'Commercial contracts, distribution and franchising, consumer protection and antitrust, and comprehensive advice on day-to-day business operations.',
   'Concursos preventivos, acuerdos preventivos extrajudiciales, quiebras, verificación de créditos y reestructuración de pasivos.':
     'Reorganization proceedings, out-of-court restructuring agreements, bankruptcies, proof of claims and debt restructuring.',
-  'Amparos de salud, reclamos a obras sociales y prepagas, cobertura de discapacidad, responsabilidad profesional médica y regulación sanitaria.':
-    'Health-related injunctions, claims against health insurers, disability coverage, medical malpractice and healthcare regulation.',
+  'Asesoramiento regulatorio y contractual especializado a instituciones médicas y empresas del sector salud; gestión de autorizaciones y habilitaciones ante el Ministerio de Salud y la Superintendencia de Servicios de Salud; y representación en litigios.':
+    'Specialized regulatory and contractual advice to medical institutions and healthcare companies; licensing and authorizations before the Ministry of Health and the Superintendence of Health Services; and litigation.',
   'Otro': 'Other',
   'Consultar →': 'Inquire →',
   'Consultar': 'Inquire',
