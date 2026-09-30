@@ -3,7 +3,6 @@ import { site } from '@lib/site';
 import type { Practice } from '@lib/site';
 import LangToggle from '@components/LangToggle.astro';
 import Search from '@components/Search.astro';
-import NewsBar from '@components/NewsBar.astro';
 
 export interface Props {
   practice: Practice;
@@ -39,7 +38,6 @@ const isoSrc = withBase(isLegal ? '/brand/isotipo-white.svg' : '/brand/isotipo.s
 <div class="scroll-progress" id="scrollProgress"></div>
 
 <nav id="mainNav" class="fixed inset-x-0 top-0 z-50 transition-all duration-500" data-nav>
-  {isLegal && <NewsBar />}
   <div class="shell h-20 md:h-28 flex items-center justify-between">
     <div class="flex items-center gap-4 md:gap-6">
       <LangToggle />

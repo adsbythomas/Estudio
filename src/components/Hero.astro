@@ -1,5 +1,7 @@
 ---
 import Obelisco from './Obelisco.astro';
+import NewsTicker from './NewsTicker.astro';
+import { legal } from '@lib/legal';
 import type { Practice } from '@lib/site';
 
 export interface Props {
@@ -14,6 +16,8 @@ const { practice, titleLine1, titleLine2, lead, altLabel, altHref } = Astro.prop
 const kicker = practice === 'legal' ? 'Abogados · Buenos Aires' : 'Contadores Públicos · Buenos Aires';
 // Etiqueta del segundo cifrado: "Áreas" en legal, "Servicios" en contable.
 const middleStatLabel = practice === 'legal' ? 'Áreas' : 'Servicios';
+const middleStatValue = practice === 'legal' ? legal.practice.items.length : 6;
+const isLegal = practice === 'legal';
 
 const base = import.meta.env.BASE_URL;
 const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
@@ -88,14 +92,14 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
   <!-- Faja de cifras clave — anclada al fondo del hero. Tres números con
        etiqueta corta, separados por líneas finas. Cada `[data-counter]`
        cuenta de 0 al `data-target` cuando el hero entra en viewport. -->
-  <div class="hero-stats reveal" aria-label="Cifras clave del estudio">
+  <div class:list={['hero-stats reveal', { 'hero-stats--ticker': isLegal }]} aria-label="Cifras clave del estudio">
     <div class="hero-stat">
       <div class="hero-stat-num" data-counter data-target="25"><span data-counter-val>0</span></div>
       <div class="hero-stat-label">Años</div>
     </div>
     <span class="hero-stat-sep" aria-hidden="true"></span>
     <div class="hero-stat">
-      <div class="hero-stat-num" data-counter data-target="6"><span data-counter-val>0</span></div>
+      <div class="hero-stat-num" data-counter data-target={middleStatValue}><span data-counter-val>0</span></div>
       <div class="hero-stat-label">{middleStatLabel}</div>
     </div>
     <span class="hero-stat-sep" aria-hidden="true"></span>
@@ -104,6 +108,9 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
       <div class="hero-stat-label">Jurisdicciones</div>
     </div>
   </div>
+
+  <!-- Banner de novedades en movimiento (sólo legal), al pie del hero -->
+  {isLegal && <NewsTicker />}
 </section>
 
 <script is:inline>
@@ -286,6 +293,8 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
     gap: 2.5rem;
     z-index: 5;
   }
+  /* Con el banner de novedades al pie, la faja de cifras sube. */
+  .hero-stats--ticker { bottom: 4.5rem; }
   .hero-stat {
     text-align: center;
     min-width: 88px;
@@ -316,6 +325,7 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
   }
   @media (max-width: 640px) {
     .hero-stats { gap: 1.4rem; bottom: 1.25rem; }
+    .hero-stats--ticker { bottom: 4rem; }
     .hero-stat-num { font-size: 1.7rem; }
     .hero-stat-label { font-size: 0.6rem; }
     .hero-stat-sep { height: 28px; }

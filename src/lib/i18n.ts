@@ -41,8 +41,8 @@ export const ES_TO_EN: Record<string, string> = {
   'Visitar área': 'Visit Practice',
   'El estudio integra un equipo propio de contadores públicos matriculados: liquidación de impuestos, estados contables, auditoría y planificación fiscal. Coordinación permanente con el área jurídica.':
     'The firm has its own team of certified public accountants: tax filings, financial statements, audit and tax planning. Ongoing coordination with the legal practice.',
-  'El estudio integra seis áreas de práctica: tributario, societario, laboral, aerocomercial, penal económico y ciudadanía. Coordinación permanente con el área contable.':
-    'The firm covers six practice areas: tax, corporate, employment, aviation, white-collar crime and citizenship. Ongoing coordination with the accounting practice.',
+  'El estudio integra nueve áreas de práctica: tributario, societario, laboral, empresarial y comercial, concursos y quiebras, aerocomercial, penal y penal económico, derecho de la salud, migratorio y ciudadanías. Coordinación permanente con el área contable.':
+    'The firm covers nine practice areas: tax, corporate, employment, business and commercial, insolvency, aviation, criminal and white-collar crime, health law, immigration and citizenship. Ongoing coordination with the accounting practice.',
 
   // ── Counters (legal) ─────────────────────────────────
   'En cifras': 'By the numbers',
@@ -61,8 +61,8 @@ export const ES_TO_EN: Record<string, string> = {
   'Integración legal': 'Legal Integration',
   'Veinticinco años asesorando y representando en operaciones tributarias, societarias y penales económicas complejas.':
     'Twenty-five years advising and representing in complex tax, corporate and white-collar crime matters.',
-  'Tributario, laboral, societario, aerocomercial, penal económico y ciudadanía.':
-    'Tax, employment, corporate, aviation, white-collar crime and citizenship.',
+  'Tributario, laboral, societario, empresarial y comercial, concursos y quiebras, aerocomercial, penal y penal económico, derecho de la salud, migratorio y ciudadanías.':
+    'Tax, employment, corporate, business and commercial, insolvency, aviation, criminal and white-collar crime, health law, immigration and citizenship.',
   'Sede en Buenos Aires, con corresponsalías activas en distintos países.':
     'Headquartered in Buenos Aires, with active correspondents in various countries.',
   'Secreto profesional y reserva estricta sobre toda la información del cliente.':
@@ -86,6 +86,21 @@ export const ES_TO_EN: Record<string, string> = {
   'Societario': 'Corporate',
   'Aerocomercial': 'Aviation',
   'Penal Económico': 'White-Collar Crime',
+  'Penal y Penal Económico': 'Criminal & White-Collar Crime',
+  'Migratorio y Ciudadanías': 'Immigration & Citizenship',
+  'Empresarial y Comercial': 'Business & Commercial',
+  'Concursos y Quiebras': 'Insolvency & Bankruptcy',
+  'Derecho de la Salud': 'Health Law',
+  'Defensa y querellas en causas penales, delitos económicos, lavado de activos, fraudes, corrupción corporativa y compliance penal preventivo.':
+    'Criminal defense and private prosecution, economic crimes, money laundering, fraud, corporate corruption and preventive compliance.',
+  'Residencias temporarias y permanentes ante la Dirección Nacional de Migraciones, ciudadanía argentina (naturalización y opción), ciudadanías extranjeras y trámites consulares.':
+    'Temporary and permanent residence before the National Immigration Office, Argentine citizenship (naturalization and option), foreign citizenships and consular procedures.',
+  'Contratos comerciales, distribución y franquicias, defensa del consumidor y la competencia, y asesoramiento integral a la operación diaria de la empresa.':
+    'Commercial contracts, distribution and franchising, consumer protection and antitrust, and comprehensive advice on day-to-day business operations.',
+  'Concursos preventivos, acuerdos preventivos extrajudiciales, quiebras, verificación de créditos y reestructuración de pasivos.':
+    'Reorganization proceedings, out-of-court restructuring agreements, bankruptcies, proof of claims and debt restructuring.',
+  'Amparos de salud, reclamos a obras sociales y prepagas, cobertura de discapacidad, responsabilidad profesional médica y regulación sanitaria.':
+    'Health-related injunctions, claims against health insurers, disability coverage, medical malpractice and healthcare regulation.',
   'Otro': 'Other',
   'Consultar →': 'Inquire →',
   'Consultar': 'Inquire',

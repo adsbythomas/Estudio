@@ -15,7 +15,7 @@ export const legal = {
     sub: 'Veinticinco años de trabajo continuo, con foco y método.',
     items: [
       { num: '25', suffix: '',   label: 'Años de trayectoria',  desc: 'Veinticinco años asesorando y representando en operaciones tributarias, societarias y penales económicas complejas.', icon: 'clock' },
-      { num: '6',  suffix: '',   label: 'Áreas especializadas', desc: 'Tributario, laboral, societario, aerocomercial, penal económico y ciudadanía.', icon: 'layers' },
+      { num: '9',  suffix: '',   label: 'Áreas especializadas', desc: 'Tributario, laboral, societario, empresarial y comercial, concursos y quiebras, aerocomercial, penal y penal económico, derecho de la salud, migratorio y ciudadanías.', icon: 'layers' },
       { num: '3',  suffix: '',   label: 'Jurisdicciones',       desc: 'Sede en Buenos Aires, con corresponsalías activas en distintos países.', icon: 'globe' },
       { num: '100',suffix: '%',  label: 'Confidencialidad',     desc: 'Secreto profesional y reserva estricta sobre toda la información del cliente.', icon: 'shield' },
     ],
@@ -23,7 +23,7 @@ export const legal = {
   practice: {
     label: 'Práctica profesional',
     title: 'Áreas',
-    sub: 'Seis áreas de práctica, ejercidas con autonomía y coordinación entre sí. Dos cuentan con micrositio propio y formulario online: <a href="/societario" class="link-area">Societario</a> y <a href="/ciudadania" class="link-area">Ciudadanía</a>.',
+    sub: 'Nueve áreas de práctica, ejercidas con autonomía y coordinación entre sí. Dos cuentan con micrositio propio y formulario online: <a href="/societario" class="link-area">Societario</a> y <a href="/ciudadania" class="link-area">Migratorio y Ciudadanías</a>.',
     items: [
       {
         key: 'tributario',
@@ -70,6 +70,35 @@ export const legal = {
         ],
       },
       {
+        key: 'empresarial',
+        name: 'Empresarial y Comercial',
+        desc: 'Contratos comerciales, distribución y franquicias, defensa del consumidor y la competencia, y asesoramiento integral a la operación diaria de la empresa.',
+        meetingTopic: 'derecho empresarial y comercial',
+        intro: 'Acompañamos a empresas en su operación diaria y en sus decisiones estratégicas: redacción y negociación de contratos, relaciones con proveedores, distribuidores y clientes, y resolución de conflictos comerciales, en sede judicial o arbitral.',
+        services: [
+          { title: 'Contratos comerciales',       desc: 'Redacción, revisión y negociación de contratos de suministro, compraventa, locación de servicios, confidencialidad y colaboración empresaria.' },
+          { title: 'Distribución y franquicias',  desc: 'Contratos de agencia, concesión, distribución y franquicia, con foco en exclusividades, territorios y rescisión.' },
+          { title: 'Defensa del consumidor',      desc: 'Adecuación de prácticas comerciales a la Ley 24.240, defensa ante reclamos administrativos y judiciales de consumidores.' },
+          { title: 'Defensa de la competencia',   desc: 'Notificación de concentraciones económicas y asesoramiento en conductas anticompetitivas ante la autoridad de aplicación.' },
+          { title: 'Litigios comerciales',        desc: 'Representación en juicios comerciales, cobros, medidas cautelares y arbitrajes nacionales e internacionales.' },
+        ],
+      },
+      {
+        key: 'concursos',
+        name: 'Concursos y Quiebras',
+        heading: 'Concursos y <span style="color: var(--brand-500)">quiebras</span>',
+        desc: 'Concursos preventivos, acuerdos preventivos extrajudiciales, quiebras, verificación de créditos y reestructuración de pasivos.',
+        meetingTopic: 'concursos y quiebras',
+        intro: 'Asesoramos a deudores y acreedores en situaciones de insolvencia bajo la Ley 24.522: desde la reestructuración de pasivos y los acuerdos preventivos extrajudiciales hasta el concurso preventivo y la quiebra, con foco en preservar el valor de la empresa y el recupero de los créditos.',
+        services: [
+          { title: 'Concurso preventivo',         desc: 'Presentación, período de exclusividad, negociación de propuestas con acreedores y homologación del acuerdo.' },
+          { title: 'Acuerdo preventivo extrajudicial', desc: 'Negociación privada con acreedores y posterior homologación judicial como alternativa ágil al concurso.' },
+          { title: 'Quiebras',                    desc: 'Pedidos de quiebra, defensa del fallido, conversión en concurso, acciones de responsabilidad y de ineficacia.' },
+          { title: 'Verificación de créditos',    desc: 'Verificación tempestiva y tardía, revisión e impugnación de créditos y privilegios en representación de acreedores.' },
+          { title: 'Reestructuración de pasivos', desc: 'Diagnóstico financiero-legal y diseño de planes de pago y refinanciación para evitar la insolvencia.' },
+        ],
+      },
+      {
         key: 'aerocomercial',
         name: 'Aerocomercial',
         desc: 'Derecho aeronáutico, contratos de aviación, regulación de aerolíneas, seguros aéreos y representación ante la ANAC.',
@@ -85,11 +114,13 @@ export const legal = {
       },
       {
         key: 'penal',
-        name: 'Penal Económico',
-        desc: 'Defensa penal en delitos económicos, lavado de activos, fraudes, corrupción corporativa y compliance penal preventivo.',
-        meetingTopic: 'derecho penal económico',
-        intro: 'Defensa penal en delitos económicos, lavado de activos, fraude, corrupción corporativa y compliance preventivo. Asesoramiento empresarial para minimizar la exposición a la responsabilidad penal de las personas jurídicas bajo la Ley 27.401.',
+        name: 'Penal y Penal Económico',
+        desc: 'Defensa y querellas en causas penales, delitos económicos, lavado de activos, fraudes, corrupción corporativa y compliance penal preventivo.',
+        meetingTopic: 'derecho penal y penal económico',
+        intro: 'Defensa penal y representación de querellantes en todas las instancias, con especialización en delitos económicos, lavado de activos, fraude, corrupción corporativa y compliance preventivo. Asesoramiento empresarial para minimizar la exposición a la responsabilidad penal de las personas jurídicas bajo la Ley 27.401.',
         services: [
+          { title: 'Defensa penal',               desc: 'Defensa de personas humanas en causas penales, desde la primera citación o detención hasta la sentencia firme y sus recursos.' },
+          { title: 'Querellas',                   desc: 'Representación de víctimas y empresas damnificadas como parte querellante, impulsando la investigación y el recupero de activos.' },
           { title: 'Defensa penal económica',     desc: 'Asesoramiento desde la imputación inicial, pasando por la elevación a juicio, hasta la sentencia firme y eventuales recursos extraordinarios.' },
           { title: 'Lavado de activos',           desc: 'Defensa en investigaciones sobre operaciones sospechosas y prevención del lavado en sujetos obligados (escribanos, contadores, agentes financieros).' },
           { title: 'Fraude corporativo',          desc: 'Investigaciones internas, querellas, defensa de directivos y empresas en delitos contra el patrimonio y la administración fraudulenta.' },
@@ -98,12 +129,27 @@ export const legal = {
         ],
       },
       {
+        key: 'salud',
+        name: 'Derecho de la Salud',
+        heading: 'Derecho de la <span style="color: var(--brand-500)">salud</span>',
+        desc: 'Amparos de salud, reclamos a obras sociales y prepagas, cobertura de discapacidad, responsabilidad profesional médica y regulación sanitaria.',
+        meetingTopic: 'derecho de la salud',
+        intro: 'Representamos a pacientes, familias, profesionales e instituciones en conflictos vinculados con la salud: acceso a prestaciones y medicamentos, cobertura de obras sociales y empresas de medicina prepaga, responsabilidad médica y cumplimiento de la regulación sanitaria.',
+        services: [
+          { title: 'Amparos de salud',            desc: 'Acciones urgentes para obtener tratamientos, medicamentos, cirugías y prestaciones negadas o demoradas.' },
+          { title: 'Obras sociales y prepagas',   desc: 'Reclamos por cobertura, aumentos de cuotas, rescisiones de contratos y exclusión de preexistencias.' },
+          { title: 'Discapacidad',                desc: 'Cobertura integral bajo la Ley 24.901, certificado único de discapacidad, prestaciones educativas y terapéuticas.' },
+          { title: 'Responsabilidad médica',      desc: 'Defensa de profesionales e instituciones y representación de pacientes en reclamos por mala praxis.' },
+          { title: 'Regulación sanitaria',        desc: 'Habilitaciones, trámites ante ANMAT y autoridades sanitarias, y cumplimiento normativo de establecimientos de salud.' },
+        ],
+      },
+      {
         key: 'ciudadania',
-        name: 'Ciudadanía',
-        desc: 'Ciudadanía argentina (naturalización y opción), residencias migratorias ante la Dirección Nacional de Migraciones y trámites consulares.',
+        name: 'Migratorio y Ciudadanías',
+        desc: 'Residencias temporarias y permanentes ante la Dirección Nacional de Migraciones, ciudadanía argentina (naturalización y opción), ciudadanías extranjeras y trámites consulares.',
         // El área de ciudadanía tiene micrositio propio con trámites y formulario online.
         href: '/ciudadania',
-        meetingTopic: 'ciudadanía argentina y residencias',
+        meetingTopic: 'derecho migratorio y ciudadanías',
       },
     ],
   },
@@ -145,6 +191,6 @@ export const legal = {
     title: 'Hablemos de',
     titleAccent: 'su caso',
     desc: 'Le ofrecemos una consulta inicial para evaluar su situación. Nuestro equipo le responderá dentro de las 24 horas hábiles.',
-    formAreas: ['Tributario', 'Laboral', 'Societario', 'Aerocomercial', 'Penal Económico', 'Ciudadanía', 'Otro'],
+    formAreas: ['Tributario', 'Laboral', 'Societario', 'Empresarial y Comercial', 'Concursos y Quiebras', 'Aerocomercial', 'Penal y Penal Económico', 'Derecho de la Salud', 'Migratorio y Ciudadanías', 'Otro'],
   },
 };

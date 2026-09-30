@@ -32,7 +32,9 @@ const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) 
       </a>
 
       <h1 class="area-title">
-        Derecho <span style="color: var(--brand-500)">{area.name.toLowerCase()}</span>
+        {(area as any).heading
+          ? <Fragment set:html={(area as any).heading} />
+          : <>Derecho <span style="color: var(--brand-500)">{area.name.toLowerCase()}</span></>}
       </h1>
 
       <p class="area-intro" set:html={area.intro || area.desc}></p>

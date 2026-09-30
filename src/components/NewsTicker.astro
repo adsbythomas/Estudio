@@ -1,0 +1,176 @@
+---
+// Banner de novedades en movimiento, anclado al pie del hero legal.
+// Recorre las últimas novedades del radar (publicaciones propias primero).
+import { legalRadar } from '@lib/news';
+
+const base = import.meta.env.BASE_URL;
+const withBase = (p: string) => (base.endsWith('/') ? base.slice(0, -1) : base) + p;
+
+const items = legalRadar.items.slice(0, 8);
+// Duración proporcional a la cantidad de items para una velocidad pareja.
+const duration = Math.max(30, items.length * 9);
+---
+{items.length > 0 && (
+  <div class="ticker" aria-label="Últimas novedades">
+    <a href={withBase('/novedades')} class="ticker-label">
+      <span class="ticker-dot" aria-hidden="true"></span>
+      Novedades
+    </a>
+
+    <div class="ticker-track">
+      <div class="ticker-inner" style={`animation-duration: ${duration}s`}>
+        {[0, 1].map((copy) => (
+          <ul class="ticker-list" aria-hidden={copy === 1 ? 'true' : undefined}>
+            {items.map((n) => (
+              <li>
+                <a href={withBase(`/novedades/${n.slug}`)} class="ticker-item" tabindex={copy === 1 ? -1 : undefined}>
+                  <span class="ticker-date">{n.date}</span>
+                  <span class="ticker-title">{n.title}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
+    </div>
+
+    <a href={withBase('/novedades')} class="ticker-all">
+      <span class="hidden sm:inline">Radar normativo</span>
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+)}
+
+<style>
+  .ticker {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 6;
+    display: flex;
+    align-items: stretch;
+    height: 2.75rem;
+    background: #e9e9f2;
+    color: #242b42;
+    font-family: 'Montserrat', system-ui, sans-serif;
+  }
+
+  .ticker-label {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 1.25rem;
+    background: #455a89;
+    color: #fff;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .ticker-dot {
+    position: relative;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .ticker-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #fff;
+    animation: ticker-pulse 1.8s ease-out infinite;
+  }
+  @keyframes ticker-pulse {
+    from { transform: scale(1); opacity: 0.8; }
+    to   { transform: scale(3); opacity: 0; }
+  }
+
+  .ticker-track {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 2rem, #000 calc(100% - 2rem), transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 2rem, #000 calc(100% - 2rem), transparent);
+  }
+  .ticker-inner {
+    display: flex;
+    width: max-content;
+    height: 100%;
+    animation: ticker-scroll linear infinite;
+  }
+  .ticker:hover .ticker-inner,
+  .ticker:focus-within .ticker-inner { animation-play-state: paused; }
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .ticker-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .ticker-list li {
+    display: flex;
+    align-items: center;
+  }
+  .ticker-list li::after {
+    content: '';
+    width: 4px;
+    height: 4px;
+    margin: 0 1.75rem;
+    border-radius: 50%;
+    background: #455a89;
+    opacity: 0.5;
+  }
+  .ticker-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    white-space: nowrap;
+  }
+  .ticker-date {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #455a89;
+  }
+  .ticker-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  .ticker-item:hover .ticker-title {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .ticker-all {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0 1.25rem;
+    border-left: 1px solid rgba(36, 43, 66, 0.15);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #455a89;
+    transition: color .25s ease;
+  }
+  .ticker-all:hover { color: #242b42; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-dot::after { animation: none; }
+    .ticker-inner { animation: none; }
+    .ticker-track { overflow-x: auto; }
+  }
+</style>
