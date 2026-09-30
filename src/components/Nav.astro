@@ -3,6 +3,7 @@ import { site } from '@lib/site';
 import type { Practice } from '@lib/site';
 import LangToggle from '@components/LangToggle.astro';
 import Search from '@components/Search.astro';
+import NewsBar from '@components/NewsBar.astro';
 
 export interface Props {
   practice: Practice;
@@ -25,7 +26,9 @@ const anchorBase = landing ? '' : withBase(isLegal ? '/' : '/contable');
 const navLinks = [
   { href: anchorBase + '#practica',         label: 'Práctica' },
   { href: anchorBase + '#equipo',           label: 'Equipo' },
-  ...(isLegal ? [] : [{ href: withBase('/vencimientos'), label: 'Vencimientos' }]),
+  ...(isLegal
+    ? [{ href: withBase('/novedades'), label: 'Novedades', highlight: true }]
+    : [{ href: withBase('/vencimientos'), label: 'Vencimientos' }]),
   { href: anchorBase + '#contacto',         label: 'Contacto' },
 ];
 const altHref = isLegal ? withBase('/contable') : withBase('/');
@@ -36,6 +39,7 @@ const isoSrc = withBase(isLegal ? '/brand/isotipo-white.svg' : '/brand/isotipo.s
 <div class="scroll-progress" id="scrollProgress"></div>
 
 <nav id="mainNav" class="fixed inset-x-0 top-0 z-50 transition-all duration-500" data-nav>
+  {isLegal && <NewsBar />}
   <div class="shell h-20 md:h-28 flex items-center justify-between">
     <div class="flex items-center gap-4 md:gap-6">
       <LangToggle />
@@ -52,7 +56,12 @@ const isoSrc = withBase(isLegal ? '/brand/isotipo-white.svg' : '/brand/isotipo.s
 
     <ul class="hidden md:flex items-center gap-7 text-[0.95rem]">
       {navLinks.map((l) => (
-        <li><a href={l.href} class="nav-link">{l.label}</a></li>
+        <li>
+          <a href={l.href} class:list={['nav-link', { 'nav-link-news': l.highlight }]}>
+            {l.highlight && <span class="nav-news-dot" aria-hidden="true"></span>}
+            {l.label}
+          </a>
+        </li>
       ))}
       <li><Search /></li>
       <li>
@@ -86,6 +95,37 @@ const isoSrc = withBase(isLegal ? '/brand/isotipo-white.svg' : '/brand/isotipo.s
 
 <style>
   #mob.open { display: flex; }
+
+  /* "Novedades" destacado en el nav legal: pill con punto pulsante. */
+  .nav-link-news {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--brand-500);
+    border-radius: 999px;
+    color: var(--fg);
+    transition: background .25s ease, color .25s ease;
+  }
+  .nav-link-news:hover {
+    background: var(--brand-500);
+    color: var(--bg);
+  }
+  .nav-news-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--brand-500);
+    animation: nav-news-pulse 1.8s ease-in-out infinite;
+  }
+  .nav-link-news:hover .nav-news-dot { background: var(--bg); }
+  @keyframes nav-news-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.3; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-news-dot { animation: none; }
+  }
   /* El nav solid adopta el fondo del tema actual (sin blur, que era
      el principal culpable de jank en mobile/Safari). Fondo opaco del
      tema y borde inferior sutil. */
