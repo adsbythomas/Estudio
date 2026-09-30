@@ -4,6 +4,7 @@
 
 import radarLegal from '../data/radar.json';
 import radarContable from '../data/radar-contable.json';
+import { publicacionesLegal } from '../data/publicaciones';
 
 export interface NewsItem {
   date: string;        // "Reciente" | "Esta semana" | "Este mes" | "Hoy" | etc.
@@ -18,6 +19,10 @@ export interface NewsItem {
   summary?: string;    // resumen ejecutivo (1-2 párrafos)
   keyPoints?: string[];// bullets de qué cambia
   impact?: string;     // cómo afecta a la empresa / cliente
+  // Sólo publicaciones propias (src/data/publicaciones.ts)
+  author?: string;
+  pdf?: string;        // ruta en public/, sin base (ej. /informes/x.pdf)
+  pdfLabel?: string;
 }
 
 export interface Radar {
@@ -43,7 +48,10 @@ function addSlugs(radar: { updated: string; items: NewsItem[] }): Radar {
   };
 }
 
-export const legalRadar:     Radar = addSlugs(radarLegal    as any);
+export const legalRadar:     Radar = addSlugs({
+  updated: (radarLegal as any).updated,
+  items: [...publicacionesLegal, ...(radarLegal as any).items],
+});
 export const accountingRadar: Radar = addSlugs(radarContable as any);
 
 export function getRadar(practice: 'legal' | 'accounting'): Radar {

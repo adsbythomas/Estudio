@@ -33,6 +33,9 @@ const relatedAreas = (item.categories || [])
   .filter(Boolean);
 
 const sourceShort = (item.source || '').split('·')[0].trim();
+
+// Publicaciones propias del estudio (traen PDF) vs. items del radar.
+const isPublication = Boolean(item.pdf);
 ---
 <BaseLayout
   practice="legal"
@@ -51,6 +54,12 @@ const sourceShort = (item.source || '').split('·')[0].trim();
         <span class="article-meta-date">{item.date}</span>
         <span class="article-meta-sep" aria-hidden="true">·</span>
         <span class="article-meta-source">{item.source}</span>
+        {item.author && (
+          <>
+            <span class="article-meta-sep" aria-hidden="true">·</span>
+            <span>{item.author}</span>
+          </>
+        )}
       </div>
 
       <h1 class="article-title">{item.title}</h1>
@@ -63,6 +72,15 @@ const sourceShort = (item.source || '').split('·')[0].trim();
             <span class="article-chip">{c.replace(/_/g, ' ')}</span>
           ))}
         </div>
+      )}
+
+      <!-- Descarga del informe completo (sólo publicaciones propias) -->
+      {item.pdf && (
+        <a href={withBase(item.pdf)} target="_blank" rel="noopener" download class="article-pdf">
+          <span class="article-pdf-label">Descargar informe completo</span>
+          {item.pdfLabel && <span class="article-pdf-meta">{item.pdfLabel}</span>}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+        </a>
       )}
 
       <!-- Resumen extendido (cuando se carga manualmente en el JSON) o fallback -->
@@ -80,7 +98,7 @@ const sourceShort = (item.source || '').split('·')[0].trim();
       <!-- Puntos clave (bullets) si vienen cargados -->
       {item.keyPoints && item.keyPoints.length > 0 && (
         <section class="article-section">
-          <h2 class="article-h2">Puntos clave</h2>
+          <h2 class="article-h2">{isPublication ? 'Claves prácticas' : 'Puntos clave'}</h2>
           <ul class="article-bullets">
             {item.keyPoints.map((kp: string) => (
               <li>{kp}</li>
@@ -92,7 +110,7 @@ const sourceShort = (item.source || '').split('·')[0].trim();
       <!-- Cómo impacta a la empresa, si está cargado -->
       {item.impact && (
         <section class="article-section">
-          <h2 class="article-h2">Cómo impacta</h2>
+          <h2 class="article-h2">{isPublication ? 'Consideraciones finales' : 'Cómo impacta'}</h2>
           <div class="article-prose">
             <p>{item.impact}</p>
           </div>
@@ -119,8 +137,9 @@ const sourceShort = (item.source || '').split('·')[0].trim();
       <section class="article-section article-source">
         <h2 class="article-h2">Texto oficial</h2>
         <p class="article-prose">
-          Esta novedad se nutre del Boletín Oficial y de los organismos competentes.
-          Para el detalle completo y vinculante, acceda a la fuente:
+          {isPublication
+            ? 'Ante cualquier diferencia, prevalece el texto publicado en el Boletín Oficial:'
+            : 'Esta novedad se nutre del Boletín Oficial y de los organismos competentes. Para el detalle completo y vinculante, acceda a la fuente:'}
         </p>
         <a href={item.url} target="_blank" rel="noopener" class="article-source-btn">
           <span>Leer en {sourceShort || 'la fuente oficial'}</span>
@@ -221,6 +240,32 @@ const sourceShort = (item.source || '').split('·')[0].trim();
     color: var(--fg-muted);
     border: 1px solid var(--border);
     border-radius: 999px;
+  }
+
+  .article-pdf {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1rem;
+    margin-bottom: 3.5rem;
+    padding: 1rem 1.5rem;
+    background: var(--brand-500);
+    color: var(--bg);
+    border-radius: 4px;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    transition: transform .3s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+  .article-pdf:hover { transform: translateY(-2px); }
+  .article-pdf-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .article-pdf-meta {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    opacity: 0.8;
   }
 
   .article-section {
